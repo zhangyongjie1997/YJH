@@ -1,0 +1,8 @@
+post http://yjh.li-shang-bin.com/iweb/topic/queryDetail
+Content-Type: application/json
+
+{
+  "topic_id":"topic52",
+  "user_id":"user8",
+  "token":"5c62dcb16e33b0f16c075627cbcc15dd",
+}
