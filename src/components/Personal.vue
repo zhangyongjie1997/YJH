@@ -56,7 +56,7 @@
                      class="item-lists">
               <el-input class="item-input"
                         placeholder="请输入内容"
-                        v-model="newPwd">
+                        v-model="newPwd" type="password">
                 <template slot="prepend">新密码</template>
               </el-input>
             </el-card>
@@ -64,7 +64,7 @@
                      class="item-lists">
               <el-input class="item-input"
                         placeholder="请输入内容"
-                        v-model="newPwd2">
+                        v-model="newPwd2" type="password">
                 <template slot="prepend">确认密码</template>
               </el-input>
             </el-card>
@@ -73,14 +73,14 @@
               <el-col :span="8">
                 <el-input class="item-input"
                           placeholder="请输入内容"
-                          v-model="newPwd2">
+                          v-model="sms_code">
                   <el-button slot="append"
                              @click="getCode">获取验证码</el-button>
                 </el-input>
               </el-col>
             </el-card>
             <el-button type="danger"
-                       plain>确认修改</el-button>
+                       plain @click="reset">确认修改</el-button>
           </el-col>
         </el-tab-pane>
         <el-tab-pane label="我的贴子">
@@ -117,7 +117,7 @@
             </ul>
             <div class="pagination">
               <el-pagination layout="prev, pager, next"
-                             :total="50">
+                             :total="20">
               </el-pagination>
             </div>
           </div>
@@ -131,7 +131,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {getArticles,getLocal} from '../api/index.js';
+import {getArticles,getLocal,Register, Reset} from '../api/index.js';
 import { mapGetters } from 'vuex';
 export default {
   data() {
@@ -139,7 +139,7 @@ export default {
       userId:'',
       tabPosition: 'left',
       nickName:'',
-      sex:false,newPwd:'',newPwd2:'',count:60,
+      sex:false,newPwd:'',newPwd2:'',sms_code:'',count:60,
       articles:[{"articleId":1,"name":"第一篇","kind":"kind","response":"response","time":"time"},
                 {"articleId":1,"name":"第2篇","kind":"kind","response":"response","time":"time"},
                 {"articleId":1,"name":"第3篇","kind":"kind","response":"response","time":"time"},
@@ -160,6 +160,38 @@ export default {
     }
   },
   methods:{
+    async reset(){
+      try{
+      let res = await Reset({
+        mobile:this.tel,
+        pwd:this.newPwd,
+        pwd2:this.pwd2,
+        sms_code:this.sms_code
+      });
+      console.log(res.data);
+      
+      if(res.data.status == 0){
+        this.$message({
+          showClose: true,
+          message: res.data.info,
+          type: 'success'
+        });
+      }else{
+        this.$message({
+          showClose: true,
+          message: res.data.info,
+          type: 'success'
+        });
+      }
+      }catch(e){
+        console.log(e);
+        this.$message({
+          showClose: true,
+          message: '修改失败',
+          type: 'success'
+        });
+      }
+    },
     init(){
       console.log(sessionStorage.loginMsg);
       this.nickName = JSON.parse(sessionStorage.loginMsg).name;

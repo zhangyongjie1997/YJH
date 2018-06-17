@@ -7,6 +7,9 @@ export let Login = (username, password) => {
 export let Register = (data) => {
   return axios.post('http://vue.tyqprivateweb.cn:35002/vue/is_register.php', data);
 };
+export let Reset = (data) => {
+  return axios.get('http://yjh.li-shang-bin.com/iweb/Forgetpwd/reset', data);
+};
 export let getArticles = (kind) => {
   return axios.get(`http://vue.tyqprivateweb.cn:35002/vue/article.php?event=selectArticleList&kind=${kind}&timestep=${Date.parse(new Date())}&random=${parseInt(Math.random()*100)}`);
 };

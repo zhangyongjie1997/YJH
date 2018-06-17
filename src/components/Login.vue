@@ -2,7 +2,7 @@
   <div>
      <section id="loginPage" class="cur">
         <div id="content">
-            <h2 id="login-title">欢迎回到猿计划</h2>
+            <h2 class="login-title">欢迎回到猿计划</h2>
             <input  v-model="username" class="login-input" type="text" placeholder="请输入登录手机号" required />
             <input  v-model="password" class="login-input" type="password" placeholder="6-16位密码，区分大小写" required />
             <div class="login-choice">
@@ -36,18 +36,16 @@ export default {
   methods:{
       async login(){
         let res = await Login(this.username,this.password);
-        console.log(res.data.name);
         if(!res.data.message){
             this.$store.commit('loginMutation');
             sessionStorage.setItem("userTel",this.username);
             sessionStorage.setItem("loginMsg",JSON.stringify(res.data));
-            this.$router.push('/personal');
-            this.$message();
             this.$message({
                 showClose: true,
                 message: '登录成功',
                 type: 'success'
             });
+            this.$router.push('/personal');
         }else{
             this.$message('登录失败');
         }
@@ -70,7 +68,7 @@ export default {
     border:1px #ddd solid;
     box-shadow: 1px 1px 6px 0 rgba(0,0,0,.2);
 }
-#login-title{
+.login-title{
     font-size: 16px;
     line-height: 36px;
     color: #000;
@@ -89,7 +87,7 @@ export default {
 }
 #loginPage input:focus {
     outline: none;
-    border: 1px solid #f20e33;
+    border: 1px solid #409EFF;
 }
 .login-choice{
     width: 100%;
@@ -114,11 +112,11 @@ export default {
     vertical-align:middle;
 }
 .login-type a{
-    color: red;
+    color: #409EFF;
 }
 .login-btn{
     height: 30px;
-    background: #ea0f2d;
+    background: #409EFF;
     margin-top: 30px;
     text-align: center;
     line-height: 30px;
