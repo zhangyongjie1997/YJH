@@ -174,16 +174,15 @@ export default {
       if(!dis){
         dis = false;
         let count = 60;
-        console.log(e);
         e.target.setAttribute("disabled", true);
         let time = setInterval(function(){
         count--;
         e.target.innerHTML = count + 's';
-        if(count<0){
-          clearInterval(time);
+        if(count < 1){
           e.target.innerHTML = '获取验证码';
           count = 60;
-          dis = ture;
+          dis = true;
+          clearInterval(time);
         }
       },1000);
       }

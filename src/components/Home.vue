@@ -1,5 +1,6 @@
 <template>
   <div>
+    <goTop></goTop>
     <div class="wrapper">
       <el-carousel indicator-position="outside">
         <el-carousel-item v-for="(image,index) in images"
@@ -40,6 +41,7 @@
 <script type="text/ecmascript-6">
 import axios from 'axios';
 import {getArticles,getLocal} from '../api/index.js';
+import goTop from '../base/goTop.vue';
 export default {
   data() {
     return {
@@ -66,7 +68,8 @@ export default {
       this.htmlArcs = res.data;
       this.loading = false;
     }
-  }
+  },
+  components:{goTop}
 }
 </script>
 
@@ -81,7 +84,7 @@ export default {
   }
 }
 .tabs {
-  height: 300px;
+  height: 1000px;
   width: 70%;
   margin: 0 auto;
   margin-top: 35px;

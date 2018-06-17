@@ -16,3 +16,10 @@ export let addArticle = (data) => {
 export let getLocal = () => {
   return axios.get('../static/articles.json');
 };
+export let getOne = (id) => {
+  axios.get('../static/articles.json').then(
+    res => {
+      console.log(this);
+    }
+  );
+};

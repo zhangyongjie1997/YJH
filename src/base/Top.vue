@@ -13,7 +13,7 @@
             <li class="nav-menu-items pointer" v-if="ifLogin">
               <router-link tag="a" to="/personal">个人中心</router-link>
             </li>
-            <li class="nav-menu-items pointer">
+            <li class="nav-menu-items pointer" v-if="ifLogin">
               <a href="javascript:void(0)">未读消息</a>
             </li>
             <li class="nav-menu-items pointer">
@@ -43,11 +43,7 @@
             <div class="fl pointer" id="nav-photo" v-if="ifLogin">
                 <div id="photo-nav-list">
                     <ul>
-                        <li id="photo-nav-list-personInfo">个人中心</li>
-                        <li id="photo-nav-list-changePwd">修改密码</li>
-                        <li id="photo-nav-list-myCollection">我的收藏</li>
-                        <li id="photo-nav-list-myNote">我的帖子</li>
-                        <li id='photo-nav-list-myTask'>我的任务</li>
+                        <router-link to="/personal" tag="li" id="photo-nav-list-personInfo">个人中心</router-link>
                         <li id="photo-nav-list-exit" @click="exit">退出</li>
                     </ul>
                 </div>
@@ -64,14 +60,19 @@
 export default {
   data() {
     return {
-      ifLogin:true,
     }
   },
   created(){
 
   },
+  computed:{
+    ifLogin(){
+      return this.$store.state.ifLogin;
+    }
+  },
   methods:{
     exit(){
+      this.$store.commit('loginMutation');
       this.$router.push('/login');
     }
   }
@@ -133,13 +134,13 @@ header #view #logo h2 {
 }
 
 .nav-menu-items:hover {
-  border-bottom: 3px solid #ea0f2d !important;
+  border-bottom: 3px solid #409EFF !important;
 }
 .nav-menu-items:active {
-  border-bottom: 3px solid #ea0f2d !important;
+  border-bottom: 3px solid #409EFF !important;
 }
 .nav-menu-items:link {
-  border-bottom: 3px solid #ea0f2d !important;
+  border-bottom: 3px solid #409EFF !important;
 }
 .nav-menu:first-child {
   margin-left: 150px;
@@ -189,7 +190,7 @@ header #view #logo h2 {
   transition: all 0.4s;
 }
 #nav-photo:hover #photo-nav-list {
-  height: 180px;
+  height: 60px;
   padding: 5px 0px;
 }
 #photo-nav-list ul li:hover {
