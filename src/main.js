@@ -19,8 +19,12 @@ let getters = {
   }
 };
 const mutations = {
-  loginMutation(state) { //state自动放入，默认☞的就是当前的state
-    state.ifLogin = !state.ifLogin;
+  loginMutation(state,or) { //state自动放入，默认☞的就是当前的state
+    if(or == true){
+      state.ifLogin = true;
+    }else{
+      state.ifLogin = false;
+    }
   }
 };
 const store = new Vuex.Store({

@@ -72,7 +72,7 @@ export default {
   },
   methods:{
     exit(){
-      this.$store.commit('loginMutation');
+      this.$store.commit('loginMutation',false);
       this.$router.push('/login');
     }
   }
@@ -112,6 +112,7 @@ header #view #logo h2 {
 }
 .nav-menu {
   display: block;
+  clear: both;
 }
 /* .nav-menu::before{
     content:"";

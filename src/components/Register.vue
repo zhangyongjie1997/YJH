@@ -18,10 +18,10 @@
                 <div class="span-lang red" v-if="!pwd2Ok">两次输入的密码不一致</div>
             </div>
             <div class="message-code">
-                <input type="text" class="code-number fl" placeholder="请输入短信验证码" required/>
-                <span class="get-code fl" @click="getCode">获取验证码</span>
+                <input type="text" v-model="code" class="code-number fl" placeholder="请输入短信验证码" required/>
+                <span class="get-code fl" @click="getCoder">获取验证码</span>
             </div>
-            <div id="signin-btn" class="signin-btn pointer login-btn">注册</div>
+            <div id="signin-btn" @click="register" class="signin-btn pointer login-btn">注册</div>
             <span>已有账号，</span>
             <router-link tag="a" to="/login" id="alredySignIn" style="color: red;">立即登录</router-link>
         </div>  
@@ -30,15 +30,18 @@
 </template>
 
 <script type="text/ecmascript-6">
+import {Register,getCode} from '../api/index.js'
 export default {
   data() {
     return {
       rName:'',
       rPwd:'',
       rPwd2:'',
+      code:'',
       nameOk:false,
       pwdOk:false,
       pwd2Ok:true,
+      rOk: false,
     }
   },
   components: {
@@ -63,26 +66,72 @@ export default {
           this.pwd2Ok = false;
         }else{
           this.pwd2Ok = true;
+          this.rOk = true;
         }
       }
   },
   methods:{
-      getCode(e){
-      let dis = false;
-      if(!dis){
-        dis = false;
-        let count = 60;
-        e.target.setAttribute("disabled", true);
-        let time = setInterval(function(){
-        count--;
-        e.target.innerHTML = count + 's';
-        if(count < 1){
-          e.target.innerHTML = '获取验证码';
-          count = 60;
-          dis = true;
-          clearInterval(time);
+    async register(){
+      if(!this.rOk){
+          this.$message.error('请输入正确的注册信息');
+          return;
+      }
+      let res = await Register({
+          mobile:this.rName,
+          pwd:this.rPwd,
+          sms_code:this.code
+      });
+      if(res.data.status == 0){
+          this.$message.error(res.data.info);
+      }
+      if(res.data.status == 1){
+          this.message({
+                showClose: true,
+                message: '注册成功，请登录',
+                type: 'success'
+            });
+            this.$router.push('/login');
+      }else{
+          this.$message.error('注册失败');
+      }
+    },
+    async getCoder(e){
+      if(!this.rOk){
+          this.$message.error('请输入正确的注册信息');
+          return;
+      }
+      if(this.code.length<6){
+          this.$message.error('请输入6位短信验证码');
+          return;
+      }
+      let res = await getCode({mobile:this.rName});
+      if(res.data.status == 0){
+          this.$message.error(res.data.info);
+      }
+      if(res.data.status == 1){
+          this.message({
+                showClose: true,
+                message: '发送成功',
+                type: 'success'
+            });
+          let dis = false;
+          if(!dis){
+              dis = false;
+              let count = 60;
+              e.target.setAttribute("disabled", true);
+              let time = setInterval(function(){
+              count--;
+              e.target.innerHTML = count + 's';
+              if(count < 1){
+              e.target.innerHTML = '获取验证码';
+              count = 60;
+              dis = true;
+              clearInterval(time);
+              }
+          },1000);
         }
-      },1000);
+      }else{
+        this.$message.error('获取失败');
       }
     }
   }

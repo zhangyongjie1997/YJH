@@ -36,10 +36,10 @@ export default {
   methods:{
       async login(){
         let res = await Login(this.username,this.password);
-        if(!res.data.message){
-            this.$store.commit('loginMutation');
-            sessionStorage.setItem("userTel",this.username);
-            sessionStorage.setItem("loginMsg",JSON.stringify(res.data));
+        if(res.data.status == 1){
+            this.$store.commit('loginMutation',true);
+            localStorage.setItem("userTel",this.username);
+            localStorage.setItem("loginMsg",JSON.stringify(res.data.data));
             this.$message({
                 showClose: true,
                 message: '登录成功',
@@ -47,7 +47,7 @@ export default {
             });
             this.$router.push('/personal');
         }else{
-            this.$message('登录失败');
+            this.$message.error('登录失败');
         }
         
       }

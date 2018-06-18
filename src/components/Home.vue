@@ -13,26 +13,70 @@
       <el-tabs v-model="defaultList" v-loading="loading">
         <el-tab-pane label="热门文章" name="hot">
           <ul>
-            <li class="aList" v-for="(htmlArc, index) in htmlArcs" :key="index">
-              <div class="aInfo"><span>作者</span> · <span>{{htmlArc.time}}</span></div>
+            <li class="aList" v-for="(hotArc, index) in hotInfo.data" :key="index">
+              <div class="aInfo"><span>{{hotArc.nickname}}</span> · <span>{{hotArc.c_time | toDate}}</span></div>
               <div class="aMain">
-                <router-link tag="a" :to="{name:'content',params:{aid:htmlArc.id}}">{{htmlArc.name}}</router-link>
+                <router-link tag="a" :to="{name:'content',params:{aid:hotArc.topic_id}}">{{hotArc.title}}</router-link>
                 <div class="handlInfo">
-                  <el-badge :value="htmlArc.pl" :max="99" class="item">
-                      <el-button size="small">评论</el-button>
+                  <el-badge :value="hotArc.browser_num" :max="99" class="item">
+                      <el-button size="small">浏览</el-button>
                     </el-badge>
-                    <el-badge :value="htmlArc.z" :max="99" class="item">
-                      <el-button size="small">回复</el-button>
+                    <el-badge :value="hotArc.like_num" :max="99" class="item">
+                      <el-button size="small">点赞</el-button>
+                    </el-badge>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="pagination">
+            <el-pagination layout="prev, pager, next"
+                           :total="hotInfo.total">
+            </el-pagination>
+            </div>
+        </el-tab-pane>
+        <el-tab-pane label="html"
+                     name="second" :lazy="true">
+          <ul>
+            <li class="aList" v-for="(htmlArc, index) in htmlInfo.data" :key="index">
+              <div class="aInfo"><span>{{htmlArc.nickname}}</span> · <span>{{htmlArc.c_time | toDate}}</span></div>
+              <div class="aMain">
+                <router-link tag="a" :to="{name:'content',params:{aid:htmlArc.topic_id}}">{{htmlArc.title}}</router-link>
+                <div class="handlInfo">
+                  <el-badge :value="htmlArc.browser_num" :max="99" class="item">
+                      <el-button size="small">浏览</el-button>
+                    </el-badge>
+                    <el-badge :value="htmlArc.like_num" :max="99" class="item">
+                      <el-button size="small">点赞</el-button>
+                    </el-badge>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="pagination">
+            <el-pagination layout="prev, pager, next"
+                           :total="htmlInfo.total">
+            </el-pagination>
+          </div>         
+        </el-tab-pane>
+        <el-tab-pane label="css"
+                     name="third" :lazy="true">
+          <ul>
+            <li class="aList" v-for="(cssArc, index) in cssArcs" :key="index">
+              <div class="aInfo"><span>{{cssArc.kind}}</span> · <span>{{cssArc.time}}</span></div>
+              <div class="aMain">
+                <router-link tag="a" :to="{name:'content',params:{aid:cssArc.id}}">{{cssArc.name}}</router-link>
+                <div class="handlInfo">
+                  <el-badge :value="cssArc.pl" :max="99" class="item">
+                      <el-button size="small">浏览</el-button>
+                    </el-badge>
+                    <el-badge :value="cssArc.z" :max="99" class="item">
+                      <el-button size="small">点赞</el-button>
                     </el-badge>
                 </div>
               </div>
             </li>
           </ul>
         </el-tab-pane>
-        <el-tab-pane label="html"
-                     name="second">html</el-tab-pane>
-        <el-tab-pane label="css"
-                     name="third">css</el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -40,33 +84,56 @@
 
 <script type="text/ecmascript-6">
 import axios from 'axios';
-import {getArticles,getLocal} from '../api/index.js';
+import {getArticles,getLocal,getHot,getHtml} from '../api/index.js';
 import goTop from '../base/goTop.vue';
 export default {
+  filters:{
+    toDate(val){
+      let day = new Date(val);
+      return day.toString();
+    }
+  },
   data() {
     return {
       pl:12,
       z:44,
       defaultList:'hot',
       images:[
-        {src:'http://img0.imgtn.bdimg.com/it/u=2453458897,4033312287&fm=27&gp=0.jpg'},
-        {src:'http://img1.imgtn.bdimg.com/it/u=4011309160,3518676505&fm=27&gp=0.jpg'},
-        {src:'http://img1.imgtn.bdimg.com/it/u=1421334331,3725048632&fm=27&gp=0.jpg'},
-        {src:'http://img0.imgtn.bdimg.com/it/u=2718638946,4135852600&fm=27&gp=0.jpg'},
-        {src:'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=601251321,155329113&fm=27&gp=0.jpg'},
+        {src:'http://img5.imgtn.bdimg.com/it/u=1019788852,475598635&fm=15&gp=0.jpg'},
+        {src:'http://img2.imgtn.bdimg.com/it/u=939482776,1122195490&fm=15&gp=0.jpg'},
+        {src:'http://img5.imgtn.bdimg.com/it/u=2293659155,452847972&fm=15&gp=0.jpg'},
+        {src:'http://img5.imgtn.bdimg.com/it/u=3110792765,2347421806&fm=27&gp=0.jpg'},
+        {src:'http://img4.imgtn.bdimg.com/it/u=2004259100,1736516264&fm=15&gp=0.jpg'},
       ],
-    loading:true,
-    htmlArcs:[]
+      loading:true,
+      htmlArcs:[],
+      hotArcs:[],
+      hotInfo:{},
+      htmlInfo:{},
+      cssArcs:[]
     }
   },
   created(){
-    this.getArc();
+    if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
+    this.getHots();
+    this.getHtmls();
+    this.getCss();
   },
   methods:{
-    async getArc(){
-      let res = await getLocal();
-      this.htmlArcs = res.data;
+    async getHots(){
+      let res = await getHot();
+      this.hotInfo = res.data.data;
+    },
+    async getHtmls(){
+      let res = await getHtml();
+      this.htmlInfo = res.data.data;
       this.loading = false;
+    },
+    async getCss(){
+      let res = await getLocal();
+      console.log(res.data);
+      
+      this.cssArcs = res.data;
     }
   },
   components:{goTop}
@@ -74,12 +141,18 @@ export default {
 </script>
 
 <style scoped lang="less">
+.pagination{
+  padding-top: 40px;
+  width: 40%;
+  margin:0 auto;
+}
 .wrapper {
   height: 300px;
   width: 70%;
   margin: 0 auto;
   margin-top: 100px;
   img {
+    width: 1063px;
     height: 300px;
   }
 }

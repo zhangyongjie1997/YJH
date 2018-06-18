@@ -1,9 +1,28 @@
-post http://yjh.li-shang-bin.com/iweb/Forgetpwd/reset
+# get http://yjh.li-shang-bin.com/iweb/topic/myTopicList?page=1
+# Content-Type: application/json
+
+# {
+#   "user_id": "user8",
+#   "token": "5c62dcb16e33b0f16c075627cbcc15dd"
+# }
+
+# post http://www.ftusix.com/static/data/topicList.php
+# Content-Type: application/json
+
+# {
+#   "type":"0",
+#   "sort":"new",
+#   "page":"",
+#   "index":"false"
+# }
+
+//get http://yjh.li-shang-bin.com/iweb/topic/topicList?par=&tech_type=1
+
+post http://www.ftusix.com/static/data/content.php
 Content-Type: application/json
 
 {
-  "mobile": "13011072992",
-  "pwd": "123456",
-  "pwd2": "123456",
-  "sms_code": "123456",
+  "user_id":"2",
+  "topic_id":"52"
 }
+

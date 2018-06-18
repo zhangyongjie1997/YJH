@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <goTop></goTop>
+    <div class="back" @click="back">返回</div>
     <div class="main">
       <h2>{{article.name}}</h2>
       <div class="info">
@@ -61,6 +62,7 @@ export default {
     }
   },
   created(){
+    if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
     this.getArticle();
     //判断当前文章是否收藏和点赞。。。
   },
@@ -82,6 +84,9 @@ export default {
     }
   },
   methods:{
+    back(){
+      this.$router.go(-1);
+    },
     like(){
       this.isLike = !this.isLike;
       //提交点赞请求  成功后。。
@@ -130,6 +135,20 @@ export default {
   width: 70%;
   margin:100px auto 0 auto;
   height: 1000px;
+  .back{
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+    position: fixed;
+    top: 130  px;
+    right: 120px;
+    background-color: rgba(189, 189, 189, 0);
+    cursor: pointer;
+    text-align: center;
+    line-height: 50px;
+    box-shadow: 0 0 2px #409EFF;
+    color: #999;
+  }
   .main{
     width: 100%;
     h2{

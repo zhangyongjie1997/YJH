@@ -61,7 +61,7 @@ export default {
   position: fixed;
   width: 50px;
   height: 50px;
-  background-color: #eee;
+  background-color: rgba(189, 189, 189, 0);
   right: 120px;
   bottom:100px;
   cursor: pointer;
@@ -71,7 +71,7 @@ export default {
 }
 .goTop i{
   font-size: 35px;
-  color: #409EFF;
+  color: #f56c6c;
 }
 .slide-fade-enter-active {
   transition: all .3s ease;

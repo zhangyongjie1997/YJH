@@ -11,7 +11,7 @@
             <h3 class="list-title">个人信息</h3>
             <el-card shadow="never"
                      class="item-lists">
-              <img>
+              <img :src="userMsg.avatar">
               <label class="pointer"
                      for="changePho">更换头像</label>
               <input type="file"
@@ -21,24 +21,21 @@
             <el-card shadow="never"
                      class="item-lists">
               注册手机号：
-              <span>{{tel}}</span>
+              <span>{{userMsg.mobile}}</span>
             </el-card>
             <el-card shadow="never"
                      class="item-lists">
               <el-input placeholder="请输入内容"
-                        v-model="nickName">
+                        v-model="userMsg.nick_name">
                 <template slot="prepend">昵称</template>
               </el-input>
             </el-card>
-            <el-card shadow="never"
-                     class="item-lists">
+            <el-card shadow="never">
               性别：
-              <el-radio v-model="sex"
-                        label="1">男</el-radio>
-              <el-radio v-model="sex"
-                        label="2">女</el-radio>
+              <el-radio v-model="userMsg.sex" label="1">男</el-radio>
+              <el-radio v-model="userMsg.sex" label="0">女</el-radio>
             </el-card>
-            <el-button type="danger"
+            <el-button @click="update" type="danger"
                        plain>提交</el-button>
           </el-col>
           <!-- </div> -->
@@ -50,7 +47,7 @@
             <el-card shadow="never"
                      class="item-lists">
               注册手机号：
-              <span>{{tel}}</span>
+              <span>{{userMsg.mobile}}</span>
             </el-card>
             <el-card shadow="never"
                      class="item-lists">
@@ -108,6 +105,7 @@
                     <li>
                       <i style="cursor:pointer;"
                          class="iconfont icon-web-icon-"></i>
+                         <span style="color:#409EFF;"> | </span>
                       <i style="cursor:pointer;"
                          class="iconfont icon-shanchu"></i>
                     </li>
@@ -131,24 +129,26 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {getArticles,getLocal,Register, Reset} from '../api/index.js';
+import {getArticles,getLocal,Register, Reset,Update} from '../api/index.js';
 import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      userId:'',
       tabPosition: 'left',
-      nickName:'',
-      sex:false,newPwd:'',newPwd2:'',sms_code:'',count:60,
-      articles:[{"articleId":1,"name":"第一篇","kind":"kind","response":"response","time":"time"},
-                {"articleId":1,"name":"第2篇","kind":"kind","response":"response","time":"time"},
-                {"articleId":1,"name":"第3篇","kind":"kind","response":"response","time":"time"},
-                {"articleId":1,"name":"第4篇","kind":"kind","response":"response","time":"time"},
-                {"articleId":1,"name":"第5篇","kind":"kind","response":"response","time":"time"}]
+      newPwd:'',newPwd2:'',sms_code:'',count:60,
+      userMsg:{
+        avatar:"http://yjh.li-shang-bin.com/avatar/default/8.png",
+        mobile:"13011072992",
+        nick_name:"测试",
+        sex:0,
+        token:"5c62dcb16e33b0f16c075627cbcc15dd",
+        user_id:"user8"
+      },
+      articles:[]
     }
   },
-  created(){
-    //this.getData()
+  mounted(){
+    this.getData()
     this.init();
   },
   computed:{
@@ -156,10 +156,26 @@ export default {
       return this.$store.state.ifLogin;
     },
     tel(){
-      return sessionStorage.userTel;
+      return localStorage.userTel;
     }
   },
   methods:{
+    async update(){
+      let res = await Update({
+        sex:this.userMsg.sex,
+        nick_name:this.userMsg.nick_name,
+        token:this.userMsg.token
+      });
+      if(res.data.status == 1){
+        this.$message({
+          showClose: true,
+          message: '修改成功',
+          type: 'success'
+        });
+      }else{
+        this.$message.error('修改失败');
+      }
+    },
     async reset(){
       try{
       let res = await Reset({
@@ -169,7 +185,6 @@ export default {
         sms_code:this.sms_code
       });
       console.log(res.data);
-      
       if(res.data.status == 0){
         this.$message({
           showClose: true,
@@ -192,10 +207,9 @@ export default {
         });
       }
     },
-    init(){
-      console.log(sessionStorage.loginMsg);
-      this.nickName = JSON.parse(sessionStorage.loginMsg).name;
-      this.userId = JSON.parse(sessionStorage.loginMsg).userId;
+    async init(){
+      if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
+      this.userMsg = JSON.parse(localStorage.loginMsg);
     },
     async getData(){
       let res = await getLocal();
@@ -253,10 +267,12 @@ img {
   width: 100%;
   height: 50px;
   border-bottom: 1px solid #000;
+  clear: both;
   ul {
     display: inline-block;
     float: right;
     width: 70%;
+    clear: both;
     li {
       float: left;
       margin-left: 90px;

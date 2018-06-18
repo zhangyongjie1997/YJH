@@ -1,0 +1,361 @@
+﻿所有url都是http://www.ftusix.com/static/data/+php文件名
+例如：http://www.ftusix.com/static/data/topicList.php
+
+4.27
+1.上传头像会返回新的avatar
+2.文章接口的名称为topicList.php
+3.发布、修改文章的参数$isEdit改为isEdit
+4.所有para如无特殊说明都是必填
+5.num为数字类型，所有id类的参数都为数字类型
+6.有分页功能的一页为10条数据，page发送null则为第一页
+7.修改了部分注释
+8.我的帖子和我的收藏会返回总数量
+9.部分增加了收藏、浏览、点赞、评论数量的返回
+***********************************
+
+1.获取验证码
+request
+1.url: sendsms.php
+2.type: POST                          //请求方式
+3.para
+    {
+        "mobile":"13333333333"
+    }
+
+response
+    {
+        "status":1,
+        "info":"发送成功",
+	    "data": {
+            "code": 123456, //验证码   后端没有验证，在客户端玩吧
+         }
+    }
+
+2.登录
+request
+1.url: login.php
+2.type: POST                          //请求方式
+3.para
+    {
+        "mobile":"13333333333"
+        pwd:"546456"
+    }
+
+response
+    {
+       "status":"1",                 //状态表示登陆成功
+               "info":"",                  //登陆错误时提供错误信息
+               "data":{
+                "user_id": "1",                                 //  user_id 用户ID
+       	        "token": "285c595717332b49cfb72d1d48a5a962",        //  token   用户token
+       	        "nick_name": "",                                    //  昵称
+       	        "avatar": "",                                       //  头像
+       	        "mobile":"",                                        //  手机号
+       	        "sex":""                                            //  性别
+               }
+    }
+
+3.注册
+request
+1.url: register.php
+2.type: POST
+3.para
+    {
+        "mobile":"15805900348",     //  注册手机号
+                "pwd":"1234567",            //  注册密码
+                "sms_code":"123456",        //  短信验证码 后端没有验证，在客户端玩吧
+
+    }
+response
+    {
+       "status":"1",                 //状态表示登陆成功
+               "info":"",                  //登陆错误时提供错误信息
+               "data":{
+                "user_id": "1",                                 //  user_id 用户ID
+                "token": "285c595717332b49cfb72d1d48a5a962",        //  token   用户token
+                "nick_name": "",                                    //  昵称
+                "avatar": "",                                       //  头像
+                "mobile":"",                                        //  手机号
+                "sex":""                                            //  性别
+               }
+    }
+
+4.重置密码
+request
+1.url: reset.php
+2.type: POST
+3.para{
+              "mobile":"15805900348",     //  注册手机号
+                      "pwd":"1234567",            //  注册密码
+                      "pwd2":"1234567",            //  确认密码，如果两次不统一会返回失败
+                      "sms_code":"123456",        //  短信验证码 后端没有验证，在客户端玩吧
+
+          }
+response
+  {
+     "status":"1",                 //状态表示登陆成功
+             "info":"",                  //登陆错误时提供错误信息
+             "data":{
+              "user_id": "user1",                                 //  user_id 用户ID
+              "token": "285c595717332b49cfb72d1d48a5a962",        //  token   用户token
+              "nick_name": "",                                    //  昵称
+              "avatar": "",                                       //  头像
+              "mobile":"",                                        //  手机号
+              "sex":""                                            //  性别
+             }
+  }
+
+5.上传头像
+request
+1.url: upload.php
+element组件
+<el-upload class='upload' action='/api/static/data/upload.php' :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" :data="{id: user.user_id}">
+        <img v-lazy="'/api/static/data/upload/'+user.avatar">
+        更换头像
+      </el-upload>
+
+response
+{
+   "status":"1",                 //状态表示登陆成功
+           "info":"",                  //登陆错误时提供错误信息
+           "data":{
+		      //新的avatar
+           }
+}
+头像图片路径 http://www.ftusix.com/static/data/upload/+avatar
+
+
+6.更新个人信息
+request
+1.url: update.php
+2.type: POST
+3.para{
+              "sex":"15805900348",     //  性别
+              "nick_name":"1234567",   //  昵称
+              "token":"1234567",    //  token   用户token
+
+
+          }
+response
+  {
+     "status":"1",                 //状态表示登陆成功
+             "info":"",                  //登陆错误时提供错误信息
+             "data":{
+              "user_id": "user1",                                 //  user_id 用户ID
+              "token": "285c595717332b49cfb72d1d48a5a962",        //  token   用户token
+              "nick_name": "",                                    //  昵称
+              "avatar": "",                                       //  头像
+              "mobile":"",                                        //  手机号
+              "sex":""                                            //  性别
+             }
+  }
+
+文章
+1.文章列表
+request
+1.url: topicList.php
+2.type: POST
+3.para{
+              "type":num,    //类型，0为全部 ，如果index为true则1.html 2.php 3.java     index为false则 1.经验分享 2.入门学习 3.成果分享,
+              "sort":"hot"/"new",  //排序
+              "page":null/num,   //页码 null则为第一页默认页
+              "index":true/false,  //是否为首页列表
+
+
+          }
+response
+  {
+     "status":"1",                 //状态表示登陆成功
+             "info":"",                  //登陆错误时提供错误信息
+             "data":{
+              comment_num:"0"  //评论数
+              like_num:"0"  //点赞数
+              "browser_num":0  //浏览数
+              "coll_num":0  //收藏数
+              modify_time:"1524560772"  //发布时间
+              nick_name:"999"
+              tech_type:"3"  //所属分类
+              title:"5657567aa"
+              topic_id:"2"  //文章id
+              type:"1"  //技术分类
+              user_id:"2"
+             }
+  }
+
+2.文章详情
+request
+1.url: content.php
+2.type: get
+3.para{
+              user_id:     //  >0即为已登录
+              topic_id:   // 文章id
+
+          }
+response
+{
+   "status":"1",                 //状态表示登陆成功
+   "info":"",                  //登陆错误时提供错误信息
+   "data":{
+      browser_num:"4"    //浏览数
+      comment_num:"0"   //评论数
+      content:"<p>点点滴滴</p>"
+      like_num:"0"  //点赞数
+      "coll_num":0  //收藏数
+      md_content:"点点滴滴"
+      modify_time:"1524560772"  //发布时间
+      nick_name:"999"
+      tech_type: "3"
+      title:"5657567aa"
+      topic_id:"2"
+      type:"1"
+      user_id:"2"
+   }
+   iscoll:false  //该用户是否收藏，未登录不会返回
+   iszan:false   //该用户是否点赞，未登录不会返回
+}
+
+3.发布文章/编辑文章
+request
+1.url: writeArticle.php
+2.type: post
+3.para{
+        "content":'<p>hello world</p>',                             //  话题内容html
+        "md_content":'hello world',                                 //  话题内容md
+        "user_id":'1',                                          //  用户id
+        "nickname":'张三'                                           //  昵称,
+        "type":"1",                                                //  一级分类 1.经验分享 2.入门学习 3.成果分享,
+        "tech_type":"1",                                             //  技术分类 1.html 2.php 3.java
+        "title":"hello world",                                                 //  标题
+        “isEdit”: true/false     //是否为编辑状态
+        "topic_id":               //如果编辑状态为true则加上文章id，false则可不填
+  }
+response
+{
+   "status":"1",                 //状态表示登陆成功
+   "info":"",                  //登陆错误时提供错误信息
+   "data":{
+
+   }
+}
+
+4.评论列表
+request
+1.url: commentList.php
+2.type: get
+3.para{
+
+        "topic_id":  // 文章id
+  }
+response
+{
+   "status":"1",                 //状态表示登陆成功
+   "info":"",                  //登陆错误时提供错误信息
+   "data":{
+    avatar:"E0C0076A9C5E58030E498024AB3FFB93.jpg"  //头像
+    comment:"时代发生地方"    // 评论内容
+    date:"1524495733"  //发布时间
+    nick_name :"999"
+    user_id:"2"
+   }
+}
+
+5.发布评论
+request
+1.url: comment.php
+2.type: post
+3.para{
+        "user_id":'1',                                          //  用户id
+        "topic_id":‘1’              // 文章id
+        comment:‘时代发生地方’    // 评论内容
+  }
+response
+{
+   "status":"1",                 //状态表示登陆成功
+   "info":"",                  //登陆错误时提供错误信息
+   "data":{
+
+   }
+}
+
+5.点赞收藏
+request
+1.url: zan.php
+2.type: post
+3.para{
+        "user_id":'1',                                          //  用户id
+        "topic_id":‘6’               //文章id
+        type:"zan"/"coll"     //点赞还是收藏
+  }
+response
+{
+   "status":"1",                 //状态表示登陆成功
+   "info":"",                  //登陆错误时提供错误信息
+   "data":{
+
+   }
+}
+
+6.删除文章
+request
+1.url: delete.php
+2.type: post
+3.para{
+        "user_id":'1',                //  用户id
+        "topic_id":               //如果为编辑状态则加上文章id
+  }
+response
+{
+   "status":"1",                 //状态表示登陆成功
+   "info":"",                  //登陆错误时提供错误信息
+   "data":{
+
+   }
+}
+
+7.我的文章列表
+request
+1.url: myNote.php
+2.type: get
+3.para{
+              "user_id":num,     //用户id
+              "page":null/num,   //页码
+          }
+response
+  {
+     "status":"1",                 //状态表示登陆成功
+             "info":"",                  //登陆错误时提供错误信息
+             "data":{
+              comment_num:"0"  //评论数
+              browser_num:"0"  //浏览数
+	         like_num：‘0’  //点赞数
+              modify_time:"1524560772"  //发布时间
+              title:"5657567aa"
+              topic_id:"2"  //文章id
+              type:"1"  //技术分类
+             }
+             "noteList":10  //总文章条数
+  }
+
+8.我的收藏
+request
+1.url: myColl.php
+2.type: get
+3.para{
+              "user_id":num,
+              "page":null/num,   //页码
+          }
+response
+  {
+     "status":"1",                 //状态表示登陆成功
+             "info":"",                  //登陆错误时提供错误信息
+             "data":{
+              comment_num:"0"  //评论数
+              browser_num:"0"  //浏览数
+		      like_num：‘0’  //点赞数
+              modify_time:"1524560772"  //发布时间
+              title:"5657567aa"
+              topic_id:"2"  //文章id
+              type:"1"  //技术分类
+             },
+             "collList":10  //总收藏条数
+  }

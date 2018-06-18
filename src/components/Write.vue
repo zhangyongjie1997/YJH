@@ -77,6 +77,9 @@ export default {
         content:''
     }
   },
+  created(){
+    if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
+  },
   components: {
     Top,quillEditor
   },

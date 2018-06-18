@@ -14,7 +14,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component:Personal,
+      component:Login,
       meta:{title:'登录'}
     },
     {
