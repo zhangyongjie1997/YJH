@@ -28,13 +28,13 @@
             <li class="nav-menu-items pointer">
               <router-link tag="a" to="/articles">文章</router-link>
             </li>
-            <li class="nav-menu-items pointer"
+            <li class="nav-menu-items pointer" v-if="!ifLogin"
                 id="nav-login">
-              <router-link tag="a" to="/login" v-if="!ifLogin">登录</router-link>
+              <router-link tag="a" to="/login">登录</router-link>
             </li>
-            <li class="nav-menu-items pointer"
+            <li class="nav-menu-items pointer" v-if="!ifLogin"
                 id="nav-signIn">
-              <router-link tag="a" to="/register" v-if="!ifLogin">注册</router-link>
+              <router-link tag="a" to="/register">注册</router-link>
             </li>
             <li class="nav-menu-items"
                 id="nav-write" v-if="ifLogin">

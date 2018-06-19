@@ -18,11 +18,28 @@
 
 //get http://yjh.li-shang-bin.com/iweb/topic/topicList?par=&tech_type=1
 
-post http://www.ftusix.com/static/data/content.php
+# post http://www.ftusix.com/static/data/content.php
+# Content-Type: application/json
+
+# {
+#   "user_id":"2",
+#   "topic_id":"52"
+# }
+
+# post http://www.ftusix.com/static/data/myColl.php
+# Content-Type: application/json
+
+# {
+# "user_id": "8",
+# "page": "1"
+# }
+
+get http://vue.tyqprivateweb.cn:35002/vue/article.php 
 Content-Type: application/json
 
 {
-  "user_id":"2",
-  "topic_id":"52"
+  "event":"selectArticleList",
+  "kind":"hot",
+  "timestep":"1529387803",
+  "random":"5"
 }
-

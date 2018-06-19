@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="slide-fade">
+    <transition name="fade">
       <div @click="backTop" v-if="showGoTop" class="goTop">
         <i class="iconfont icon-Upward"></i>
       </div>
@@ -71,16 +71,11 @@ export default {
 }
 .goTop i{
   font-size: 35px;
-  color: #f56c6c;
+  color: #f56c6c;}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
 }
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to{
-  transform: translateX(10px);
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
 </style>

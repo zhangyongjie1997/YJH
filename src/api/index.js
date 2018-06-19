@@ -55,6 +55,19 @@ export let getHot = () => {
 export let getHtml = () => {
   return axios.post('http://yjh.li-shang-bin.com/iweb/topic/topicList?par=&tech_type=1');
 };
+//个人收藏
+export let getCol = () => {
+  return axios.post({
+    method:'post',
+    baseURL:'/api',
+    url:'/collect/myCollect',
+    data:{
+      page:1,
+      user_id:"user8",
+      token:"5c62dcb16e33b0f16c075627cbcc15dd"
+    }
+  });
+};
 //获取本地的json文件
 export let getLocal = () => {
   return axios.get('../static/articles.json');
@@ -70,3 +83,4 @@ export let getOne = (id) => {
     }
   );
 };
+

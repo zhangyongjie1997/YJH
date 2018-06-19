@@ -96,7 +96,47 @@
               <li v-for="(article,index) in articles"
                   :key="index">
                 <div class="item-title">
-                  <span>{{article.name}}</span>
+                  <router-link tag="span" :to="{name:'content',params:{aid:article.id}}" style="cursor:pointer">{{article.name}}</router-link>
+                  <ul>
+                    <li>{{article.kind}}</li>
+                    <li>{{article.response}}</li>
+                    <li>{{article.articleId}}</li>
+                    <li>{{article.time}}</li>
+                    <li>
+                      <router-link tag="i" :to="{name:'write',params:{aid:article.id}}" style="cursor:pointer;"
+                         class="iconfont icon-web-icon-"></router-link>
+                         <span style="color:#409EFF;"> | </span>
+                      <i style="cursor:pointer;"
+                         class="iconfont icon-shanchu"></i>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+            <div class="pagination">
+              <el-pagination layout="prev, pager, next"
+                             :total="20">
+              </el-pagination>
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="我的收藏">
+          <div class="item-title">
+            <span>主题</span>
+            <ul>
+              <li>分类</li>
+              <li>回复</li>
+              <li>浏览</li>
+              <li>发布时间</li>
+              <li>操作</li>
+            </ul>
+          </div>
+          <div class="aList">
+            <ul>
+              <li v-for="(article,index) in articles"
+                  :key="index">
+                <div class="item-title">
+                  <router-link tag="span" :to="{name:'content',params:{aid:article.id}}" style="cursor:pointer">{{article.name}}</router-link>
                   <ul>
                     <li>{{article.kind}}</li>
                     <li>{{article.response}}</li>
@@ -120,7 +160,6 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="我的收藏">我的收藏</el-tab-pane>
         <el-tab-pane label="我的消息">我的消息</el-tab-pane>
         <el-tab-pane label="我的任务">我的任务</el-tab-pane>
       </el-tabs>
@@ -129,7 +168,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {getArticles,getLocal,Register, Reset,Update} from '../api/index.js';
+import {getArticles,getLocal,Register, Reset,Update,getCol} from '../api/index.js';
 import { mapGetters } from 'vuex';
 export default {
   data() {
@@ -144,12 +183,14 @@ export default {
         token:"5c62dcb16e33b0f16c075627cbcc15dd",
         user_id:"user8"
       },
-      articles:[]
+      articles:[],
+      myCol:{}
     }
   },
   mounted(){
-    this.getData()
     this.init();
+    this.getData();
+    //this.getCols();
   },
   computed:{
     ifLogin(){
@@ -214,6 +255,15 @@ export default {
     async getData(){
       let res = await getLocal();
       this.articles = res.data;
+    },
+    async getCols(page=1){
+      let res = await getCol({
+        page,
+        user_id:this.userMsg.user_id,
+        token:"5c62dcb16e33b0f16c075627cbcc15dd"
+      });
+      console.log(res.data);
+      
     },
     getCode(e){
       let dis = false;

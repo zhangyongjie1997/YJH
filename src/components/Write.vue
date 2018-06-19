@@ -6,12 +6,12 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <div>文章标题</div>
-            <el-input v-model="title"
+            <el-input v-model="article.name"
                       placeholder="请输入标题"></el-input>
           </el-col>
           <el-col :span="8">
             <div>所属分类</div>
-            <el-select v-model="value"
+            <el-select v-model="article.kind"
                        placeholder="请选择">
               <el-option v-for="item in options"
                          :key="item.value"
@@ -22,7 +22,7 @@
           </el-col>
           <el-col :span="8">
             <div>技术分类</div>
-            <el-select v-model="value2"
+            <el-select v-model="article.kind2"
                        placeholder="请选择">
               <el-option v-for="item in options2"
                          :key="item.value2"
@@ -33,7 +33,7 @@
           </el-col>
         </el-row>
       </div>
-      <div class="content-editor"><quillEditor v-model="content"></quillEditor></div>
+      <div class="content-editor"><quillEditor v-model="article.content"></quillEditor></div>
       <div class="btn">
         <el-button @click="submit" class="submit" type="danger" plain>发布</el-button>
       </div>
@@ -47,7 +47,7 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
 import { quillEditor } from 'vue-quill-editor';
-import {addArticle} from '../api/index.js';
+import {addArticle,getLocal} from '../api/index.js';
 export default {
   data() {
     return {
@@ -71,17 +71,19 @@ export default {
           value2: 'java',
           label: 'java'
         }],
-        value:'',
-        value2:'',
-        title:'',
-        content:''
+        content:'',
+        article:{}
     }
   },
   created(){
     if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
+    if(this.$route.params.aid){this.getArticle();}
   },
   components: {
     Top,quillEditor
+  },
+  computed:{
+    id(){return this.$route.params.aid;}
   },
   methods:{
     async submit(){
@@ -95,7 +97,10 @@ export default {
         signure:"a846837397832791c7a5"
       };
      let res = await addArticle();
-
+    },
+    async getArticle(){
+      let res = await getLocal();
+      this.article = res.data.filter(item=>item.id==this.id)[0];
     }
   }
 }

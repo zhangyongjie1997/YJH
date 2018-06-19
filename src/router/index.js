@@ -21,9 +21,15 @@ export default new Router({
       meta:{title:'登录'}
     },
     {
+      path: '/write/:aid',
+      component:Write,
+      meta:{title:'写文章'},
+      name:'write'
+    },
+    {
       path: '/write',
       component:Write,
-      meta:{title:'写文章'}
+      meta:{title:'写文章'},
     },
     {
       path: '/articles',
