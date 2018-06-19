@@ -20,7 +20,7 @@
               <router-link tag="a" to="/home">首页</router-link>
             </li>
             <li class="nav-menu-items pointer">
-              <a href="javascript:void(0)">知识体系</a>
+              <router-link tag="a" to="/knowledge">知识体系</router-link>
             </li>
             <li class="nav-menu-items pointer">
               <a href="javascript:void(0)">活动中心</a>

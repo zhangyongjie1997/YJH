@@ -7,6 +7,9 @@ import Write from '../components/Write.vue';
 import Home from '../components/Home.vue';
 import Articles from '../components/Articles.vue';
 import Content from '../components/Content.vue';
+import Knowledge from '../components/Knowledge.vue';
+import KnowledgeAll from '../components/Knowledge-all.vue';
+import KnowledgeJava from '../components/Knowledge-java.vue';
 
 Vue.use(Router);
 
@@ -39,6 +42,16 @@ export default new Router({
       meta:{title:'首页'}
     },
     {
+      path: '/knowledge',
+      component:Knowledge,
+      meta:{title:'知识体系'},
+      children:[
+        {path:'knowledgeAll',component:KnowledgeAll,meta:{title:'知识体系-全部',keepAlive:true}},
+        {path:'knowledgeJava',component:KnowledgeJava,meta:{title:'知识体系-Java',keepAlive:true}},
+      ],
+      redirect:'/knowledge/knowledgeAll'
+    },
+    {
       path: '/login',
       component:Login,
       meta:{title:'登录'}
@@ -58,4 +71,4 @@ export default new Router({
       redirect: '/home'
     },
   ]
-})
+});
