@@ -1,28 +1,15 @@
 import axios from 'axios';
 //axios.defaults.baseURL = 'http://vue.tyqprivateweb.cn:35002/vue';
-axios.defaults.headers['Content-Type'] = 'application/json';
+axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 //登录
 export let Login = (username, password) => {
-  return axios.get(`http://yjh.li-shang-bin.com/iweb/login/check?mobile=${username}&pwd=${password}`);
+  let data = {mobile:username,pwd:password};
+  return axios.post(`http://www.ftusix.com/static/data/login.php`,data);
 };
 //注册
-export let Register = ({
-    mobile,
-    pwd,
-    sms_code,
-    openid="",
-    access_token="",
-    unionid=""
-}) => {
-  let data = {
-    mobile:mobile,
-    pwd:pwd,
-    sms_code:sms_code,
-    openid:openid,
-    access_token:access_token,
-    unionid:unionid
-  };
-  return axios.get('http://yjh.li-shang-bin.com/iweb/regist/index', data);
+export let Register = ({mobile,pwd,sms_code}) => {
+  let data = {mobile,pwd,sms_code};
+  return axios.post('http://www.ftusix.com/static/data/register.php', data);
 };
 //重置密码
 export let Reset = (data) => {
@@ -54,6 +41,10 @@ export let getHot = () => {
 //首页html
 export let getHtml = () => {
   return axios.post('http://yjh.li-shang-bin.com/iweb/topic/topicList?par=&tech_type=1');
+};
+//我的帖子
+export let getMyNote = () => {
+  return axios.post('http://www.ftusix.com/static/data/myNote.php');
 };
 //个人收藏
 export let getCol = () => {

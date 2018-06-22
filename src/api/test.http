@@ -26,20 +26,28 @@
 #   "topic_id":"52"
 # }
 
-# post http://www.ftusix.com/static/data/myColl.php
+# post http://www.ftusix.com/static/data/sendsms.php
 # Content-Type: application/json
 
 # {
-# "user_id": "8",
+# "user_id": "user8",
 # "page": "1"
 # }
 
-get http://vue.tyqprivateweb.cn:35002/vue/article.php 
+# get http://vue.tyqprivateweb.cn:35002/vue/article.php 
+# Content-Type: application/json
+
+# {
+#   "event":"selectArticleList",
+#   "kind":"hot",
+#   "timestep":"1529387803",
+#   "random":"5"
+# }
+
+post http://www.ftusix.com/static/data/login.php
 Content-Type: application/json
 
 {
-  "event":"selectArticleList",
-  "kind":"hot",
-  "timestep":"1529387803",
-  "random":"5"
+  "mobile":"18522787303",
+  "pwd":"123456"
 }
