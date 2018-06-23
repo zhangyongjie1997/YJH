@@ -36,18 +36,18 @@ export default {
   methods:{
       async login(){
         let res = await Login(this.username,this.password);
+        console.log(res.data);
         if(res.data.status == 1){
             this.$store.commit('loginMutation',true);
-            localStorage.setItem("userTel",this.username);
             localStorage.setItem("loginMsg",JSON.stringify(res.data.data));
             this.$message({
                 showClose: true,
-                message: '登录成功',
+                message: res.data.info,
                 type: 'success'
             });
             this.$router.push('/personal');
         }else{
-            this.$message.error('登录失败');
+            this.$message.error('登录失败'+res.data.info);
         }
         
       }

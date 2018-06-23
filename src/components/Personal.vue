@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tabs">
-      <el-tabs :tab-position="tabPosition"
+      <el-tabs tab-position="left"
                type="border-card"
                style="height: 600px;">
         <el-tab-pane label="我的信息">
@@ -21,7 +21,7 @@
             <el-card shadow="never"
                      class="item-lists">
               注册手机号：
-              <span>{{userMsg.mobile}}</span>
+              <span>{{mobile}}</span>
             </el-card>
             <el-card shadow="never"
                      class="item-lists">
@@ -173,18 +173,19 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      tabPosition: 'left',
       newPwd:'',newPwd2:'',sms_code:'',count:60,
       userMsg:{
-        avatar:"http://yjh.li-shang-bin.com/avatar/default/8.png",
-        mobile:"13011072992",
-        nick_name:"测试",
-        sex:0,
-        token:"5c62dcb16e33b0f16c075627cbcc15dd",
-        user_id:"user8"
+        avatar:"",
+        mobile:"",
+        nick_name:"",
+        pwd:'',
+        reg_time:'',
+        sex:'',
+        token:"",
+        user_id:""
       },
       articles:[],
-      myCol:{}
+      myCol:{},
     }
   },
   mounted(){
@@ -196,8 +197,8 @@ export default {
     ifLogin(){
       return this.$store.state.ifLogin;
     },
-    tel(){
-      return localStorage.userTel;
+    userMsg(){
+      return JSON.parse(localStorage.loginMsg);
     }
   },
   methods:{
@@ -248,7 +249,7 @@ export default {
         });
       }
     },
-    async init(){
+    init(){
       if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
       this.userMsg = JSON.parse(localStorage.loginMsg);
     },

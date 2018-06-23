@@ -83,14 +83,14 @@ export default {
       });
       if(res.data.status == 0){
           this.$message.error(res.data.info);
-      }
-      if(res.data.status == 1){
+      }else if(res.data.status == 1){
           this.message({
                 showClose: true,
                 message: '注册成功，请登录',
                 type: 'success'
             });
             this.$router.push('/login');
+            return;
       }else{
           this.$message.error('注册失败');
       }
