@@ -424,7 +424,7 @@ img {
     overflow: hidden;
   }
   ul {
-    display: inline-block;
+    //display: inline-block;
     float: right;
     width: 70%;
     clear: both;

@@ -1,4 +1,4 @@
-<template>
+<template :sort="newSort">
   <div class="container">
     <div class="nav">
       <ul>
@@ -8,9 +8,15 @@
         <li><router-link :class="{red:$route.meta.title=='成果分享'}" tag="a" to="/articles/chengguo">成果分享</router-link></li>
       </ul>
     </div>
+    <div class="sort">
+      <div class="choice">
+        <div @click="sortNew" :class="{'sort-active':newSort=='new'}" class="new sortItem">最新</div>
+        <div @click="sortHot" :class="{'sort-active':newSort!='new'}" class="hot sortItem">最热</div>
+      </div>
+    </div>
     <div class="content">
       <keep-alive v-if="$route.meta.keepAlive">
-        <router-view></router-view>
+        <router-view :sort="newSort" :userMsg="userMsg"></router-view>
       </keep-alive>
     </div>
   </div>
@@ -22,14 +28,24 @@ export default {
   data() {
     return {
       userMsg:{},
+      newSort:'new',
     }
   },
   created(){
     if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
     this.userMsg = getUser();
   },
-  components: {
-
+  methods:{
+    sortHot(){
+      if(this.newSort == 'new'){
+        this.newSort = 'hot';
+      }
+    },
+    sortNew(){
+      if(this.newSort == 'hot'){
+        this.newSort = 'new';
+      }
+    },
   }
 }
 </script>
@@ -57,8 +73,32 @@ export default {
   }
   .content{
     width: 70%;
-    height: 25px;
     margin: 0 auto;
+  }
+  .sort{
+    width: 70%;
+    margin: 0px auto 10px auto;
+    .choice{
+      padding: 5px;
+      height: 30px;
+      .sortItem:first-child{
+        margin-left: 0;
+      }
+      .sortItem{
+        float: left;
+        margin-left: 15px;
+        width: 60px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        color: black;
+        cursor: pointer;        
+      }
+      .sort-active{
+        color: #fff;
+        background-color: #409EFF;
+      }
+    }
   }
 }
 .red{

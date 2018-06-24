@@ -32,7 +32,7 @@
             <el-pagination @current-change="goHot" layout="prev, pager, next"
                            :total="hotNo">
             </el-pagination>
-            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="html"
                      name="second" :lazy="true">
@@ -198,7 +198,7 @@ export default {
        overflow: hidden;
      }
      .handlInfo{
-       display: inline-block;
+       //display: inline-block;
        margin-bottom: 5px;
        float: right;
        .item{

@@ -17,6 +17,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import {getUser} from '../api/index.js';
 export default {
   data() {
     return {
