@@ -11,12 +11,14 @@
             <h3 class="list-title">个人信息</h3>
             <el-card shadow="never"
                      class="item-lists">
-              <img :src="photo">
-              <label class="pointer"
-                     for="changePho">更换头像</label>
-              <input type="file"
-                     id="changePho"
-                     style="display:none;">
+              <el-upload class='avatar-uploader'
+                         action='http://www.ftusix.com/static/data/upload.php'
+                         :show-file-list="false"
+                         :on-success="handleAvatarSuccess"
+                         :before-upload="beforeAvatarUpload"
+                         :data="{id: userMsg.user_id}">
+                <img :src="photo"> 更换头像
+              </el-upload>
             </el-card>
             <el-card shadow="never"
                      class="item-lists">
@@ -32,10 +34,13 @@
             </el-card>
             <el-card shadow="never">
               性别：
-              <el-radio v-model="userMsg.sex" label="1">男</el-radio>
-              <el-radio v-model="userMsg.sex" label="0">女</el-radio>
+              <el-radio v-model="userMsg.sex"
+                        label="1">男</el-radio>
+              <el-radio v-model="userMsg.sex"
+                        label="0">女</el-radio>
             </el-card>
-            <el-button @click="update" type="danger"
+            <el-button @click="update"
+                       type="danger"
                        plain>提交</el-button>
           </el-col>
           <!-- </div> -->
@@ -53,7 +58,8 @@
                      class="item-lists">
               <el-input class="item-input"
                         placeholder="请输入内容"
-                        v-model="newPwd" type="password">
+                        v-model="newPwd"
+                        type="password">
                 <template slot="prepend">新密码</template>
               </el-input>
             </el-card>
@@ -61,7 +67,8 @@
                      class="item-lists">
               <el-input class="item-input"
                         placeholder="请输入内容"
-                        v-model="newPwd2" type="password">
+                        v-model="newPwd2"
+                        type="password">
                 <template slot="prepend">确认密码</template>
               </el-input>
             </el-card>
@@ -77,7 +84,8 @@
               </el-col>
             </el-card>
             <el-button type="danger"
-                       plain @click="reset">确认修改</el-button>
+                       plain
+                       @click="reset">确认修改</el-button>
           </el-col>
         </el-tab-pane>
         <el-tab-pane label="我的贴子">
@@ -91,22 +99,29 @@
               <li>操作</li>
             </ul>
           </div>
-          <div class="aList" v-loading="loading1">
+          <div class="aList"
+               v-loading="loading1">
             <ul>
               <li v-for="(article,index) in articles"
                   :key="index">
                 <div class="item-title">
-                  <router-link class="title" tag="span" :to="{name:'content',params:{aid:article.topic_id}}" style="cursor:pointer">{{article.title}}</router-link>
+                  <router-link class="title"
+                               tag="span"
+                               :to="{name:'content',params:{aid:article.topic_id}}"
+                               style="cursor:pointer">{{article.title}}</router-link>
                   <ul>
                     <li>{{article.type | getType}}</li>
                     <li>{{article.comment_num}}</li>
                     <li>{{article.browser_num}}</li>
                     <li class="time">{{article.modify_time | getTime}}</li>
                     <li>
-                      <router-link tag="i" :to="{name:'write',params:{aid:article.topic_id}}" style="cursor:pointer;color:#f56c6c;"
-                         class="iconfont icon-web-icon-"></router-link>
-                         <span style="color:#409EFF;"> | </span>
-                      <i @click="remove(article.topic_id)" style="cursor:pointer;color:#f56c6c;"
+                      <router-link tag="i"
+                                   :to="{name:'write',params:{aid:article.topic_id}}"
+                                   style="cursor:pointer;color:#f56c6c;"
+                                   class="iconfont icon-web-icon-"></router-link>
+                      <span style="color:#409EFF;"> | </span>
+                      <i @click="remove(article.topic_id)"
+                         style="cursor:pointer;color:#f56c6c;"
                          class="iconfont icon-shanchu"></i>
                     </li>
                   </ul>
@@ -114,7 +129,8 @@
               </li>
             </ul>
             <div class="pagination">
-              <el-pagination @current-change="goNote" layout="prev, pager, next"
+              <el-pagination @current-change="goNote"
+                             layout="prev, pager, next"
                              :total="noteNo">
               </el-pagination>
             </div>
@@ -131,26 +147,34 @@
               <li>操作</li>
             </ul>
           </div>
-          <div class="aList" v-loading="loading2">
+          <div class="aList"
+               v-loading="loading2">
             <ul>
               <li v-for="(myCol,index) in myCols"
                   :key="index">
                 <div class="item-title">
-                  <router-link class="title" tag="span" :to="{name:'content',params:{aid:myCol.topic_id}}" style="cursor:pointer">{{myCol.title}}</router-link>
+                  <router-link class="title"
+                               tag="span"
+                               :to="{name:'content',params:{aid:myCol.topic_id}}"
+                               style="cursor:pointer">{{myCol.title}}</router-link>
                   <ul>
                     <li>{{myCol.type | getType}}</li>
                     <li>{{myCol.comment_num}}</li>
                     <li>{{myCol.browser_num}}</li>
                     <li class="time">{{myCol.modify_time | getTime}}</li>
                     <li>
-                      <el-button size="mini" type="danger" plain @click="unColl(myCol.topic_id)">取消收藏</el-button>
+                      <el-button size="mini"
+                                 type="danger"
+                                 plain
+                                 @click="unColl(myCol.topic_id)">取消收藏</el-button>
                     </li>
                   </ul>
                 </div>
               </li>
             </ul>
             <div class="pagination">
-              <el-pagination @current-change="goCol" layout="prev, pager, next"
+              <el-pagination @current-change="goCol"
+                             layout="prev, pager, next"
                              :total="collNo">
               </el-pagination>
             </div>
@@ -224,6 +248,22 @@ export default {
     },
   },
   methods:{
+    beforeAvatarUpload(file){
+      if(file.size>999999){
+        this.$message.error('图片体积太大请重新选择');
+        return false;
+      }else{
+        return true;
+      }
+    },
+    handleAvatarSuccess(res){
+      if(res.status == 1){
+        this.$message.success('头像上传成功');
+        this.userMsg.avatar = res.data;
+      }else{
+        this.$message.error('上传失败');
+      }
+    },
     async unColl(topic_id){
       let res = await zan_coll({
         user_id:this.userMsg.user_id,
@@ -370,18 +410,17 @@ img {
   margin-bottom: 10px;
 }
 .item-title {
-  
   line-height: 50px;
   width: 100%;
   height: 50px;
   border-bottom: 1px solid #ccc;
   clear: both;
-  .title{
-      display: inline-block;
-      width: 250px;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-      overflow: hidden;
+  .title {
+    display: inline-block;
+    width: 250px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
   ul {
     display: inline-block;
@@ -396,12 +435,12 @@ img {
     }
   }
 }
-.pagination{
+.pagination {
   padding-top: 40px;
   width: 40%;
-  margin:0 auto;
+  margin: 0 auto;
 }
-.time{
+.time {
   color: #999;
   font-size: 14px;
 }
