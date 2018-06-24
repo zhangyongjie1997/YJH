@@ -300,6 +300,7 @@ export default {
           message: '修改成功',
           type: 'success'
         });
+        localStorage.loginMsg = JSON.stringify(this.userMsg);
       }else{
         this.$message.error('修改失败');
       }
@@ -307,9 +308,9 @@ export default {
     async reset(){      //重置密码
       try{
       let res = await Reset({
-        mobile:this.tel,
+        mobile:this.userMsg.mobile,
         pwd:this.newPwd,
-        pwd2:this.pwd2,
+        pwd2:this.newPwd2,
         sms_code:this.sms_code
       });
       if(res.data.status == 0){
@@ -324,6 +325,8 @@ export default {
           message: res.data.info,
           type: 'success'
         });
+        this.newPwd = '';
+        this.newPwd2 = '';
       }
       }catch(e){
         console.log(e);
