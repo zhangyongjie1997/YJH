@@ -25,12 +25,9 @@ export default new Router({
       component:() => import ('../components/Articles.vue'),
       meta:{title:'文章'},
       children:[
-        {path:'jingyan',component:() => import ('../components/articles-jingyan.vue'),meta:{title:'经验分享',keepAlive:true}},
-        {path:'rumen',component:() => import ('../components/articles-rumen.vue'),meta:{title:'入门学习',keepAlive:true}},
-        {path:'chengguo',component:() => import ('../components/articles-chengguo.vue'),meta:{title:'成果分享',keepAlive:true}},
-        {path:'all',component:() => import ('../components/articles-all.vue'),meta:{title:'全部',keepAlive:true}}
+        {path:'/articles/all/:kind',component:() => import ('../components/articles-all.vue'),meta:{title:'全部',keepAlive:true}}
       ],
-      redirect:'/articles/all'
+      redirect:'/articles/all/0'
     },
     {
       path: '/content/:aid',

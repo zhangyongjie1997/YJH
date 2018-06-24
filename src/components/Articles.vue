@@ -2,10 +2,10 @@
   <div class="container">
     <div class="nav">
       <ul>
-        <li><router-link :class="{red:$route.meta.title=='全部'}" tag="a" to="/articles/all">全部</router-link></li>
-        <li><router-link :class="{red:$route.meta.title=='经验分享'}" tag="a" to="/articles/jingyan">经验分享</router-link></li>
-        <li><router-link :class="{red:$route.meta.title=='入门学习'}" tag="a" to="/articles/rumen">入门血洗</router-link></li>
-        <li><router-link :class="{red:$route.meta.title=='成果分享'}" tag="a" to="/articles/chengguo">成果分享</router-link></li>
+        <li><router-link :class="{red:$route.params.kind==0}" tag="a" to="/articles/all/0">全部</router-link></li>
+        <li><router-link :class="{red:$route.params.kind==1}" tag="a" to="/articles/all/1">经验分享</router-link></li>
+        <li><router-link :class="{red:$route.params.kind==2}" tag="a" to="/articles/all/2">入门血洗</router-link></li>
+        <li><router-link :class="{red:$route.params.kind==3}" tag="a" to="/articles/all/3">成果分享</router-link></li>
       </ul>
     </div>
     <div class="sort">

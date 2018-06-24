@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="items">
+    <div class="items" v-loading="loading">
       <ul>
         <li class="aList" v-for="(article, index) in articles" :key="index">
           <div class="aInfo"><span>{{article.nick_name}}</span> · <span>{{article.modify_time | getTime}}</span></div>
@@ -38,6 +38,8 @@ export default {
       articles:[],
       page:1,
       no:0,
+      kind:0,
+      loading:true,
     }
   },
   filters:{
@@ -54,13 +56,19 @@ export default {
       this.getArticles();
     },
     async getArticles(){
-      let res = await getArticles(0,this.sort,this.page,false);
+      this.loading = true;
+      let res = await getArticles(this.kind,this.sort,this.page,false);
       this.no = parseInt(res.data.listCount[0])/2;
       this.articles = res.data.data;
+      this.loading = false;
     }
   },
   watch:{
     sort(){
+      this.getArticles();
+    },
+    $route(){
+      this.kind = this.$route.params.kind;
       this.getArticles();
     }
   }

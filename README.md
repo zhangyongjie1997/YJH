@@ -268,3 +268,64 @@ computed:{
       this.article = res.data.filter(item=>item.id==this.id)[0];
     }
 ```
+
+##  监听路由变化
+
+```js
+watch:{
+  $route(to,from){
+    console.log(to.path);
+  }
+},
+```
+
+##  文章二级路由三个页面合并为一个
+
+- 通过监听路由变化，获取路由参数kind，获取对应kind的文章
+
+```js
+  {
+      path: '/articles',
+      component:() => import ('../components/Articles.vue'),
+      meta:{title:'文章'},
+      children:[        //二级路由传参  kind为文章类型0，1，2，3
+        {
+          path:'/articles/all/:kind',
+          component:() => import ('../components/articles-all.vue'),
+          meta:{title:'全部',keepAlive:true}
+        }
+      ],
+      redirect:'/articles/all/0'  //默认
+    }
+```
+
+- 页面配置
+```html
+<li><router-link :class="{red:$route.params.kind==0}" tag="a" to="/articles/all/0">全部</router-link></li>
+<li><router-link :class="{red:$route.params.kind==1}" tag="a" to="/articles/all/1">经验分享</router-link></li>
+<li><router-link :class="{red:$route.params.kind==2}" tag="a" to="/articles/all/2">入门血洗</router-link></li>
+<li><router-link :class="{red:$route.params.kind==3}" tag="a" to="/articles/all/3">成果分享</router-link></li>
+```
+- 监听路由变化
+```js
+watch:{
+  $route(){
+    this.kind = this.$route.params.kind;   //改变kind属性
+    this.getArticles();  //重新获取文章
+  }
+}
+```
+
+## 文章排序
+- router-link传递props
+```html
+<keep-alive v-if="$route.meta.keepAlive">
+  <router-view :sort="newSort" :userMsg="userMsg"></router-view>
+</keep-alive>
+``` 
+```js
+  props:{
+    sort:String,
+    userMsg:Object
+  },
+```
