@@ -66,6 +66,7 @@ export default {
 
   },
   computed:{
+    photo(){},
     ifLogin(){
       return this.$store.state.ifLogin;
     }
@@ -159,7 +160,6 @@ header #view #logo h2 {
   left: 20px;
   background-size: 50px 50px;
   background-image: url('../assets/logo.png');
-
 }
 #photo-nav-list {
   height: 0px;

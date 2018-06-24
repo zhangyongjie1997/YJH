@@ -10,6 +10,10 @@ import Content from '../components/Content.vue';
 import Knowledge from '../components/Knowledge.vue';
 import KnowledgeAll from '../components/Knowledge-all.vue';
 import KnowledgeJava from '../components/Knowledge-java.vue';
+import jingyan from '../components/articles-jingyan.vue';
+import rumen from '../components/articles-rumen.vue';
+import chengguo from '../components/articles-chengguo.vue';
+import all from '../components/articles-all.vue';
 
 Vue.use(Router);
 
@@ -34,7 +38,14 @@ export default new Router({
     {
       path: '/articles',
       component:Articles,
-      meta:{title:'文章列表'}
+      meta:{title:'文章'},
+      children:[
+        {path:'jingyan',component:jingyan,meta:{title:'经验分享',keepAlive:true}},
+        {path:'rumen',component:rumen,meta:{title:'入门学习',keepAlive:true}},
+        {path:'chengguo',component:chengguo,meta:{title:'成果分享',keepAlive:true}},
+        {path:'all',component:all,meta:{title:'全部',keepAlive:true}}
+      ],
+      redirect:'/articles/all'
     },
     {
       path: '/content/:aid',

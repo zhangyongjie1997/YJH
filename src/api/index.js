@@ -1,6 +1,14 @@
 import axios from 'axios';
 //axios.defaults.baseURL = 'http://vue.tyqprivateweb.cn:35002/vue';
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+//{headers:{'Content-Type':'application/json'}}
+
+
+export let getUser = () => {
+  let temp = JSON.parse(localStorage.loginMsg);
+  return temp[0];
+};
+
 //登录
 export let Login = (username, password) => {
   let data = {mobile:username,pwd:password};
@@ -31,33 +39,21 @@ export let getArticles = (page,{
   });
   return axios.get(`http://yjh.li-shang-bin.com/iweb/topic/myTopicList?page=${page}`,data);
 };
-export let addArticle = (data) => {
-  return axios.post('http://vue.tyqprivateweb.cn:35002/vue/article.php', data);
-};
 //首页hot
-export let getHot = () => {
-  return axios.post('http://yjh.li-shang-bin.com/iweb/topic/topicList?par=index_hot');
+export let getHot = (type=0,sort,page=1,index=true) => {
+  return axios.post(`http://www.ftusix.com/static/data/topicList.php?type=${type}&sort=${sort}&page=${page}&index=${index}`);
 };
 //首页html
-export let getHtml = () => {
-  return axios.post('http://yjh.li-shang-bin.com/iweb/topic/topicList?par=&tech_type=1');
+export let getHtml = (type=1,sort,page=1,index=true) => {
+  return axios.post(`http://www.ftusix.com/static/data/topicList.php?type=${type}&sort=${sort}&page=${page}&index=${index}`);
 };
 //我的帖子
-export let getMyNote = () => {
-  return axios.post('http://www.ftusix.com/static/data/myNote.php');
+export let getMyNote = (data) => {
+  return axios.get(`http://www.ftusix.com/static/data/myNote.php?user_id=${data.user_id}&page=${data.page}`);
 };
 //个人收藏
-export let getCol = () => {
-  return axios.post({
-    method:'post',
-    baseURL:'/api',
-    url:'/collect/myCollect',
-    data:{
-      page:1,
-      user_id:"user8",
-      token:"5c62dcb16e33b0f16c075627cbcc15dd"
-    }
-  });
+export let getCol = (user_id,page) => {
+  return axios.post(`http://www.ftusix.com/static/data/myColl.php?user_id=${user_id}&page=${page}`);
 };
 //获取本地的json文件
 export let getLocal = () => {
@@ -67,11 +63,28 @@ export let getLocal = () => {
 export let getCode = (data) => {
   return axios.get('http://yjh.li-shang-bin.com/iweb/Sendsms/send',data);
 };
-export let getOne = (id) => {
-  axios.get('../static/articles.json').then(
-    res => {
-      console.log(this);
-    }
-  );
+export let getOne = (user_id,topic_id) => {
+  return axios.get(`http://www.ftusix.com/static/data/content.php?user_id=${user_id}&topic_id=${topic_id}`);
+};
+//发布文章
+export let writeArticle = (data) => {
+  return axios.post('http://www.ftusix.com/static/data/writeArticle.php',data);
 };
 
+//点赞
+export let zan_coll = (data)=>{
+  return axios.post('http://www.ftusix.com/static/data/zan.php',data);
+};
+//删除我的帖子
+export let removeNote = (data)=>{
+  return axios.post('http://www.ftusix.com/static/data/delete.php',data);
+};
+
+//发布评论
+export let sendComment = (data) => {
+  return axios.post('http://www.ftusix.com/static/data/comment.php',data);
+};
+//获取评论
+export let getComment = (topic_id) => {
+  return axios.post(`http://www.ftusix.com/static/data/commentList.php?topic_id=${topic_id}`);
+};

@@ -1,4 +1,1 @@
-if(true){
-  var a = 1;
-}
-console.log(a);
+console.log(parseInt(14/10));

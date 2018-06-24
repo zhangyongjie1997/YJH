@@ -1,4 +1,4 @@
-div,html,img,body,a,h2,ul,li,header,section{margin: 0;padding: 0;}
+div,html,img,body,a,h2,ul,li,header,section,img{margin: 0;padding: 0;}
 ul,li{list-style: none;}
 a{text-decoration: none;color:black;}
 img{border:0;}

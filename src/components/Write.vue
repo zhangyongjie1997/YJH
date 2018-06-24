@@ -6,12 +6,12 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <div>文章标题</div>
-            <el-input v-model="article.name"
+            <el-input v-model="article.title"
                       placeholder="请输入标题"></el-input>
           </el-col>
           <el-col :span="8">
             <div>所属分类</div>
-            <el-select v-model="article.kind"
+            <el-select v-model="article.type"
                        placeholder="请选择">
               <el-option v-for="item in options"
                          :key="item.value"
@@ -22,7 +22,7 @@
           </el-col>
           <el-col :span="8">
             <div>技术分类</div>
-            <el-select v-model="article.kind2"
+            <el-select v-model="article.tech_type"
                        placeholder="请选择">
               <el-option v-for="item in options2"
                          :key="item.value2"
@@ -47,37 +47,60 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
 import { quillEditor } from 'vue-quill-editor';
-import {addArticle,getLocal} from '../api/index.js';
+import {getLocal,writeArticle,getOne,getUser} from '../api/index.js';
 export default {
   data() {
     return {
      options: [{
-          value: '经验分享',
+          value: '1',
           label: '经验分享'
         }, {
-          value: '入门学习',
+          value: '2',
           label: '入门学习'
         }, {
-          value: '成果分享',
+          value: '3',
           label: '成果分享'
         }],
      options2: [{
-          value2: 'html',
+          value2: '1',
           label2: 'html'
         }, {
-          value2: 'php',
+          value2: '2',
           label2: 'php'
         }, {
-          value2: 'java',
-          label: 'java'
+          value2: '3',
+          label2: 'java'
         }],
         content:'',
-        article:{}
+        article:{
+          topic_id: "",
+          title: "",
+          modify_time: "",
+          browser_num: "",
+          content: "",
+          md_content: "",
+          type: "",
+          tech_type: "",
+          like_num: "",
+          comment_num: "",
+          coll_num: "",
+          user_id: "",
+          nick_name: ""
+        },
+        title:'',
+        kind1:'',
+        kind2:'',
+        isEdit:false,
+        userMsg:{}
+
     }
   },
   created(){
+    this.userMsg = getUser();
     if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
-    if(this.$route.params.aid){this.getArticle();}
+    if(this.$route.params.aid){
+      this.isEdit = true;
+      this.getArticle(this.$route.params.aid);}
   },
   components: {
     Top,quillEditor
@@ -88,19 +111,30 @@ export default {
   methods:{
     async submit(){
       let data = {
-        userId:JSON.parse(sessionStorage.loginMsg).userId,
-        content:this.content,
-        event:"addArticle",
-        kind:this.value2,
-        timestep:Date.parse(new Date()),
-        random:parseInt(Math.random()*100),
-        signure:"a846837397832791c7a5"
+        content:this.article.content,
+        md_content:this.article.content,
+        user_id:this.userMsg.user_id,
+        nickname:this.userMsg.nick_name,
+        type:this.article.type,
+        tech_type:this.article.tech_type,
+        title:this.article.title,
+        isEdit:this.isEdit,
+        topic_id:this.article.topic_id
       };
-     let res = await addArticle();
+     let res = await writeArticle(data);
+     if(res.data.status == 1){
+       this.$message.success(res.data.info);
+       this.$router.push('/personal');
+     }else{this.$message.error('上传失败');}
     },
-    async getArticle(){
-      let res = await getLocal();
-      this.article = res.data.filter(item=>item.id==this.id)[0];
+    async getArticle(topic_id){
+      let res = await getOne(this.userMsg.user_id,topic_id);
+      console.log(res);
+      this.article = res.data.data;
+      this.kind1 = this.article.type;
+      this.kind2 = this.article.tech_type;
+      this.title = this.article.title;
+      this.content = this.article.content;
     }
   }
 }

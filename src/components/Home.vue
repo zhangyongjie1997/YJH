@@ -13,10 +13,10 @@
       <el-tabs v-model="defaultList" v-loading="loading">
         <el-tab-pane label="热门文章" name="hot">
           <ul>
-            <li class="aList" v-for="(hotArc, index) in hotInfo.data" :key="index">
-              <div class="aInfo"><span>{{hotArc.nickname}}</span> · <span>{{hotArc.c_time | toDate}}</span></div>
+            <li class="aList" v-for="(hotArc, index) in hotArcs" :key="index">
+              <div class="aInfo"><span>{{hotArc.nick_name}}</span> · <span>{{hotArc.modify_time | getTime}}</span></div>
               <div class="aMain">
-                <router-link tag="a" :to="{name:'content',params:{aid:hotArc.topic_id}}">{{hotArc.title}}</router-link>
+                <router-link class="title" tag="a" :to="{name:'content',params:{aid:hotArc.topic_id}}">{{hotArc.title}}</router-link>
                 <div class="handlInfo">
                   <el-badge :value="hotArc.browser_num" :max="99" class="item">
                       <el-button size="small">浏览</el-button>
@@ -29,18 +29,18 @@
             </li>
           </ul>
           <div class="pagination">
-            <el-pagination layout="prev, pager, next"
-                           :total="hotInfo.total">
+            <el-pagination @current-change="goHot" layout="prev, pager, next"
+                           :total="hotNo">
             </el-pagination>
             </div>
         </el-tab-pane>
         <el-tab-pane label="html"
                      name="second" :lazy="true">
           <ul>
-            <li class="aList" v-for="(htmlArc, index) in htmlInfo.data" :key="index">
-              <div class="aInfo"><span>{{htmlArc.nickname}}</span> · <span>{{htmlArc.c_time | toDate}}</span></div>
+            <li class="aList" v-for="(htmlArc, index) in htmlArcs" :key="index">
+              <div class="aInfo"><span>{{htmlArc.nick_name}}</span> · <span>{{htmlArc.modify_time | getTime}}</span></div>
               <div class="aMain">
-                <router-link tag="a" :to="{name:'content',params:{aid:htmlArc.topic_id}}">{{htmlArc.title}}</router-link>
+                <router-link class="title" tag="a" :to="{name:'content',params:{aid:htmlArc.topic_id}}">{{htmlArc.title}}</router-link>
                 <div class="handlInfo">
                   <el-badge :value="htmlArc.browser_num" :max="99" class="item">
                       <el-button size="small">浏览</el-button>
@@ -53,8 +53,8 @@
             </li>
           </ul>
           <div class="pagination">
-            <el-pagination layout="prev, pager, next"
-                           :total="htmlInfo.total">
+            <el-pagination @current-change="goHtml" layout="prev, pager, next"
+                           :total="htmlNo">
             </el-pagination>
           </div>         
         </el-tab-pane>
@@ -84,13 +84,12 @@
 
 <script type="text/ecmascript-6">
 import axios from 'axios';
-import {getArticles,getLocal,getHot,getHtml} from '../api/index.js';
+import {getArticles,getLocal,getHot,getHtml,getUser} from '../api/index.js';
 import goTop from '../base/goTop.vue';
 export default {
   filters:{
-    toDate(val){
-      let day = new Date(val);
-      return day.toString();
+    getTime(val){
+      return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
   },
   data() {
@@ -99,41 +98,53 @@ export default {
       z:44,
       defaultList:'hot',
       images:[
-        {src:'http://img5.imgtn.bdimg.com/it/u=1019788852,475598635&fm=15&gp=0.jpg'},
-        {src:'http://img2.imgtn.bdimg.com/it/u=939482776,1122195490&fm=15&gp=0.jpg'},
-        {src:'http://img5.imgtn.bdimg.com/it/u=2293659155,452847972&fm=15&gp=0.jpg'},
-        {src:'http://img5.imgtn.bdimg.com/it/u=3110792765,2347421806&fm=27&gp=0.jpg'},
-        {src:'http://img4.imgtn.bdimg.com/it/u=2004259100,1736516264&fm=15&gp=0.jpg'},
+        {src:'http://img5.imgtn.bdimg.com/it/u=1574196120,1246886327&fm=15&gp=0.jpg'},
+        {src:'http://img4.imgtn.bdimg.com/it/u=3129514871,1783886403&fm=27&gp=0.jpg'},
+        {src:'http://img0.imgtn.bdimg.com/it/u=4093450726,1893526692&fm=15&gp=0.jpg'},
+        {src:'http://img4.imgtn.bdimg.com/it/u=3827785436,66188750&fm=15&gp=0.jpg'},
+        {src:'http://img4.imgtn.bdimg.com/it/u=1966442326,3008567644&fm=27&gp=0.jpg'},
       ],
       loading:true,
       htmlArcs:[],
       hotArcs:[],
-      hotInfo:{},
-      htmlInfo:{},
-      cssArcs:[]
+      cssArcs:[],
+      userMsg:{},
+      hotPage:1,
+      htmlPage:1,
+      hotNo:0,
+      htmlNo:0
     }
   },
   created(){
     if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
+    this.userMsg = getUser();
     this.getHots();
     this.getHtmls();
     this.getCss();
   },
   methods:{
     async getHots(){
-      let res = await getHot();
-      this.hotInfo = res.data.data;
+      let res = await getHot(0,'hot',this.hotPage,true);
+      this.hotNo = parseInt(res.data.listCount[0])/2;
+      this.hotArcs = res.data.data;
     },
     async getHtmls(){
-      let res = await getHtml();
-      this.htmlInfo = res.data.data;
+      let res = await getHtml(1,'new',this.htmlPage,true);
+      this.htmlArcs = res.data.data;
+      this.htmlNo = parseInt(res.data.listCount[0])/2;
       this.loading = false;
     },
     async getCss(){
       let res = await getLocal();
-      console.log(res.data);
-      
       this.cssArcs = res.data;
+    },
+    goHot(val){
+      this.hotPage = val;
+      this.getHots();
+    },
+    goHtml(val){
+      this.htmlPage = val;
+      this.getHtmls();
     }
   },
   components:{goTop}
@@ -177,6 +188,13 @@ export default {
      line-height: 45px;
      font-size: 17px;
      clear: both;
+     .title{
+       display: inline-block;
+       width: 250px;
+       text-overflow:ellipsis;
+       white-space:nowrap;
+       overflow: hidden;
+     }
      .handlInfo{
        display: inline-block;
        margin-bottom: 5px;

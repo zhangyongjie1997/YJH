@@ -44,10 +44,36 @@
 #   "random":"5"
 # }
 
-post http://www.ftusix.com/static/data/login.php
-Content-Type: application/json
+# post http://www.ftusix.com/static/data/myNote.php
+# Content-Type: application/x-www-form-urlencoded;charset=UTF-8
 
-{
-  "mobile":"18522787303",
-  "pwd":"123456"
-}
+# {
+#   "user_id":"186",
+#   "page":"1"
+# }
+
+# get http://www.ftusix.com/static/data/myNote.php
+# Content-Type: application/json
+
+# {
+#   "user_id":"186",
+#   "page":"1"
+# }
+
+//get http://www.ftusix.com/static/data/content.php?user_id=186&topic_id=371
+
+# post http://www.ftusix.com/static/data/zan.php
+# Content-Type: application/json
+
+# {
+#   "user_id":"1",
+#   "topic_id":"371",
+#   "type":"zan"
+# }
+
+//get http://www.ftusix.com/static/data/myColl.php?user_id=186&page=1
+
+
+# get http://www.ftusix.com/static/data/commentList.php?topic_id=371
+
+post http://www.ftusix.com/static/data/topicList.php?type=0&sort=hot&page=1&index=true
