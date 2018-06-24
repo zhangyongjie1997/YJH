@@ -20,7 +20,7 @@ export let Register = ({mobile,pwd,sms_code}) => {
 };
 //重置密码
 export let Reset = (data) => {
-  return axios.get('http://yjh.li-shang-bin.com/iweb/Forgetpwd/reset', data);
+  return axios.get('http://www.ftusix.com/static/data/reset.php', data);
 };
 export let Update = (data) => {
   return axios.post('http://www.ftusix.com/static/data/update.php', data);
