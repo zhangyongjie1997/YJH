@@ -268,3 +268,17 @@ computed:{
       this.article = res.data.filter(item=>item.id==this.id)[0];
     }
 ```
+
+## 文章排序
+- router-link传递props
+```html
+<keep-alive v-if="$route.meta.keepAlive">
+  <router-view :sort="newSort" :userMsg="userMsg"></router-view>
+</keep-alive>
+``` 
+```js
+  props:{
+    sort:String,
+    userMsg:Object
+  },
+```
