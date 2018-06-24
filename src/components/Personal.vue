@@ -236,8 +236,6 @@ export default {
   },
   mounted(){
     this.init();
-    this.getMyNotes();
-    this.getCols();
   },
   computed:{
     photo(){
@@ -260,6 +258,7 @@ export default {
       if(res.status == 1){
         this.$message.success('头像上传成功');
         this.userMsg.avatar = res.data;
+        localStorage.loginMsg = JSON.stringify(this.userMsg);
       }else{
         this.$message.error('上传失败');
       }
@@ -338,6 +337,8 @@ export default {
     init(){
       if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
       this.userMsg = getUser();
+      this.getMyNotes();
+      this.getCols();
     },
     async getMyNotes(){
       let res = await getMyNote({

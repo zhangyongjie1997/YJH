@@ -5,8 +5,7 @@ axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;char
 
 
 export let getUser = () => {
-  let temp = JSON.parse(localStorage.loginMsg);
-  return temp[0];
+  return JSON.parse(localStorage.loginMsg);
 };
 
 //登录

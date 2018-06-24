@@ -36,10 +36,9 @@ export default {
   methods:{
       async login(){
         let res = await Login(this.username,this.password);
-        console.log(res.data);
         if(res.data.status == 1){
             this.$store.commit('loginMutation',true);
-            localStorage.setItem("loginMsg",JSON.stringify(res.data.data));
+            localStorage.setItem("loginMsg",JSON.stringify(res.data.data[0]));
             this.$message({
                 showClose: true,
                 message: res.data.info,
