@@ -10,7 +10,7 @@
         <div></div>
       </div>
       <div class="content">
-        <p>{{article.content | getContent}}</p>
+        <p style="text-indent:2em;" v-html="article.content"></p>
       </div>
     </div>
     <div class="handle-div">
