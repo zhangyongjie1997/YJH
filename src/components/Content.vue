@@ -5,12 +5,16 @@
     <div class="main" v-loading="loading">
       <h2>{{article.title}}</h2>
       <div class="info">
+        <div style="height:25px;"></div>
+        <div>作者：{{article.nick_name}}</div>
+        <div style="height:5px;"></div>
         <div>{{article.type | getType}}</div>
+        <div style="height:5px;"></div>
         <div>{{article.modify_time | getTime}} · 评论{{article.comment_num}} · 点赞{{article.like_num}}</div>
         <div></div>
       </div>
       <div class="content">
-        <p>{{article.content | getContent}}</p>
+        <p style="text-indent:2em;" v-html="article.content"></p>
       </div>
     </div>
     <div class="handle-div">
@@ -235,13 +239,13 @@ export default {
     .info{
       text-align: center;
       color: #999;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: lighter;
     }
     .content{
       width: 100%;
       margin: 50px auto 20px auto;
-      padding: 15px 5px 15px 5px;
+      padding: 15px 0px 15px 5px;
       font-size: 16px;
       line-height: 1.5;
       font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;
