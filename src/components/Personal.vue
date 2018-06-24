@@ -193,7 +193,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      newPwd:'',newPwd2:'',sms_code:'',count:60,
+      newPwd:'',newPwd2:'',sms_code:'',count:60,   //重置密码数据
       userMsg:{
         avatar:"DC8B19B5BD6447A56146B8BB09E85BCC.jpg",
         mobile:"18522787303",
@@ -204,14 +204,14 @@ export default {
         token:"7FAB725452069D22ED94724B8A8C8B56",
         user_id:"186"
       },
-      articles:[],
-      myCols:[],
-      noteNo:0,
-      collNo:0,
-      loading1:true,
+      articles:[],  //我的帖子
+      myCols:[],  //我的收藏
+      noteNo:0,  //我的帖子条数
+      collNo:0,  //我的收藏数量
+      loading1:true,  //加载中
       loading2:true,
-      colPage:1,
-      notePage:1,
+      colPage:1,   //我的收藏当前页
+      notePage:1,  //我的帖子当前页
     }
   },
   filters:{
@@ -219,7 +219,7 @@ export default {
       if(val == ''){
         return '暂无分类';
       }
-      switch(val){
+      switch(val){   //根据文章对象的type属性返回对应分类
         case '0':
           return '0号分类';
         case '1':
@@ -230,7 +230,7 @@ export default {
           return '成果分享';
       }
     },
-    getTime(val){
+    getTime(val){          //传入事件戳返回本地时间
       return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
   },
@@ -238,15 +238,15 @@ export default {
     this.init();
   },
   computed:{
-    photo(){
+    photo(){    //计算出行来返回头像地址，还有过滤器方法
       return 'http://www.ftusix.com/static/data/upload/'+this.userMsg.avatar;
     },
-    ifLogin(){
+    ifLogin(){  //vuex中登录状态
       return this.$store.state.ifLogin;
     },
   },
   methods:{
-    beforeAvatarUpload(file){
+    beforeAvatarUpload(file){   //判断头像图片的大小
       if(file.size>999999){
         this.$message.error('图片体积太大请重新选择');
         return false;
@@ -254,7 +254,7 @@ export default {
         return true;
       }
     },
-    handleAvatarSuccess(res){
+    handleAvatarSuccess(res){      //头像上传成功的事件
       if(res.status == 1){
         this.$message.success('头像上传成功');
         this.userMsg.avatar = res.data;
@@ -263,7 +263,7 @@ export default {
         this.$message.error('上传失败');
       }
     },
-    async unColl(topic_id){
+    async unColl(topic_id){            //取消收藏
       let res = await zan_coll({
         user_id:this.userMsg.user_id,
         topic_id,
@@ -276,7 +276,7 @@ export default {
         this.$message.error('失败');
       }
     },
-    async remove(topic_id){
+    async remove(topic_id){       //删除我的帖子
       let res = await removeNote({
         user_id:this.userMsg.user_id,
         topic_id
@@ -288,7 +288,7 @@ export default {
         this.$message.error('失败');
       }
     },
-    async update(){
+    async update(){        //更新个人信息
       let res = await Update({
         sex:this.userMsg.sex,
         nick_name:this.userMsg.nick_name,
@@ -304,7 +304,7 @@ export default {
         this.$message.error('修改失败');
       }
     },
-    async reset(){
+    async reset(){      //重置密码
       try{
       let res = await Reset({
         mobile:this.tel,
@@ -334,13 +334,13 @@ export default {
         });
       }
     },
-    init(){
+    init(){    //初始化各种信息
       if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
       this.userMsg = getUser();
       this.getMyNotes();
       this.getCols();
     },
-    async getMyNotes(){
+    async getMyNotes(){  //获取我的帖子
       let res = await getMyNote({
         user_id:this.userMsg.user_id,
         page:this.notePage
@@ -349,13 +349,13 @@ export default {
       this.noteNo = parseInt(res.data.commentList[0]);
       this.loading1 = false;
     },
-    async getCols(){
+    async getCols(){      //获取我的收藏
       let res = await getCol(this.userMsg.user_id,this.colPage);
       this.myCols = res.data.data;
       this.collNo = parseInt(res.data.commentList[0]);
       this.loading2 = false;
     },
-    getCode(e){
+    getCode(e){     //获取短息验证码
       let dis = false;
       if(!dis){
         dis = false;
@@ -373,11 +373,11 @@ export default {
       },1000);
       }
     },
-    goCol(val){
+    goCol(val){    //我的收藏分页按钮
       this.colPage = val;
       this.getCols();
     },
-    goNote(val){
+    goNote(val){     //我的帖子分页按钮
       this.notePage = val;
       this.getMyNotes();
     }

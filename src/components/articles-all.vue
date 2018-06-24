@@ -41,7 +41,7 @@ export default {
     }
   },
   filters:{
-    getTime(val){
+    getTime(val){     //传入事件戳返回本地时间
       return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
   },
@@ -49,7 +49,7 @@ export default {
     this.getArticles();
   },
   methods:{
-    getPage(val){
+    getPage(val){   //点击分页按钮切换页面，参数为点击的页数
       this.page = val;
       this.getArticles();
     },

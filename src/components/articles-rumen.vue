@@ -25,12 +25,11 @@
     </div>
   </div>
 </template>
-
 <script type="text/ecmascript-6">
 import {getArticles} from '../api/index.js';
 export default {
   props:{
-    sort:String,
+    sort:String,      
     userMsg:Object
   },
   data() {
@@ -41,7 +40,7 @@ export default {
     }
   },
   filters:{
-    getTime(val){
+    getTime(val){        //传入事件戳返回本地时间
       return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
   },
@@ -49,7 +48,7 @@ export default {
     this.getArticles();
   },
   methods:{
-    getPage(val){
+    getPage(val){    //分页按钮事件
       this.page = val;
       this.getArticles();
     },
@@ -60,7 +59,7 @@ export default {
     }
   },
   watch:{
-    sort(){
+    sort(){        //监听排序方式，改变就重新加载
       this.getArticles();
     }
   }

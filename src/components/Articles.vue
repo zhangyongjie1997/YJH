@@ -10,8 +10,8 @@
     </div>
     <div class="sort">
       <div class="choice">
-        <div @click="sortNew" :class="{'sort-active':newSort=='new'}" class="new sortItem">最新</div>
-        <div @click="sortHot" :class="{'sort-active':newSort!='new'}" class="hot sortItem">最热</div>
+        <div @click="changeSort" :class="{'sort-active':newSort=='new'}" class="new sortItem">最新</div>
+        <div @click="changeSort" :class="{'sort-active':newSort!='new'}" class="hot sortItem">最热</div>
       </div>
     </div>
     <div class="content">
@@ -27,7 +27,7 @@ import {getUser} from '../api/index.js';
 export default {
   data() {
     return {
-      userMsg:{},
+      userMsg:{},     //props传给子组件
       newSort:'new',
     }
   },
@@ -36,13 +36,10 @@ export default {
     this.userMsg = getUser();
   },
   methods:{
-    sortHot(){
+    changeSort(){      //改变排序方式  hot/new
       if(this.newSort == 'new'){
         this.newSort = 'hot';
-      }
-    },
-    sortNew(){
-      if(this.newSort == 'hot'){
+      }else{
         this.newSort = 'new';
       }
     },

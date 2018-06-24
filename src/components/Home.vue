@@ -88,7 +88,7 @@ import {getArticles,getLocal,getUser} from '../api/index.js';
 import goTop from '../base/goTop.vue';
 export default {
   filters:{
-    getTime(val){
+    getTime(val){   //传入事件戳返回本地时间
       return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
   },
@@ -123,7 +123,7 @@ export default {
     this.getCss();
   },
   methods:{
-    async getHots(type,sort,page,index){
+    async getHots(type,sort,page,index){     //获取图书
       let res = await getArticles(type,sort,page,index);
       this.hotNo = parseInt(res.data.listCount[0])/2;
       if(type == 0){
@@ -140,7 +140,7 @@ export default {
       let res = await getLocal();
       this.cssArcs = res.data;
     },
-    goHot(val){
+    goHot(val){      //分页按钮换页，
       this.hotPage = val;
       this.getHots(0,'hot',this.hotPage,true);
     },

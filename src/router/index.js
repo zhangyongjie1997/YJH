@@ -1,22 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Login from '../components/Login.vue';
-import Register from '../components/Register.vue';
-import Personal from '../components/Personal.vue';
-import Write from '../components/Write.vue';
-import Home from '../components/Home.vue';
-import Articles from '../components/Articles.vue';
-import Content from '../components/Content.vue';
-import Knowledge from '../components/Knowledge.vue';
-import KnowledgeAll from '../components/Knowledge-all.vue';
-import KnowledgeJava from '../components/Knowledge-java.vue';
-import jingyan from '../components/articles-jingyan.vue';
-import rumen from '../components/articles-rumen.vue';
-import chengguo from '../components/articles-chengguo.vue';
-import all from '../components/articles-all.vue';
 
 Vue.use(Router);
-// () => import ('../components/List.vue')
 export default new Router({
   routes: [
     {
@@ -26,7 +11,7 @@ export default new Router({
     },
     {
       path: '/write/:aid',
-      component:Write,
+      component:() => import ('../components/Write.vue'),
       meta:{title:'写文章'},
       name:'write'
     },
@@ -37,7 +22,7 @@ export default new Router({
     },
     {
       path: '/articles',
-      component:Articles,
+      component:() => import ('../components/Articles.vue'),
       meta:{title:'文章'},
       children:[
         {path:'jingyan',component:() => import ('../components/articles-jingyan.vue'),meta:{title:'经验分享',keepAlive:true}},

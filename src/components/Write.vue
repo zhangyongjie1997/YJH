@@ -98,7 +98,7 @@ export default {
   created(){
     this.userMsg = getUser();
     if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
-    if(this.$route.params.aid){
+    if(this.$route.params.aid){      //判断是否为编辑模式，传参就是编辑模式
       this.isEdit = true;
       this.getArticle(this.$route.params.aid);}
   },
@@ -109,7 +109,7 @@ export default {
     id(){return this.$route.params.aid;}
   },
   methods:{
-    async submit(){
+    async submit(){    //提交文章
       let data = {
         content:this.article.content,
         md_content:this.article.content,
@@ -127,7 +127,7 @@ export default {
        this.$router.push('/personal');
      }else{this.$message.error('上传失败');}
     },
-    async getArticle(topic_id){
+    async getArticle(topic_id){ //编辑模式下获取文章内容
       let res = await getOne(this.userMsg.user_id,topic_id);
       console.log(res);
       this.article = res.data.data;

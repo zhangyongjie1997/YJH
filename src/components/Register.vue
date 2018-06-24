@@ -46,7 +46,7 @@ export default {
   },
   components: {
   },
-  watch:{
+  watch:{          //监听表单内的数据，提示用户
       rName(newVal,oldVal){
           if(newVal.length>=11){
               this.nameOk = true;
@@ -71,7 +71,7 @@ export default {
       }
   },
   methods:{
-    async register(){
+    async register(){    //注册
       if(!this.rOk){
           this.$message.error('请输入正确的注册信息');
           return;
@@ -95,7 +95,7 @@ export default {
           this.$message.error('注册失败');
       }
     },
-    async getCoder(e){
+    async getCoder(e){   //获取验证码
       if(!this.rOk){
           this.$message.error('请输入正确的注册信息');
           return;

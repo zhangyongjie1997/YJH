@@ -7,6 +7,7 @@
       <div class="info">
         <div>{{article.type | getType}}</div>
         <div>{{article.modify_time | getTime}} · 评论{{article.comment_num}} · 点赞{{article.like_num}}</div>
+        <div></div>
       </div>
       <div class="content">
         <p>{{article.content | getContent}}</p>
@@ -14,10 +15,10 @@
     </div>
     <div class="handle-div">
       <div class="handle">
-        <div @click="like" class="handle-item">
+        <div @click="like('zan')" class="handle-item">
           <i  class="iconfont" :class="{'icon-dianzan1':!iszan,'icon-dianzan':iszan}"></i>点赞
         </div>
-        <div @click="collect" class="handle-item">
+        <div @click="like('coll')" class="handle-item">
           <i class="iconfont" :class="{'icon-shoucang':!iscoll,'icon-shoucangxing2':iscoll}"><span>收藏</span></i>
         </div>
       </div>
@@ -95,7 +96,12 @@ export default {
   },
   filters:{
     getType(val){
-      switch(val){
+      if(val == ''){
+        return '暂无分类';
+      }
+      switch(val){       //根据文章对象的type属性返回对应分类
+        case '0':
+          return '0号分类';
         case '1':
           return '经验分享';
         case '2':
@@ -104,7 +110,7 @@ export default {
           return '成果分享';
       }
     },
-    getTime(val){
+    getTime(val){        //传入事件戳返回本地时间
       return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     },
     getContent(val){
@@ -112,7 +118,7 @@ export default {
         return val.slice(3,(val.length)-4);
       }
     },
-    getAvatar(val){
+    getAvatar(val){     //返回完整的头像地址
       return 'http://www.ftusix.com/static/data/upload/'+val;
     }
   },
@@ -127,7 +133,7 @@ export default {
     id(){return this.$route.params.aid;}
   },
   watch:{
-    comment( newVal, oldVal ){
+    comment( newVal, oldVal ){     //监听评论内容
       if(newVal == ''){
         this.btnDisabled = true;
         return this.btnMsg = '评论不能为空';
@@ -141,11 +147,11 @@ export default {
     }
   },
   methods:{
-    async getComments(){
+    async getComments(){     //获取评论列表
       let res = await getComment(this.article.topic_id);
       this.comments = res.data.data;
     },
-    async sendCom(){
+    async sendCom(){      //发送评论
       let res = await sendComment({
         user_id:this.userMsg.user_id,
         topic_id:this.article.topic_id,
@@ -157,56 +163,37 @@ export default {
         this.getComments();
       }
     },
-    back(){
+    back(){    //返回按钮
       this.$router.go(-1);
     },
-    async like(){
+    async like(type){   //点赞
       let res = await zan_coll({
         user_id:this.userMsg.user_id,
         topic_id:this.article.topic_id,
-        type:'zan'
+        type
       });
-      if(res.data.status == 1){
+      if(res.data.status == 1&&type == 'zan'){
         this.iszan = !this.iszan;
+        if(this.iszan){
+          this.$message.success(res.data.info);
+          return;
+        }else{
+          this.$message.success(res.data.info);
+          return;
+        }
       }
-      if(this.iszan){
-        this.$message({
-          showClose: true,
-          message: res.data.info,
-          type: 'success'
-        });
-      }else{
-        this.$message({
-          showClose: true,
-          message: res.data.info,
-          type: 'success'
-        });
-      }
-    },
-    async collect(){
-      let res = await zan_coll({
-        user_id:this.userMsg.user_id,
-        topic_id:this.article.topic_id,
-        type:'coll'
-      });
-      if(res.data.status == 1){
+      if(res.data.status == 1&&type == 'coll'){
         this.iscoll = !this.iscoll;
-      }
-      if(this.iscoll){
-        this.$message({
-          showClose: true,
-          message: res.data.info,
-          type: 'success'
-        });
-      }else{
-        this.$message({
-          showClose: true,
-          message: res.data.info,
-          type: 'success'
-        });
+        if(this.iscoll){
+          this.$message.success(res.data.info);
+          return;
+        }else{
+          this.$message.success(res.data.info);
+          return;
+        }
       }
     },
-    async getArticle(topic_id){
+    async getArticle(topic_id){    //获取文章详情
       let res = await getOne(this.userMsg.user_id,topic_id);
       this.article = res.data.data;
       this.iszan = res.data.iszan;
