@@ -143,7 +143,7 @@
                     <li>{{myCol.browser_num}}</li>
                     <li class="time">{{myCol.modify_time | getTime}}</li>
                     <li>
-                      <el-button size="mini" type="danger" @click="unColl(myCol.topic_id)">取消收藏</el-button>
+                      <el-button size="mini" type="danger" plain @click="unColl(myCol.topic_id)">取消收藏</el-button>
                     </li>
                   </ul>
                 </div>

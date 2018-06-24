@@ -84,7 +84,7 @@
 
 <script type="text/ecmascript-6">
 import axios from 'axios';
-import {getArticles,getLocal,getHot,getHtml,getUser} from '../api/index.js';
+import {getArticles,getLocal,getUser} from '../api/index.js';
 import goTop from '../base/goTop.vue';
 export default {
   filters:{
@@ -118,20 +118,22 @@ export default {
   created(){
     if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
     this.userMsg = getUser();
-    this.getHots();
-    this.getHtmls();
+    this.getHots(0,'hot',this.hotPage,true);
+    this.getHots(1,'new',this.htmlPage,true);
     this.getCss();
   },
   methods:{
-    async getHots(){
-      let res = await getHot(0,'hot',this.hotPage,true);
+    async getHots(type,sort,page,index){
+      let res = await getArticles(type,sort,page,index);
       this.hotNo = parseInt(res.data.listCount[0])/2;
-      this.hotArcs = res.data.data;
-    },
-    async getHtmls(){
-      let res = await getHtml(1,'new',this.htmlPage,true);
-      this.htmlArcs = res.data.data;
-      this.htmlNo = parseInt(res.data.listCount[0])/2;
+      if(type == 0){
+        this.hotNo = parseInt(res.data.listCount[0])/2;
+        this.hotArcs = res.data.data;
+      }
+      if(type == 1){
+        this.htmlNo = parseInt(res.data.listCount[0])/2;
+        this.htmlArcs = res.data.data;
+      }
       this.loading = false;
     },
     async getCss(){
@@ -140,11 +142,11 @@ export default {
     },
     goHot(val){
       this.hotPage = val;
-      this.getHots();
+      this.getHots(0,'hot',this.hotPage,true);
     },
     goHtml(val){
       this.htmlPage = val;
-      this.getHtmls();
+      this.getHots(1,'new',this.htmlPage,true);
     }
   },
   components:{goTop}

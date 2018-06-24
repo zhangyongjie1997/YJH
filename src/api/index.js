@@ -26,25 +26,8 @@ export let Reset = (data) => {
 export let Update = (data) => {
   return axios.post('http://www.ftusix.com/static/data/update.php', data);
 };
-//获取文章页
-export let getArticles = (page,{
-  user_id,token
-}) => {
-  let data = {user_id:user_id,token:token};
-  axios.interceptors.request.use((config) => {
-    console.log(config);
-    return config;
-  }, (err) => {
-      return Promise.reject(err);
-  });
-  return axios.get(`http://yjh.li-shang-bin.com/iweb/topic/myTopicList?page=${page}`,data);
-};
-//首页hot
-export let getHot = (type=0,sort,page=1,index=true) => {
-  return axios.post(`http://www.ftusix.com/static/data/topicList.php?type=${type}&sort=${sort}&page=${page}&index=${index}`);
-};
-//首页html
-export let getHtml = (type=1,sort,page=1,index=true) => {
+//获取文章
+export let getArticles = (type=0,sort,page=1,index=true) => {
   return axios.post(`http://www.ftusix.com/static/data/topicList.php?type=${type}&sort=${sort}&page=${page}&index=${index}`);
 };
 //我的帖子

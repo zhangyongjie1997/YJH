@@ -226,16 +226,18 @@ export default {
   .back{
     width: 50px;
     height: 50px;
-    background-color: #ccc;
     position: fixed;
     top: 130  px;
     right: 120px;
-    background-color: rgba(189, 189, 189, 0);
     cursor: pointer;
     text-align: center;
     line-height: 50px;
+    color: #409EFF;
+    transition: all 0.4 linear;
+  }
+  .back:hover{
     box-shadow: 0 0 2px #409EFF;
-    color: #999;
+    color: #f56c6c;
   }
   .main{
     width: 100%;
@@ -280,7 +282,7 @@ export default {
       color: #999;
     }
     .commentItem{
-      border-bottom: 1px solid rgba(54, 107, 221,.5);
+      border-bottom: 1px solid rgba(95, 96, 99, 0.5);
       padding: 10px;
       .table{
         .author{
