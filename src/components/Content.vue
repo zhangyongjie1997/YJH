@@ -5,7 +5,11 @@
     <div class="main" v-loading="loading">
       <h2>{{article.title}}</h2>
       <div class="info">
+        <div style="height:25px;"></div>
+        <div>作者：{{article.nick_name}}</div>
+        <div style="height:5px;"></div>
         <div>{{article.type | getType}}</div>
+        <div style="height:5px;"></div>
         <div>{{article.modify_time | getTime}} · 评论{{article.comment_num}} · 点赞{{article.like_num}}</div>
         <div></div>
       </div>
@@ -235,7 +239,7 @@ export default {
     .info{
       text-align: center;
       color: #999;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: lighter;
     }
     .content{
