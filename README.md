@@ -10,6 +10,184 @@
 npm install less less-loader axios vuex bootstrap --save-dev
 ```
 
+## vue之声明周期
+- beforecreated /  created
+  - beforecreated 组件实例刚刚被创建，组建属性(如data属性)被计算之前
+  - created 组件实例创建完成，组件属性已绑定(包括计算属性等)，但还没生成dom，$el还不存在，尽量此处发送ajax
+- beforemount  /   mounted
+  - brforemount 模板编译/挂载之前  有$el,{{}}中的值还没有被渲染
+  - mounted  模板编译/挂载之后(不保证组件已在document中)  有$el,{{}}中的值被渲染
+- beforeupdated /  updated
+  - beforeupdated  组件更新之前   有值变化并且需要更新视图时，如更新{{}}中的值，但是在beforeupdated阶段，视图就已经更新?在beforeUpdate,可以监听到data的变化但是view层没有被重新渲染，view层的数据没有变化。等到updated的时候 view层才被重新渲染，数据更新
+  - updated  组件更新之后
+- beforedestroy/   destroyed
+  - beforedestroy 组件销毁之前     组件销毁之后视图还在，但是不受vue的控制
+  - destroyed  组件销毁之后
+- activated    /   deactivated
+  - activated  for keep-alive 组件被激活时调用
+  - deactivated  for keep-alive 组件被移除时调用
+
+- brforecreated
+
+
+- 使用举例
+```js
+beforecreate : 举个栗子：可以在这加个loading事件 
+created ：在这结束loading，还做一些初始化，实现函数自执行 
+mounted ： 在这发起后端请求，拿回数据，配合路由钩子做一些事情
+beforeDestroy： 你确认删除XX吗？ destroyed ：当前组件已被删除，清空相关内容
+distoryed:在distoryed之前全局路由钩子直接收到to
+```
+>父级组件子级组件和beforeRouterEnter打印的顺序是 父级beforeCreate>父级created>父级beforeMount>子级beforeCreat>子级created>子级beforeMount>子级mounted>父级mounted>路由
+## 路由解析流程
+```
+1.导航被触发。
+2.在失活的组件里调用离开守卫。
+3.调用全局的 beforeEach 守卫。
+4.在重用的组件里调用 beforeRouteUpdate 守卫 (2.2+)。
+5.在路由配置里调用 beforeEnter。
+6.解析异步路由组件。
+7.在被激活的组件里调用 beforeRouteEnter。
+8.调用全局的 beforeResolve 守卫 (2.5+)。
+9.导航被确认。
+10.调用全局的 afterEach 钩子。
+11.触发 DOM 更新。
+12.用创建好的实例调用 beforeRouteEnter 守卫中传给 next 的回调函数。
+```
+
+## vue 路由钩子、异步
+- 全局路由钩子
+```js
+router.beforeEach((to, from, next) => {
+    //会在任意路由跳转前执行，next一定要记着执行，不然路由不能跳转了
+  console.log('beforeEach')
+  console.log(to,from)
+  next()
+})
+router.afterEach((to, from) => {
+    //会在任意路由跳转后执行
+  console.log('afterEach')
+})
+```
+- 单个路由钩子
+
+只有beforeEnter，在进入前执行，to参数就是当前路由
+```js
+ routes: [
+    {
+      path: '/foo',
+      component: Foo,
+      beforeEnter: (to, from, next) => {
+        // ...
+      }
+    }
+  ]
+```
+- 路由组件钩子，在组件内定义
+```js
+ beforeRouteEnter (to, from, next) {
+    // 在渲染该组件的对应路由被 confirm 前调用
+    // 不！能！获取组件实例 `this`
+    // 因为当守卫执行前，组件实例还没被创建
+  },
+  beforeRouteUpdate (to, from, next) {
+    // 在当前路由改变，但是该组件被复用时调用
+    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+    // 可以访问组件实例 `this`
+  },
+  beforeRouteLeave (to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+  }
+```
+
+- route生命周期
+```js
+module.exports = {
+        //props: ['父组建传的值'],
+        data:function(){
+            lifecycle.push("data");
+            return {
+                msg: '各个阶段，可以查看控制台输出，message from my-views',
+                title:'my_views',
+                lifecycle: lifecycle
+            }
+        },
+        //这里是route的生存周期
+        route:{
+            //waitForData: true, //  数据加载完毕后再切换试图，也就是 点击之后先没反应，然后数据加载完，再出发过渡效果
+            canActivate:function(transition){
+                //  canActivate阶段，可以做一些用户验证的事情(是否可以被激活)
+                //  在验证阶段，当一个组件将要被切入的时候被调用。
+            },
+            activate:function(transition){
+                                //  在激活阶段被调用，在 activate 被断定（ resolved ，指该函数返回的 promise 被 resolve ）。用于加载和设置当前组件的数据。(激活)
+                //this.$root.$set('header',this.title);
+                transition.next();
+                //此方法结束后，api会调用afterActivate 方法
+                //在aftefActivate中 会给组件添加 $loadingRouteData 属性 并设置为true
+            },
+            data: function(transition) {
+                var _this = this;
+                //  在激活阶段被调用，在 activate 被断定（ resolved ，指该函数返回的 promise 被 resolve ）。用于加载和设置当前组件的数据
+                // 说明之前请求过 则不用再请求了
+                if(this.$root.myViewsData){
+                    this.$data = this.$root.myViewsData;
+                    transition.next();
+                    console.log('已经请求过了不再请求数据');
+                    return;
+                }
+                //将数据同步到根节点
+                this.$root.myViewsData = this.$data;
+                setTimeout(function(){
+                    //这里 _this.$loadingRouteData 是 true
+                    transition.next({msg:'加载后的数据'});
+                    //在调用完transition.next 后，_this.$loadingRouteData 为 false
+                }.bind(this),4000);
+            },
+            canDeactivate:function(transition){
+                //  在验证阶段，当一个组件将要被切出的时候被调用。(是否可以被禁用)
+            },
+            deactivate: function (transition) {
+                //  在激活阶段，当一个组件将要被禁用和移除之时被调用。(禁用)
+            }
+        },
+        beforeCreate:function(){
+            // 在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。
+        },
+        created:function(){
+            // 实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。
+        },
+        beforeCreate:function(){
+            // 在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。
+        },
+        mounted:function(){
+            // el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$el 也在文档内。
+        },
+        beforeUpdate: function(){
+            // 数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。 
+            // 你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。
+        },
+        Update: function(){
+            // 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
+            //当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态，因为这可能会导致更新无限循环。
+        },
+        // <keep-alive> 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。
+        activated: function(){
+            // keep-alive 组件激活时调用。
+        },
+        deactivated: function(){
+            // keep-alive 组件停用时调用。
+        },
+        beforeDestroy:function(){
+            // 实例销毁之前调用。在这一步，实例仍然完全可用。
+        },
+        destroyed:function(){
+            // Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
+        }
+    }
+```
 
 ## 文件结构
 - api 代表所有接口

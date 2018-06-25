@@ -40,7 +40,7 @@
                 id="nav-write" v-if="ifLogin">
               <router-link tag="a" to="/write">写文章</router-link>
             </li>
-            <div class="fl pointer" id="nav-photo" v-if="ifLogin">
+            <div class="fl pointer" id="nav-photo" v-if="ifLogin" :style="{backgroundImage:'url('+avatar+')'}">
                 <div id="photo-nav-list">
                     <ul>
                         <router-link to="/personal" tag="li" id="photo-nav-list-personInfo">个人中心</router-link>
@@ -57,21 +57,28 @@
 </template>
 
 <script type="text/ecmascript-6">
+import {getUser} from '../api/index.js';
 export default {
   data() {
     return {
+      avatar:''
     }
   },
   created(){
-
+    this.getAvatar();
   },
   computed:{
-    photo(){},
+    photo(){
+
+    },
     ifLogin(){
       return this.$store.state.ifLogin;
     }
   },
   methods:{
+    getAvatar(){
+        this.avatar = 'http://www.ftusix.com/static/data/upload/' + getUser().avatar;
+    },
     exit(){
       this.$store.commit('loginMutation',false);
       this.$router.push('/login');
@@ -159,7 +166,8 @@ header #view #logo h2 {
   top: 8px;
   left: 20px;
   background-size: 50px 50px;
-  background-image: url('../assets/logo.png');
+  border-radius: 50%;
+  box-shadow: 0 0 2px #ccc;
 }
 #photo-nav-list {
   height: 0px;

@@ -3,12 +3,14 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 export default new Router({
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
   routes: [
-    {
-      path: '/',
-      component:() => import ('../components/Login.vue'),
-      meta:{title:'登录'}
-    },
     {
       path: '/write/:aid',
       component:() => import ('../components/Write.vue'),
@@ -70,7 +72,8 @@ export default new Router({
     },
     {
       path: '*',
-      redirect: '/home'
+      component: () => import ('../components/NotFound.vue'),
+      meta:{title:'404'}
     },
   ]
 });
