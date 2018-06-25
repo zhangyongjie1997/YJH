@@ -68,7 +68,8 @@ export default new Router({
     },
     {
       path: '*',
-      redirect: '/home'
+      component:() => import ('../components/NotFound.vue'),
+      meta:{title:'404'}
     },
   ]
 });
