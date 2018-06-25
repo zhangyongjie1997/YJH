@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {  
-        target: 'http://yjh.li-shang-bin.com/iweb',// 请换成你的地址  
-        changeOrigin: true,  
-        pathRewrite: {  
-          '^/api': ''  
-        }  
-      } 
+      // '/api': {  
+      //   target: 'http://yjh.li-shang-bin.com/iweb',// 请换成你的地址  
+      //   changeOrigin: true,  
+      //   pathRewrite: {  
+      //     '^/api': ''  
+      //   }  
+      // } 
     },
 
     // Various Dev Server settings
@@ -51,7 +51,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    assetsPublicPath: '/dist/',
 
     /**
      * Source Maps

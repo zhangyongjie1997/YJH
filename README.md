@@ -329,3 +329,12 @@ watch:{
     userMsg:Object
   },
 ```
+
+
+## history路由
+- mode:'history'
+- 路径配置
+>config>index.js>build>assetsPublicPath:'/YJH/dist/'  绝对路径，服务器路径下的yjh文件夹下的dist文件夹（vscode打开的时vueProject文件夹）
+>history模式下要将assetsPublicPath:'./'相对路径，改为assetsPublicPath:'/'绝对路径，index.html中的src，href路径要是相对路径
+### 路由跳转时发送请求的路径（histor模式下）
+- assetsPublicPath如果是绝对路径，就是服务器路径+assetsPublicPath
