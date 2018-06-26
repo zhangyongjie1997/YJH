@@ -1,6 +1,7 @@
 <template>
   <div>
     <Top></Top>
+    <goLogin @odialogvisiblechange="dialogVisibleChange" :odialogVisible="dialogVisible" @onsuccess="loginSuccess"></goLogin>
     <div class="editor">
       <div class="select">
         <el-row :gutter="20">
@@ -35,13 +36,14 @@
       </div>
       <div class="content-editor"><quillEditor v-model="article.content"></quillEditor></div>
       <div class="btn">
-        <el-button @click="submit" class="submit" type="danger" plain>发布</el-button>
+        <el-button :disabled="btnDisabled" @click="submit" class="submit" type="danger" plain>{{btnMsg}}</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import goLogin from '../base/goLogin.vue';
 import Top from '../base/Top.vue';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
@@ -71,7 +73,6 @@ export default {
           value2: '3',
           label2: 'java'
         }],
-        content:'',
         article:{
           topic_id: "",
           title: "",
@@ -91,32 +92,62 @@ export default {
         kind1:'',
         kind2:'',
         isEdit:false,
-        userMsg:{}
-
+        userMsg:{},
+        dialogVisible:false,
+        btnDisabled:true,
+        btnMsg:'内容不能为空'
     }
   },
   created(){
-    this.userMsg = getUser();
-    if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
+    if(localStorage.loginMsg){
+      this.$store.commit('loginMutation',true);
+      this.userMsg = getUser();
+    }
     if(this.$route.params.aid){      //判断是否为编辑模式，传参就是编辑模式
       this.isEdit = true;
       this.getArticle(this.$route.params.aid);}
   },
   components: {
-    Top,quillEditor
+    Top,quillEditor,goLogin
   },
   computed:{
-    id(){return this.$route.params.aid;}
+    id(){return this.$route.params.aid;},
+    ifLogin(){
+      return this.$store.state.ifLogin;
+    }
+  },
+  watch:{
+    article:{
+      handler(){
+        if(this.article.content==''){
+          this.btnMsg = '内容不能为空';
+          this.btnDisabled = true;
+        }else{
+          this.btnMsg = '发布';
+          this.btnDisabled = false;
+        }
+      },
+      deep:true
+    }
   },
   methods:{
+    loginSuccess(){
+      this.userMsg = getUser();
+    },
+    dialogVisibleChange(val){
+      this.dialogVisible = val;
+    },
     async submit(){    //提交文章
+      if(this.ifLogin == false){
+        return this.dialogVisible = true;
+      }
       let data = {
         content:this.article.content,
         md_content:this.article.content,
         user_id:this.userMsg.user_id,
         nickname:this.userMsg.nick_name,
-        type:this.article.type,
-        tech_type:this.article.tech_type,
+        type:this.article.type==""?"0":this.article.type,
+        tech_type:this.article.tech_type==""?"0":this.article.tech_type,
         title:this.article.title,
         isEdit:this.isEdit,
         topic_id:this.article.topic_id
@@ -136,7 +167,7 @@ export default {
       this.title = this.article.title;
       this.content = this.article.content;
     }
-  }
+  },
 }
 </script>
 

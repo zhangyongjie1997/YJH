@@ -1,4 +1,4 @@
-# yuanjihu   master
+# 猿计划   master
 
 >## A Vue.js project
 
@@ -188,6 +188,43 @@ module.exports = {
         }
     }
 ```
+## vue.extend构造器
+- 使用Vue构造器，创建一个“子类”，参数是一个包含组件选项的对象，其中,data选项中必须是函数 data(){return{}}
+- Vue.extend 返回的是一个“扩展实例构造器”，也就是一个预设了部分选项的 Vue 实例构造器
+
+Vue.component 是用来全局注册组件的方法，其作用是将通过 Vue.extend 生成的扩展实例构造器注册（命名）为一个组件，可以简单理解为当在模板中遇到该组件名称作为标签的自定义元素时，会自动调用类似于 new myVue 这样的构造函数来生成组件实例，并挂载到自定义元素上，
+```js
+var myVue = Vue.extend({
+ // 预设选项
+}) // 返回一个“扩展实例构造器”
+ 
+// 然后就可以这样来使用
+var vm = new myVue({
+ // 其他选项
+})
+```
+- 另一种理解
+```js
+// extend 是构造一个组件的语法器.
+// 你给它参数 他给你一个组件 然后这个组件
+
+// 你可以作用到Vue.component 这个全局注册方法里， 也可以在任意vue模板里使用<apple>组件
+var apple = Vue.extend({
+....
+})
+Vue.component('apple',apple)
+
+//你可以作用到vue实例或者某个组件中的components属性中并在内部使用apple组件
+new Vue({
+ components:{
+ apple:apple
+ }
+})
+//Vue.component 你可以创建 ，也可以取组件 例如下
+var apple = Vue.component('apple')
+```
+
+## mixin,extends
 
 ## 文件结构
 - api 代表所有接口

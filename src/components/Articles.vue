@@ -32,8 +32,10 @@ export default {
     }
   },
   created(){
-    if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
-    this.userMsg = getUser();
+    if(localStorage.loginMsg){
+      this.$store.commit('loginMutation',true);
+      this.userMsg = getUser();
+    }
   },
   methods:{
     changeSort(){      //改变排序方式  hot/new

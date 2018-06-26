@@ -12,6 +12,11 @@ export default new Router({
   },
   routes: [
     {
+      path: '/',
+      component:() => import ('../components/Home.vue'),
+      meta:{title:'首页'}
+    },
+    {
       path: '/write/:aid',
       component:() => import ('../components/Write.vue'),
       meta:{title:'写文章'},

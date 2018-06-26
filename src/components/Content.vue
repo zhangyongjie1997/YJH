@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <goTop></goTop>
+    <goLogin @odialogvisiblechange="dialogVisibleChange" :odialogVisible="dialogVisible" @onsuccess="loginSuccess"></goLogin>
     <div class="back" @click="back">返回</div>
     <div class="main" v-loading="loading">
       <h2>{{article.title}}</h2>
@@ -84,6 +85,7 @@
 <script type="text/ecmascript-6">
 import {getOne,getLocal,zan_coll,sendComment,getComment,getUser} from '../api/index.js';
 import goTop from '../base/goTop.vue';
+import goLogin from '../base/goLogin.vue';
 export default {
   data() {
     return {
@@ -95,7 +97,8 @@ export default {
       iszan:false,
       iscoll:false,
       loading:true,
-      comments:[]
+      comments:[],
+      dialogVisible:false
     }
   },
   filters:{
@@ -127,14 +130,18 @@ export default {
     }
   },
   created(){
-    if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
-    this.userMsg = getUser();
+    if(localStorage.loginMsg){
+      this.$store.commit('loginMutation',true);
+      this.userMsg = getUser();
+    }
     this.getArticle(this.$route.params.aid);
     
     //判断当前文章是否收藏和点赞。。。
   },
   computed:{
-    id(){return this.$route.params.aid;}
+    ifLogin(){
+      return this.$store.state.ifLogin;
+    }
   },
   watch:{
     comment( newVal, oldVal ){     //监听评论内容
@@ -151,11 +158,20 @@ export default {
     }
   },
   methods:{
+    loginSuccess(){
+      this.userMsg = getUser();
+    },
+    dialogVisibleChange(val){
+      this.dialogVisible = val;
+    },
     async getComments(){     //获取评论列表
       let res = await getComment(this.article.topic_id);
       this.comments = res.data.data;
     },
     async sendCom(){      //发送评论
+      if(this.ifLogin == false){
+        return this.dialogVisible = true;
+      }
       let res = await sendComment({
         user_id:this.userMsg.user_id,
         topic_id:this.article.topic_id,
@@ -171,6 +187,9 @@ export default {
       this.$router.go(-1);
     },
     async like(type){   //点赞
+      if(this.ifLogin == false){
+        return this.dialogVisible = true;
+      }
       let res = await zan_coll({
         user_id:this.userMsg.user_id,
         topic_id:this.article.topic_id,
@@ -206,7 +225,7 @@ export default {
       this.getComments();
     }
   },
-  components:{goTop}
+  components:{goTop,goLogin}
 }
 </script>
 <style scoped lang="less">

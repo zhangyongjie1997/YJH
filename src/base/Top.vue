@@ -28,6 +28,10 @@
             <li class="nav-menu-items pointer">
               <router-link tag="a" to="/articles">文章</router-link>
             </li>
+            <li class="nav-menu-items"
+                id="nav-write">
+              <router-link tag="a" to="/write">写文章</router-link>
+            </li>
             <li class="nav-menu-items pointer" v-if="!ifLogin"
                 id="nav-login">
               <router-link tag="a" to="/login">登录</router-link>
@@ -35,10 +39,6 @@
             <li class="nav-menu-items pointer" v-if="!ifLogin"
                 id="nav-signIn">
               <router-link tag="a" to="/register">注册</router-link>
-            </li>
-            <li class="nav-menu-items"
-                id="nav-write" v-if="ifLogin">
-              <router-link tag="a" to="/write">写文章</router-link>
             </li>
             <div class="fl pointer" id="nav-photo" v-if="ifLogin" :style="{backgroundImage:'url('+avatar+')'}">
                 <div id="photo-nav-list">
@@ -68,20 +68,23 @@ export default {
     this.getAvatar();
   },
   computed:{
-    photo(){
-
-    },
     ifLogin(){
       return this.$store.state.ifLogin;
     }
   },
   methods:{
     getAvatar(){
-        this.avatar = 'http://www.ftusix.com/static/data/upload/' + getUser().avatar;
+        if(this.ifLogin){this.avatar = 'http://www.ftusix.com/static/data/upload/' + getUser().avatar;}
     },
     exit(){
       this.$store.commit('loginMutation',false);
+      localStorage.removeItem('loginMsg');
       this.$router.push('/login');
+    }
+  },
+  watch:{
+    ifLogin(){
+      this.getAvatar();
     }
   }
 }

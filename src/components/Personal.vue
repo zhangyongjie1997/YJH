@@ -336,8 +336,10 @@ export default {
       }
     },
     init(){    //初始化各种信息
-      if(localStorage.loginMsg != ''){this.$store.commit('loginMutation',true);}
-      this.userMsg = getUser();
+      if(localStorage.loginMsg){
+        this.$store.commit('loginMutation',true);
+        this.userMsg = getUser();
+      }
       this.getMyNotes();
       this.getCols();
     },
