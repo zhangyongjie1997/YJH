@@ -160,6 +160,7 @@ export default {
   methods:{
     loginSuccess(){
       this.userMsg = getUser();
+      this.getArticle(this.$route.params.aid);
     },
     dialogVisibleChange(val){
       this.dialogVisible = val;
