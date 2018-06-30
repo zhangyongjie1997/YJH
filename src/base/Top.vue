@@ -115,7 +115,12 @@
   }
 
   header #view #logo .logo-img {
-    height: 60px;
+    cursor: pointer;
+    height: 65px;
+    transition: all linear .5s;
+  }
+  header #view #logo .logo-img:hover{
+    transform: rotateY(180deg);
   }
 
   header #view #logo h2 {
@@ -151,17 +156,8 @@
   }
 
   .nav-menu-items:hover {
-    border-bottom: 3px solid #409EFF !important;
+    border-bottom: 3px solid #409EFF;
   }
-
-  .nav-menu-items:active {
-    border-bottom: 3px solid #409EFF !important;
-  }
-
-  .nav-menu-items:link {
-    border-bottom: 3px solid #409EFF !important;
-  }
-
   .nav-menu:first-child {
     margin-left: 150px;
   }
@@ -171,7 +167,9 @@
     font-size: 16px;
     line-height: 65px;
   }
-
+ a.router-link-active{
+    color: #409EFF;
+  }
   #nav-photo {
     width: 50px;
     height: 50px;

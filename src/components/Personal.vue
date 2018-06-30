@@ -7,7 +7,8 @@
           <el-col :span="8" class="item-list">
             <h3 class="list-title">个人信息</h3>
             <el-card shadow="never" class="item-lists">
-              <el-upload class='avatar-uploader' action='http://www.ftusix.com/static/data/upload.php' :show-file-list="false" :on-success="handleAvatarSuccess"
+              <el-upload class='avatar-uploader' action='http://www.ftusix.com/static/data/upload.php' 
+              :show-file-list="false" :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload" :data="{id: userMsg.user_id}">
                 <img :src="photo"> 更换头像
               </el-upload>
@@ -26,6 +27,7 @@
               <el-radio v-model="userMsg.sex" label="1">男</el-radio>
               <el-radio v-model="userMsg.sex" label="0">女</el-radio>
             </el-card>
+            <div style="height:10px;"></div>
             <el-button @click="update" type="danger" plain>提交</el-button>
           </el-col>
           <!-- </div> -->
@@ -72,7 +74,8 @@
             <ul>
               <li v-for="(article,index) in articles" :key="index">
                 <div class="item-title">
-                  <router-link class="title" tag="span" :to="{name:'content',params:{aid:article.topic_id}}" style="cursor:pointer">
+                  <router-link class="title" tag="span" :to="{name:'content',params:{aid:article.topic_id}}" 
+                  style="cursor:pointer">
                     {{article.title}}
                   </router-link>
                   <ul>
@@ -82,10 +85,11 @@
                     <li class="time">{{article.modify_time | getTime}}</li>
                     <li>
                       <router-link tag="i" :to="{name:'write',params:{aid:article.topic_id}}" 
-                        style="cursor:pointer;color:#f56c6c;" class="iconfont icon-web-icon-">
+                      style="cursor:pointer;color:#f56c6c;" class="iconfont icon-web-icon-">
                       </router-link>
                       <span style="color:#409EFF;"> | </span>
-                      <i @click="remove(article.topic_id)" style="cursor:pointer;color:#f56c6c;" class="iconfont icon-shanchu"></i>
+                      <i @click="remove(article.topic_id)" style="cursor:pointer;color:#f56c6c;" 
+                      class="iconfont icon-shanchu"></i>
                     </li>
                   </ul>
                 </div>

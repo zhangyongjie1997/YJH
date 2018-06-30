@@ -35,7 +35,14 @@
         password: ''
       }
     },
+    mounted(){
+      window.addEventListener('keyup',this.keyLogin);
+    },
     methods: {
+      keyLogin(){
+        if (event.keyCode == 13)  //回车键的键值为13
+          this.login();
+        },
       async login() {
         if (this.username.length < 11) {
           return this.$message.error('请输入正确的手机号');

@@ -1,5 +1,5 @@
 import axios from 'axios';
-//axios.defaults.baseURL = 'http://vue.tyqprivateweb.cn:35002/vue';
+//axios.defaults.baseURL = 'http://www.ftusix.com/static/data';
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 //{headers:{'Content-Type':'application/json'}}
 

@@ -134,7 +134,6 @@
     },
     created() {
       if (localStorage.loginMsg) {
-        console.log('getuser');
         this.$store.commit('loginMutation', true);
         this.userMsg = getUser();
       }

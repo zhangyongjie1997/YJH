@@ -326,6 +326,12 @@ url-loader(依赖于file-loader)
 
 
 ---
+## router-link class样式
+```css
+  router-link-exact-active:/home     只能匹配/home
+  router-link-active:/home,/home/a,/home/1  /home开头的都能匹配
+```
+
 ## 路由配置
 ```js
 //router-link的class属性

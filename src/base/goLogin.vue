@@ -78,7 +78,13 @@ export default {
     },
     'Form.pwd'(){}
   },
+  mounted() {
+    window.addEventListener('keyup',this.keyLogin);
+  },
   methods:{
+    keyLogin(){
+      if (event.keyCode == 13)this.login();
+    },
     async login(){
       let res = await Login(this.Form.mobile,this.Form.pwd);
       if(res.data.status == 1){
