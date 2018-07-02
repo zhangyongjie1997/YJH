@@ -11,9 +11,6 @@
             <li class="nav-menu-items pointer" v-if="ifLogin">
               <router-link tag="a" to="/personal">个人中心</router-link>
             </li>
-            <li class="nav-menu-items pointer" v-if="ifLogin">
-              <a href="javascript:void(0)">未读消息</a>
-            </li>
             <li class="nav-menu-items pointer">
               <router-link tag="a" to="/home">首页</router-link>
             </li>
@@ -35,6 +32,10 @@
             <li class="nav-menu-items pointer" v-if="!ifLogin" id="nav-signIn">
               <router-link tag="a" to="/register">注册</router-link>
             </li>
+            <div class="search">
+                <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
+                <span class="searchBtn"><i @click="search" class="iconfont icon-sousuo"></i></span>
+            </div>
             <div class="fl pointer" id="nav-photo" v-if="ifLogin" :style="{backgroundImage:'url('+avatar+')'}">
               <div id="photo-nav-list">
                 <ul>
@@ -52,13 +53,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {
-    getUser
-  } from '../api/index.js';
+  import {getUser} from '../api/index.js';
   export default {
     data() {
       return {
-        avatar: ''
+        avatar: '',
+        searchContent:'',
+        ifInput:false
       }
     },
     created() {
@@ -70,6 +71,9 @@
       }
     },
     methods: {
+      search(){
+        window.location.href = "https://www.baidu.com/s?wd="+this.searchContent;
+      },
       getAvatar() {
         if (this.ifLogin) {
           this.avatar = 'http://www.ftusix.com/static/data/upload/' + getUser().avatar;
@@ -82,6 +86,13 @@
       }
     },
     watch: {
+      searchContent(){
+        if(this.searchContent==''){
+          this.ifInput = false;
+        }else{
+          this.ifInput = true;
+        }
+      },
       ifLogin() {
         this.getAvatar();
       }
@@ -91,6 +102,41 @@
 </script>
 
 <style scoped>
+  .search{
+    left: 30px;
+    position: relative;
+    display: inline-block;
+    height: 64px;
+    text-align: center;
+    line-height: 64px;
+    margin-left: 20px;
+  }
+  .search input.unhas{
+    width: 30px;
+    outline: none;
+    border: #999 1px solid;
+    border-radius: 15px;
+    padding: 5px 10px;
+    transition: all .4s ease;
+  }
+  .search input.has{
+    width: 100px;
+    outline: none;
+    border: #999 1px solid;
+    border-radius: 15px;
+    padding: 5px 10px;
+  }
+  .search input.unhas:focus{
+    width: 100px;
+  }
+  .searchBtn{
+    cursor: pointer;
+    position: absolute;
+    z-index: 100;
+    right: 6px;
+    top: 2px;
+  }
+
   header {
     top: 0px;
     width: 100%;
@@ -111,7 +157,7 @@
 
   header #view {
     margin: 0 auto;
-    width: 1100px;
+    width: 75%;
   }
 
   header #view #logo .logo-img {
@@ -130,7 +176,6 @@
   }
 
   .nav-menu {
-    display: block;
     clear: both;
   }
 
@@ -148,10 +193,6 @@
     height: 60px;
     margin: 0 0 0 40px;
     border-bottom-color: rgba(0, 0, 0, 0);
-    -webkit-transition: all 0.2s;
-    -moz-transition: all 0.2s;
-    -o-transition: all 0.2s;
-    -ms-transition: all 0.2s;
     transition: all 0.2s;
   }
 
@@ -159,7 +200,7 @@
     border-bottom: 3px solid #409EFF;
   }
   .nav-menu:first-child {
-    margin-left: 150px;
+    margin-left: 120px;
   }
 
   .nav-menu-items a {

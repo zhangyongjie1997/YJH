@@ -23,7 +23,7 @@
             </div>
             <div id="signin-btn" @click="register" class="signin-btn pointer login-btn">注册</div>
             <span>已有账号，</span>
-            <router-link tag="a" to="/login" id="alredySignIn" style="color: red;">立即登录</router-link>
+            <router-link tag="a" to="/login" id="alredySignIn" style="color: #409EFF;">立即登录</router-link>
         </div>  
     </section>
   </div>
