@@ -51,7 +51,7 @@
     </div>
     <div class="commentList">
       <div class="commentNo">
-        共 {{comments.length}} 条评论
+        共 {{commentList.length}} 条评论
       </div>
       <li v-for="(comment,index) in comments" :key="index" class="commentItem">
         <table class="table" cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -72,12 +72,18 @@
                 </tr>
               </td>
               <td width="50px" align="left" valign="center">
-                <span style="cursor:pointer;color:#f56c6c;">回复</span>
+                <span class="resBtn">回复</span>
               </td>
             </tr>
           </tbody>
         </table>
       </li>
+      <div class="moreComment">
+        <el-button ref='moreCom' @click="getMoreComments" type="primary" plain :disabled="!moreComment">更多评论</el-button>
+      </div>
+    </div>
+    <div class="footer">
+      © 2017北京工良科技有限公司 - 浙ICP备17014257号-1
     </div>
   </div>
 </template>
@@ -98,7 +104,9 @@ export default {
       iscoll:false,
       loading:true,
       comments:[],
-      dialogVisible:false
+      commentList:[],
+      dialogVisible:false,
+      moreComment:true
     }
   },
   filters:{
@@ -158,6 +166,14 @@ export default {
     }
   },
   methods:{
+    getMoreComments(){
+      let count = this.comments.length;
+      this.comments = this.commentList.slice(0,count+10);
+      if(count>=this.commentList.length){
+        this.moreComment = false;
+        this.$refs.moreCom.$el.innerText = '没有更多评论';
+      }
+    },
     loginSuccess(){
       this.userMsg = getUser();
       this.getArticle(this.$route.params.aid);
@@ -167,7 +183,8 @@ export default {
     },
     async getComments(){     //获取评论列表
       let res = await getComment(this.article.topic_id);
-      this.comments = res.data.data;
+      this.commentList = res.data.data;
+      this.getMoreComments();
     },
     async sendCom(){      //发送评论
       if(this.ifLogin == false){
@@ -281,10 +298,17 @@ export default {
     }
   
   }
+  .footer{
+      position: relative;
+      padding: 50px 0px;
+      bottom: 0;
+      font-size: 12px;
+      text-align: center;
+    }
   .commentList{
     margin-top: 80px;
     width: 100%;
-    background-color: whitesmoke;
+    background-color:#fff;
     .commentNo{
       padding: 5px;
       text-align: center;
@@ -292,8 +316,13 @@ export default {
       width: 100%;
       color: #999;
     }
+    .moreComment{
+      padding: 10px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
     .commentItem{
-      border-bottom: 1px solid rgba(95, 96, 99, 0.5);
+      border-bottom: 1px solid rgba(95, 96, 99, 0.2);
       padding: 10px;
       .table{
         .author{
@@ -307,6 +336,11 @@ export default {
         }
         .content{
           font-size: 16px;
+        }
+        .resBtn{
+          cursor: pointer;
+          font-size: 13px;
+          color: #f56c6c;
         }
       }
     }

@@ -37,9 +37,9 @@ export default {
     backTop(){
       let distance = document.documentElement.scrollTop;
       let time = setInterval(function(){
-        distance -= 30;
+        distance -= 60;
         document.documentElement.scrollTop = distance;
-        if(distance<=30){
+        if(distance<=60){
           document.documentElement.scrollTop = 0;
           clearInterval(time);
         }

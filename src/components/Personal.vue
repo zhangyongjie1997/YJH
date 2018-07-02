@@ -411,13 +411,6 @@
       }
     }
   }
-
-  .pagination {
-    padding-top: 40px;
-    width: 40%;
-    margin: 0 auto;
-  }
-
   .time {
     color: #999;
     font-size: 14px;

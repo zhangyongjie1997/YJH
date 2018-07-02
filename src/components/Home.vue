@@ -176,11 +176,6 @@
 </script>
 
 <style scoped lang="less">
-  .pagination {
-    padding-top: 40px;
-    width: 40%;
-    margin: 0 auto;
-  }
 
   .wrapper {
     height: 300px;
