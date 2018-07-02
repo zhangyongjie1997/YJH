@@ -127,6 +127,7 @@
     padding: 5px 10px;
   }
   .search input.unhas:focus{
+    border-color: #409EFF;
     width: 100px;
   }
   .searchBtn{
@@ -135,6 +136,9 @@
     z-index: 100;
     right: 6px;
     top: 2px;
+  }
+  .searchBtn i:hovre{
+    color: #409EFF;
   }
 
   header {

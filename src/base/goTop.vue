@@ -2,7 +2,10 @@
   <div>
     <transition name="fade">
       <div @click="backTop" v-if="showGoTop" class="goTop">
-        <i class="iconfont icon-Upward"></i>
+        <div class="container">
+        <div class="iDiv1"><i class="iconfont icon-Upward"></i></div>
+        <div class="iDiv2">回到顶部</div>
+        </div>
       </div>
     </transition>
   </div>
@@ -68,10 +71,45 @@ export default {
   text-align: center;
   line-height: 50px;
   box-shadow: 0 0 2px #409EFF;
+  overflow: hidden;
+}
+.container{
+  position: relative;
+  width: 50px;
+  height: 50px;
 }
 .goTop i{
+  transition: all .4s ease;
   font-size: 35px;
-  color: #f56c6c;}
+  color: #f56c6c;
+}
+.iDiv1{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all .4s ease;
+}
+.iDiv2{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  font-size: 18px;
+  line-height: 24px;
+  text-align: center;
+  vertical-align: middle;
+  color: #999;
+  transition: all .4s ease;
+}
+.goTop:hover .iDiv1{
+  top: -50px;
+}
+.goTop:hover .iDiv2{
+  top: 0px;
+}
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }

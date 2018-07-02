@@ -19,7 +19,7 @@
             </div>
             <div class="message-code">
                 <input type="text" v-model="code" class="code-number fl" placeholder="请输入短信验证码" required/>
-                <span class="get-code fl" @click="getCoder">获取验证码</span>
+                <span class="get-code fl" @click.stop.prevent="getCoder" >获取验证码</span>
             </div>
             <div id="signin-btn" @click="register" class="signin-btn pointer login-btn">注册</div>
             <span>已有账号，</span>
@@ -84,11 +84,7 @@ export default {
       if(res.data.status == 0){
           this.$message.error(res.data.info);
       }else if(res.data.status == 1){
-          this.message({
-                showClose: true,
-                message: '注册成功，请登录',
-                type: 'success'
-            });
+          this.$message.success('注册成功，请登录');
             this.$router.push('/login');
             return;
       }else{
@@ -96,12 +92,9 @@ export default {
       }
     },
     async getCoder(e){   //获取验证码
+    console.log(e);
       if(!this.rOk){
           this.$message.error('请输入正确的注册信息');
-          return;
-      }
-      if(this.code.length<6){
-          this.$message.error('请输入6位短信验证码');
           return;
       }
       let res = await getCode({mobile:this.rName});
@@ -109,25 +102,22 @@ export default {
           this.$message.error(res.data.info);
       }
       if(res.data.status == 1){
-          this.message({
-                showClose: true,
-                message: '发送成功',
-                type: 'success'
-            });
+          this.$message.success('发送成功');
           let dis = false;
           if(!dis){
-              dis = false;
-              let count = 60;
-              e.target.setAttribute("disabled", true);
-              let time = setInterval(function(){
-              count--;
-              e.target.innerHTML = count + 's';
-              if(count < 1){
-              e.target.innerHTML = '获取验证码';
-              count = 60;
-              dis = true;
-              clearInterval(time);
-              }
+            dis = false;
+            let count = 60;
+            e.target.style.pointerEvents = 'none';
+            let time = setInterval(function(){
+            count--;
+            e.target.innerHTML = count + 's';
+            if(count < 1){
+                e.target.style.pointerEvents = 'auto';
+                e.target.innerHTML = '获取验证码';
+                count = 60;
+                dis = true;
+                clearInterval(time);
+            }
           },1000);
         }
       }else{
@@ -202,7 +192,7 @@ export default {
 }
 .get-code {
     width: 35%;
-    background: #46b036;
+    background: #5bd149;
     height: 30px;
     line-height: 30px;
     text-align: center;
@@ -214,7 +204,7 @@ export default {
 #signin-btn{ margin-top: 90px!important;}
 
 .get-code[changePwd]{
-    background-color: green;
+    background-color: #5bd149;
     text-align: center;
     color: #eee;
     padding: 4px 10px;

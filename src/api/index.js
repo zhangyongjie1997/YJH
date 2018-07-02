@@ -43,7 +43,7 @@ export let getLocal = () => {
 };
 //获取短信验证码
 export let getCode = (data) => {
-  return axios.get('http://yjh.li-shang-bin.com/iweb/Sendsms/send',data);
+  return axios.post('http://www.ftusix.com/static/data/sendsms.php',data);
 };
 export let getOne = (user_id,topic_id) => {
   return axios.get(`http://www.ftusix.com/static/data/content.php?user_id=${user_id}&topic_id=${topic_id}`);
