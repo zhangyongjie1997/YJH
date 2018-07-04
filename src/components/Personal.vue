@@ -143,6 +143,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import mixin from '../mixins/filters-mixin.js'; 
   import {
     getArticles,
     getLocal,
@@ -159,6 +160,7 @@
     mapGetters
   } from 'vuex';
   export default {
+    mixins:[mixin],
     data() {
       return {
         newPwd: '',
@@ -201,9 +203,6 @@
             return '成果分享';
         }
       },
-      getTime(val) { //传入事件戳返回本地时间
-        return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' ');
-      }
     },
     created() {
      

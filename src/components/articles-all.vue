@@ -28,7 +28,9 @@
 
 <script type="text/ecmascript-6">
 import {getArticles} from '../api/index.js';
+import mixin from '../mixins/filters-mixin.js'; 
 export default {
+  mixins:[mixin],
   props:{
     sort:String,
     userMsg:Object
@@ -40,11 +42,6 @@ export default {
       no:0,
       kind:0,
       loading:true,
-    }
-  },
-  filters:{
-    getTime(val){     //传入事件戳返回本地时间
-      return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
   },
   mounted(){

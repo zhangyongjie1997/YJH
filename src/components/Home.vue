@@ -88,6 +88,7 @@
 
 <script type="text/ecmascript-6">
   import axios from 'axios';
+  import mixin from '../mixins/filters-mixin.js'; 
   import {
     getArticles,
     getLocal,
@@ -95,11 +96,7 @@
   } from '../api/index.js';
   import goTop from '../base/goTop.vue';
   export default {
-    filters: {
-      getTime(val) { //传入事件戳返回本地时间
-        return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' ');
-      }
-    },
+    mixins:[mixin],
     data() {
       return {
         pl: 12,

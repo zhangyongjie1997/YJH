@@ -92,7 +92,9 @@
 import {getOne,getLocal,zan_coll,sendComment,getComment,getUser} from '../api/index.js';
 import goTop from '../base/goTop.vue';
 import goLogin from '../base/goLogin.vue';
+import mixin from '../mixins/filters-mixin.js'; 
 export default {
+  mixins:[mixin],
   data() {
     return {
       article:{},
@@ -124,9 +126,6 @@ export default {
         case '3':
           return '成果分享';
       }
-    },
-    getTime(val){        //传入事件戳返回本地时间
-      return new Date(parseInt(val) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     },
     getContent(val){
       if(val){
