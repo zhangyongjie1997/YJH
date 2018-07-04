@@ -25,10 +25,7 @@ export default {
     }
   },
   created(){
-    if(localStorage.loginMsg){
-      this.$store.commit('loginMutation',true);
-      this.userMsg = getUser();
-    }
+    
   },
   components: {
 

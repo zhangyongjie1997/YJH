@@ -99,10 +99,7 @@
       }
     },
     created() {
-      if (localStorage.loginMsg) {
-        this.$store.commit('loginMutation', true);
-        this.userMsg = getUser();
-      }
+      
       if (this.$route.params.aid) { //判断是否为编辑模式，传参就是编辑模式
         this.isEdit = true;
         this.getArticle(this.$route.params.aid);

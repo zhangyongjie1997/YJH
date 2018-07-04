@@ -206,10 +206,7 @@
       }
     },
     created() {
-      if (localStorage.loginMsg) {
-        this.$store.commit('loginMutation', true);
-        this.userMsg = getUser();
-      }
+     
       this.getMyNotes();
       this.getCols();
     },

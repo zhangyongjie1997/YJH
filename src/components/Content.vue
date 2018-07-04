@@ -138,10 +138,7 @@ export default {
     }
   },
   created(){
-    if(localStorage.loginMsg){
-      this.$store.commit('loginMutation',true);
-      this.userMsg = getUser();
-    }
+    
     this.getArticle(this.$route.params.aid);
     
     //判断当前文章是否收藏和点赞。。。

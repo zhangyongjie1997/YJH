@@ -503,3 +503,83 @@ computed:{
     userMsg:Object
   },
 ```
+## 监听路由信息、
+
+```js
+watch:{
+    $route(){  //监听路由信息    to,from,params信息
+      this.kind = this.$route.params.kind;
+      this.getArticles();
+    }
+  }
+```
+## 为实例中的对象添加响应式属性
+```js
+ // vue会循环data中的数据（数据劫持） 依次的增加getter和setter
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            a:{} // 1.school:''
+        }
+    });
+    // 使用变量时 先要初始化，否则新加的属性不会导致页面刷新
+    // Vue.set = vm.$set
+    vm.$set(vm.a,'school',1); //2.此方法可以给对象添加响应式的数据变化
+    // 3.替换原对象
+    //vm.a = {school:'zfpx',age:8,address:'xxx'}
+
+    // 去改变数组中的某一项是监控不到的,也不能使用改变数组长度的方法
+    // 错误：vm.arr[0] = 100; vm.arr.length -=2;
+    // 变异方法：pop push shift unshift sort reserve splice
+```
+## vue事件
+v-on === @
+如果不传递参数 则不要写括号会自动传入事件源，如果写括号了要手动传入$event属性
+```html
+<div @mousedown="fn($event,1)">点我啊</div>
+```
+## 复选框
+```js
+<div id="app">
+    <!--如果是复选框 只有一个复选框的时候，会把此值转化成boolean类型，如果true则代表选中-->
+    <!--如果是多个checkbox 要增加value属性并且数据类型是数组-->
+    <input type="checkbox" v-model="a"> {{a}} <br>
+    爱好：<input type="checkbox" v-model="b" value="游泳">游泳
+         <input type="checkbox" v-model="b" value="爬山">爬山
+         <input type="checkbox" v-model="b" value="睡觉">睡觉
+    {{b}}
+    <!--默认根据v-model进行分组-->
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            a:false,
+            b:[]
+        }
+    })
+</script>
+```
+## 自定义指令
+```js
+//全局自定义指令
+Vue.directive('',{});
+ directives:{
+  drag(el){
+    el.onmousedown = function (e) {
+        var disx = e.pageX - el.offsetLeft;
+        var disy = e.pageY - el.offsetTop;
+        document.onmousemove = function (e) {
+            el.style.left = e.pageX - disx+'px' ;
+            el.style.top = e.pageY - disy+'px' ;
+        };
+        document.onmouseup = function () {
+            document.onmousemove = document.onmouseup = null
+        };
+        e.preventDefault();
+    }
+  },
+ }
+
+```

@@ -38,7 +38,16 @@ router.beforeEach(function (to,from,next) {  //每一次在进入路由之前都
   next();//继续向下走，不写就不会向下走
 });
 /* eslint-disable no-new */
+const myMixin = {
+  created() {
+    if (localStorage.loginMsg && (this.userMsg==''||this.userMsg instanceof Object)) {
+      this.$store.commit('loginMutation', true);
+      this.userMsg = getUser();
+    }
+  },
+}
 new Vue({
+  mixins:[myMixin],
   el: '#app',
   router,
   components: { App },

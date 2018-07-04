@@ -133,10 +133,6 @@
       }
     },
     created() {
-      if (localStorage.loginMsg) {
-        this.$store.commit('loginMutation', true);
-        this.userMsg = getUser();
-      }
       this.getHots(0, 'hot', this.hotPage, true);
       this.getHots(1, 'new', this.htmlPage, true);
       this.getCss();

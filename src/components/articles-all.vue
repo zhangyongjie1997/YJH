@@ -67,7 +67,7 @@ export default {
     sort(){
       this.getArticles();
     },
-    $route(){
+    $route(){  //监听路由信息
       this.kind = this.$route.params.kind;
       this.getArticles();
     }
