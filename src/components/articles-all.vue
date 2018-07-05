@@ -75,6 +75,9 @@ export default {
 <style scoped lang="less">
 .items{
   width: 100%;
+  .pagination{
+    margin-bottom: 50px;
+  }
   .aList{
   width: 100%;
   height: 60px;

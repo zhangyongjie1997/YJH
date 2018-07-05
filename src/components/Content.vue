@@ -274,7 +274,6 @@ export default {
 .container{
   width: 70%;
   margin:100px auto 0 auto;
-  height: 1000px;
   .back{
     width: 50px;
     height: 50px;

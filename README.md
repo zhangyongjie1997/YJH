@@ -6,7 +6,7 @@
 
 ### vue + vue-cli + vue-router + vuex + axios + element-ui
 
-```
+```js
 npm install less less-loader axios vuex bootstrap --save-dev
 ```
 
@@ -45,7 +45,7 @@ distoryed:在distoryed之前全局路由钩子直接收到to
 
 ## 路由解析流程
 
-```
+```js
 1.导航被触发。
 2.在失活的组件里调用离开守卫。
 3.调用全局的 beforeEach 守卫。
@@ -77,7 +77,9 @@ resolveHooks:[]
 currentRoute:(...)
 __proto__:Object
 ```
+
 - this.$route  
+
 ```js
 Object
 fullPath:"/"
@@ -744,10 +746,10 @@ new Vue({
 });
 ```
 
-- 再组件中混入
+- 在组件中混入
 
 ```js
-//mixins.js  在js文件中声明要混入的对象
+//mixins.js  在js文件中声明要混入的对象并导出
 export default {
   filters:{
     getTime(val) { //传入事件戳返回本地时间
@@ -766,12 +768,34 @@ export default {
     .
     .
     .
-    .
 }
 ```
 
-## module.exports 和 export
+## 编写vue插件
+- 插件的作用：全局的为vue实例或者Vue对象添加方法属性等
 
+```js
+const myPlugin.install = function(){
+  //通过全局混入
+  Vue.mixins({
+    created(){
+      ....
+    }
+  })
+  //添加全局自定义指令
+  Vue.directive('myDirective',{
+    bind....
+  })
+  //添加全局方法或者属性
+  Vue.myFunc = function(){}
+  //添加实例方法
+  Vue.prototype.$myFunction = function(){}
+}
+
+Vue.use(myPlugin)  //这句就相当于调用myPlugin的install方法
+```
+
+## module.exports 和 export
 - module.exports，Commonjs 规范，用来导出
   - module 是模块，exports 是接口，加载这个模块就是加载该模块的 module.exports 属性
 - export ES6 规范
