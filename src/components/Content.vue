@@ -177,7 +177,10 @@ export default {
         this.btnDisabled = false;
         return this.btnMsg = "发表评论";
       }
-    }
+    },
+    // $route(){      //当路由缓存冲突的时候监听，文章id变化的时候重新加载
+    //   this.getArticle(this.$route.params.aid);
+    // }
   },
   methods:{
     hideRes(e,index){
@@ -227,8 +230,8 @@ export default {
       });
       if(res.data.status == 1){
         this.$message.success(res.data.info);
-        this.comment = '';
         this.getComments();
+        this.comment = '';
       }
     },
     back(){    //返回按钮
@@ -243,22 +246,13 @@ export default {
         topic_id:this.article.topic_id,
         type
       });
-      if(res.data.status == 1&&type == 'zan'){
-        this.iszan = !this.iszan;
-        if(this.iszan){
+      if(res.data.status == 1){
+        if(type == 'zan'){
+          this.iszan = !this.iszan;
           this.$message.success(res.data.info);
           return;
         }else{
-          this.$message.success(res.data.info);
-          return;
-        }
-      }
-      if(res.data.status == 1&&type == 'coll'){
-        this.iscoll = !this.iscoll;
-        if(this.iscoll){
-          this.$message.success(res.data.info);
-          return;
-        }else{
+          this.iscoll = !this.iscoll;
           this.$message.success(res.data.info);
           return;
         }
@@ -302,6 +296,7 @@ export default {
     h2{
       text-align: center;
       padding: 10px;
+      font-weight: 500;
     }
     .info{
       text-align: center;
@@ -315,7 +310,7 @@ export default {
       padding: 15px 0px 15px 5px;
       font-size: 16px;
       line-height: 1.5;
-      font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;
+      letter-spacing: 1px;
       border-top: 1px solid #ccc;
       border-bottom: 1px solid #ccc;
     }

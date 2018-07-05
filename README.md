@@ -92,6 +92,35 @@ __proto__:Object
 
 ```
 
+## 路由缓存的问题
+> 文章页面，因为路由缓存，点击不同的文章进入文章详情后内容不刷新
+- 解决方案
+  - 监听路由变化，路由路径中的文章id变化的时候，重新加载
+```js
+$route(){      //当路由缓存冲突的时候监听，文章id变化的时候重新加载
+  this.getArticle(this.$route.params.aid);
+}
+```
+- 设置路由meta属性
+```js
+{
+  path: '/content/:aid',
+  component: () => import ('../components/Content.vue'),
+  name: 'content',
+  meta:{title:'文章详情',keepAlive:false}
+}
+<keep-alive>
+  <router-view v-if="$route.meta.keepAlive">
+    <!-- 这里是会被缓存的视图组件，比如 Home！ -->
+  </router-view>
+</keep-alive>
+<router-view v-if="!$route.meta.keepAlive">
+  <!-- 这里是不被缓存的视图组件，比如 Edit！ -->
+</router-view>
+
+```
+
+
 ## vue 路由钩子、异步
 
 - 全局路由钩子

@@ -40,7 +40,7 @@ export default new Router({
       path: '/content/:aid',
       component: () => import ('../components/Content.vue'),
       name: 'content',
-      meta:{title:'文章详情'}
+      meta:{title:'文章详情',keepAlive:false}
     },
     {
       path: '/home',

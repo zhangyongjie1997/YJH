@@ -286,15 +286,7 @@
             pwd2: this.newPwd2,
             sms_code: this.sms_code
           });
-          if (res.data.status == 0) {
-            this.$message({
-              showClose: true,
-              message: res.data.info,
-              type: 'success'
-            });
-          } else {
             this.$message.success(res.data.info);
-          }
         } catch (e) {
           this.$message.error(修改失败);
         }

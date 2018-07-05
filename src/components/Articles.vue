@@ -65,7 +65,7 @@ export default {
         float: left;
         margin-left: 50px;
         color: #3d4044;
-        font-weight: 700;
+        font-weight: 600;
       }
     }
   }

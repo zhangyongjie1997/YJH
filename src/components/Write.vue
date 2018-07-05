@@ -164,7 +164,6 @@
       },
       async getArticle(topic_id) { //编辑模式下获取文章内容
         let res = await getOne(this.userMsg.user_id, topic_id);
-        console.log(res);
         this.article = res.data.data;
         this.kind1 = this.article.type;
         this.kind2 = this.article.tech_type;
@@ -192,7 +191,6 @@
     height: 1000px;
     margin-top: 100px;
   }
-
   .btn {
     clear: both;
     .submit {

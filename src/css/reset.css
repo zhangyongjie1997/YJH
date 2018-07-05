@@ -1,3 +1,4 @@
+body,td,th {font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;} 
 div,html,img,body,a,h2,ul,li,header,section,img{margin: 0;padding: 0;}
 ul,li{list-style: none;}
 a{text-decoration: none;color:black;}

@@ -89,18 +89,12 @@
 <script type="text/ecmascript-6">
   import axios from 'axios';
   import mixin from '../mixins/filters-mixin.js'; 
-  import {
-    getArticles,
-    getLocal,
-    getUser
-  } from '../api/index.js';
+  import {getArticles,getLocal,getUser} from '../api/index.js';
   import goTop from '../base/goTop.vue';
   export default {
     mixins:[mixin],
     data() {
       return {
-        pl: 12,
-        z: 44,
         defaultList: 'hot',
         images: [{
             src: 'http://img5.imgtn.bdimg.com/it/u=1574196120,1246886327&fm=15&gp=0.jpg'

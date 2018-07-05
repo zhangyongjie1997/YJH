@@ -170,7 +170,7 @@
     transition: all linear .5s;
   }
   header #view #logo .logo-img:hover{
-    transform: rotateY(180deg);
+    transform: rotateY(360deg);
   }
 
   header #view #logo h2 {
@@ -236,10 +236,6 @@
     left: -9px;
     overflow: hidden;
     background-color: rgb(255, 255, 255);
-    -webkit-transition: all 0.2s;
-    -moz-transition: all 0.2s;
-    -o-transition: all 0.2s;
-    -ms-transition: all 0.2s;
     transition: all 0.2s;
   }
 
@@ -250,10 +246,6 @@
     height: 30px;
     font-size: 14px;
     background-color: rgb(255, 255, 255);
-    -webkit-transition: all 0.4s;
-    -moz-transition: all 0.4s;
-    -o-transition: all 0.4s;
-    -ms-transition: all 0.4s;
     transition: all 0.4s;
   }
 
