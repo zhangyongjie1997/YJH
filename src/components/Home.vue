@@ -130,6 +130,7 @@
       }
     },
     created() {
+      console.log(this.$router,this.$route);
       this.getHots(0, 'hot', this.hotPage, true);
       this.getHots(1, 'new', this.htmlPage, true);
       this.getCss();

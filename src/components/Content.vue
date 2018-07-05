@@ -72,7 +72,21 @@
                 </tr>
               </td>
               <td width="50px" align="left" valign="center">
-                <span class="resBtn">回复</span>
+                <span @click="showRes($event,index)" class="resBtn">回复</span>
+              </td>
+            </tr>
+            <tr width="100%">
+              <td colspan="4">
+                <div :ref="index" class="resCom">
+                  <el-input
+                    type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
+                    :placeholder="'回复 '+comment.nick_name+':'"
+                    v-model="resCom">
+                  </el-input>
+                  <el-button class="resBtn" size="mini" type="primary" plain >回复</el-button>
+                  <el-button @click="hideRes($event,index)" class="resBtn" size="mini" type="danger" plain >取消</el-button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -108,7 +122,8 @@ export default {
       comments:[],
       commentList:[],
       dialogVisible:false,
-      moreComment:true
+      moreComment:true,
+      resCom:''
     }
   },
   filters:{
@@ -129,7 +144,12 @@ export default {
     },
     getContent(val){
       if(val){
-        return val.slice(3,(val.length)-4);
+        try{
+          return val.slice(3,(val.length)-4);
+        }catch(e){
+          console.log(e);
+          this.getArtcle();
+        }
       }
     },
     getAvatar(val){     //返回完整的头像地址
@@ -137,9 +157,7 @@ export default {
     }
   },
   created(){
-    
     this.getArticle(this.$route.params.aid);
-    
     //判断当前文章是否收藏和点赞。。。
   },
   computed:{
@@ -162,6 +180,22 @@ export default {
     }
   },
   methods:{
+    hideRes(e,index){
+      this.$refs[index][0].style.display = 'none';
+    },
+    showRes(e,index){
+      // let arr = Object.keys(this.$refs)
+      // for(let i = 0;i<arr.length-1;i++){
+      //   console.log(i);
+      //   this.$refs[i][0].style.display = 'none';
+      // }
+      for(let item in this.$refs){
+        if(this.$refs[item][0]){
+          this.$refs[item][0].style.display = 'none';
+        }
+      }
+      this.$refs[index][0].style.display = 'block';
+    },
     getMoreComments(){
       let count = this.comments.length;
       this.comments = this.commentList.slice(0,count+10);
@@ -337,6 +371,18 @@ export default {
           cursor: pointer;
           font-size: 13px;
           color: #f56c6c;
+        }
+        .resCom{
+          display: none;
+          box-sizing: border-box;
+          padding: 10px;
+          height: 100px;
+          width: 100%;
+          clear: both;
+          .resBtn{
+            margin: 10px 10px 0 0;
+            float: right;
+          }
         }
       }
     }
