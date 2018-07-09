@@ -33,7 +33,7 @@ export default {
   mixins:[mixin],
   props:{
     sort:String,
-    userMsg:Object
+    ouserMsg:Object
   },
   data() {
     return {

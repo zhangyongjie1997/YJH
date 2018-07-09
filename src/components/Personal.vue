@@ -205,7 +205,6 @@
       },
     },
     created() {
-     
       this.getMyNotes();
       this.getCols();
     },

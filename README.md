@@ -9,7 +9,42 @@
 ```js
 npm install less less-loader axios vuex bootstrap --save-dev
 ```
+<!-- TOC -->
 
+- [猿计划 master](#猿计划-master)
+    - [vue + vue-cli + vue-router + vuex + axios + element-ui](#vue--vue-cli--vue-router--vuex--axios--element-ui)
+  - [vue 之声明周期](#vue-之声明周期)
+  - [路由解析流程](#路由解析流程)
+  - [路由的实例属性](#路由的实例属性)
+  - [路由缓存的问题](#路由缓存的问题)
+  - [vue 路由钩子、异步](#vue-路由钩子异步)
+  - [vue.extend 构造器](#vueextend-构造器)
+  - [mixin,extends](#mixinextends)
+  - [文件结构](#文件结构)
+  - [webpack 的基础配置](#webpack-的基础配置)
+  - [导航栏全局组件 top](#导航栏全局组件-top)
+  - [回到顶部全局组件 goTop](#回到顶部全局组件-gotop)
+  - [登录注册功能](#登录注册功能)
+  - [router-link class 样式](#router-link-class-样式)
+  - [路由配置](#路由配置)
+  - [路由元信息](#路由元信息)
+  - [axios 的使用](#axios-的使用)
+  - [数据请求异步加载方法](#数据请求异步加载方法)
+  - [加入路由动画](#加入路由动画)
+  - [coding split 代码分割](#coding-split-代码分割)
+  - [我的帖子编辑跳转](#我的帖子编辑跳转)
+  - [文章排序](#文章排序)
+  - [监听路由信息、](#监听路由信息)
+  - [为实例中的对象添加响应式属性](#为实例中的对象添加响应式属性)
+  - [vue 事件](#vue-事件)
+  - [vue 的事件修饰符](#vue-的事件修饰符)
+  - [复选框](#复选框)
+  - [自定义指令](#自定义指令)
+  - [mixins 混入的使用](#mixins-混入的使用)
+  - [编写vue插件](#编写vue插件)
+  - [module.exports 和 export](#moduleexports-和-export)
+
+<!-- /TOC -->
 ## vue 之声明周期
 
 - beforecreated / created
@@ -719,11 +754,11 @@ Vue.directive('',{});
 ## mixins 混入的使用
 
 > 类似于 java 的继承，可重写混入的方法,组件属性的优先级高于被混入的对象
-
 - 全局混入
 
 ```js
 //main.js
+import Vue from 'vue';
 const myMixin = {
   //声明要混入的对象
   created() {
@@ -736,18 +771,9 @@ const myMixin = {
     }
   },
 };
-new Vue({
-  mixins: [myMixin], //混入
-  el: "#app",
-  router,
-  components: { App },
-  template: "<App/>",
-  store,
-});
+Vue.mixin(myMixin);  //全局混入
 ```
-
 - 在组件中混入
-
 ```js
 //mixins.js  在js文件中声明要混入的对象并导出
 export default {

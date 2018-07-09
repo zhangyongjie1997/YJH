@@ -16,7 +16,7 @@
     </div>
     <div class="content">
       <keep-alive v-if="$route.meta.keepAlive">
-        <router-view :sort="newSort" :userMsg="userMsg"></router-view>
+        <router-view :sort="newSort" :ouserMsg="userMsg"></router-view>
       </keep-alive>
     </div>
   </div>
@@ -34,7 +34,6 @@ export default {
     }
   },
   created(){
-    
   },
   methods:{
     changeSort(){      //改变排序方式  hot/new

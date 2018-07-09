@@ -31,8 +31,8 @@
   export default {
     data() {
       return {
-        username: '',
-        password: ''
+        username: '18522787303',
+        password: '123456'
       }
     },
     mounted(){
@@ -54,11 +54,7 @@
         if (res.data.status == 1) { //1为成功，0失败
           this.$store.commit('loginMutation', true);
           localStorage.setItem("loginMsg", JSON.stringify(res.data.data[0])); //在本地保存用户信息
-          this.$message({
-            showClose: true,
-            message: res.data.info,
-            type: 'success'
-          });
+          this.$message.success(res.data.info);
           this.$router.push('/personal');
         } else {
           this.$message.error(res.data.info);

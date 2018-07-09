@@ -1,8 +1,29 @@
 import axios from 'axios';
+import {$Message} from 'element-ui';
+axios.defaults.retry = 4;
+axios.defaults.retryDelay = 1000;
 //axios.defaults.baseURL = 'http://www.ftusix.com/static/data';
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 //{headers:{'Content-Type':'application/json'}}
 
+axios.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  return config;
+}, function (error) {
+  // Do something with request error
+  $Message.error(error);
+  return Promise.reject(error);
+});
+
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+  // Do something with response data
+  return response;
+}, function (error) {
+  // Do something with response error
+  $Message.error(error);
+  return Promise.reject(error);
+});
 
 export let getUser = () => {
   return JSON.parse(localStorage.loginMsg);
