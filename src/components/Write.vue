@@ -98,16 +98,16 @@
         btnMsg: '内容不能为空'
       }
     },
+    components: {
+      Top,
+      quillEditor,
+      goLogin
+    },
     created() {
       if (this.$route.params.aid) { //判断是否为编辑模式，传参就是编辑模式
         this.isEdit = true;
         this.getArticle(this.$route.params.aid);
       }
-    },
-    components: {
-      Top,
-      quillEditor,
-      goLogin
     },
     computed: {
       id() {
@@ -190,6 +190,7 @@
     height: 1000px;
     margin-top: 100px;
   }
+
   .btn {
     clear: both;
     .submit {

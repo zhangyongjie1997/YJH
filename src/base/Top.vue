@@ -167,12 +167,12 @@
   }
 
   header {
-    top: 0px;
     width: 100%;
     height: 65px;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
     z-index: 100;
-    position: relative;
+    position: absolute;
+    top: 0px;
     background-color: rgb(250, 250, 250);
     border-top: 1px solid #333;
     margin-top: 0px;
