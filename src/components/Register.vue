@@ -111,6 +111,7 @@ export default {
             let time = setInterval(function(){
             count--;
             e.target.innerHTML = count + 's';
+                console.log(count);
             if(count < 1){
                 e.target.style.pointerEvents = 'auto';
                 e.target.innerHTML = '获取验证码';
@@ -119,6 +120,10 @@ export default {
                 clearInterval(time);
             }
           },1000);
+          this.$once('hook:beforeDestroy',()=>{
+              console.log(this);
+              //clearInterval(time);
+          });
         }
       }else{
         this.$message.error('获取失败');

@@ -153,3 +153,9 @@
 //   console.log(`Hello, ${externalFetchedText}`); // Hello, es8
 // }
 // sayHello();  //
+
+let a = [1,2,3,]
+let b = a.filter(item=>{
+  return item == 1;
+});
+console.log(b);

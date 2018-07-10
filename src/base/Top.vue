@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header>
+    <header :style="fixedStyle">
       <div id="view">
         <div id="logo">
           <img class="logo-img fl" src="../assets/logo.png" alt="logo">
@@ -33,8 +33,10 @@
               <router-link tag="a" to="/register">注册</router-link>
             </li>
             <div class="search">
-                <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
-                <span class="searchBtn"><i @click="search" class="iconfont icon-sousuo"></i></span>
+              <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
+              <span class="searchBtn">
+                <i @click="search" class="iconfont icon-sousuo"></i>
+              </span>
             </div>
             <div class="fl pointer" id="nav-photo" v-if="ifLogin" :style="{backgroundImage:'url('+avatar+')'}">
               <div id="photo-nav-list">
@@ -53,17 +55,22 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {getUser} from '../api/index.js';
+  import {
+    getUser
+  } from '../api/index.js';
   export default {
     data() {
       return {
         avatar: '',
-        searchContent:'',
-        ifInput:false
+        searchContent: '',
+        ifInput: false,
+        time: null,
+        fixedStyle:{}
       }
     },
     created() {
       this.getAvatar();
+      this.init();
     },
     computed: {
       ifLogin() {
@@ -71,8 +78,21 @@
       }
     },
     methods: {
-      search(){
-        window.location.href = "https://www.baidu.com/s?wd="+this.searchContent;
+      init() {
+        const scroll = () => {
+          if (document.documentElement.scrollTop >= 200) {
+            this.fixedStyle = {
+              position:'fixed',
+              top:0+'px'
+            };
+          } else {
+            this.fixedStyle = {};
+          }
+        };
+        window.addEventListener('scroll', scroll);
+      },
+      search() {
+        window.location.href = "https://www.baidu.com/s?wd=" + this.searchContent;
       },
       getAvatar() {
         if (this.ifLogin) {
@@ -86,10 +106,10 @@
       }
     },
     watch: {
-      searchContent(){
-        if(this.searchContent==''){
+      searchContent() {
+        if (this.searchContent == '') {
           this.ifInput = false;
-        }else{
+        } else {
           this.ifInput = true;
         }
       },
@@ -102,7 +122,7 @@
 </script>
 
 <style scoped>
-  .search{
+  .search {
     left: 30px;
     position: relative;
     display: inline-block;
@@ -111,7 +131,8 @@
     line-height: 64px;
     margin-left: 20px;
   }
-  .search input.unhas{
+
+  .search input.unhas {
     width: 30px;
     outline: none;
     border: #999 1px solid;
@@ -119,25 +140,29 @@
     padding: 5px 10px;
     transition: all .4s ease;
   }
-  .search input.has{
+
+  .search input.has {
     width: 100px;
     outline: none;
     border: #999 1px solid;
     border-radius: 15px;
     padding: 5px 10px;
   }
-  .search input.unhas:focus{
+
+  .search input.unhas:focus {
     border-color: #409EFF;
     width: 100px;
   }
-  .searchBtn{
+
+  .searchBtn {
     cursor: pointer;
     position: absolute;
     z-index: 100;
     right: 6px;
     top: 2px;
   }
-  .searchBtn i:hovre{
+
+  .searchBtn i:hovre {
     color: #409EFF;
   }
 
@@ -147,10 +172,11 @@
     height: 65px;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
     z-index: 100;
-    position: fixed;
+    position: relative;
     background-color: rgb(250, 250, 250);
     border-top: 1px solid #333;
     margin-top: 0px;
+    transition: all .5s ease;
   }
 
   .headerPlaceHolder {
@@ -169,7 +195,8 @@
     height: 65px;
     transition: all linear .5s;
   }
-  header #view #logo .logo-img:hover{
+
+  header #view #logo .logo-img:hover {
     transform: rotateY(360deg);
   }
 
@@ -203,6 +230,7 @@
   .nav-menu-items:hover {
     border-bottom: 3px solid #409EFF;
   }
+
   .nav-menu:first-child {
     margin-left: 120px;
   }
@@ -212,9 +240,11 @@
     font-size: 16px;
     line-height: 65px;
   }
- a.router-link-active{
+
+  a.router-link-active {
     color: #409EFF;
   }
+
   #nav-photo {
     width: 50px;
     height: 50px;

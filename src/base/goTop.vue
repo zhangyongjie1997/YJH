@@ -49,13 +49,7 @@ export default {
       },13);
       this.init();
     },
-    computeScroll () {
-      
-    }
   },
-  components: {
-
-  }
 }
 </script>
 

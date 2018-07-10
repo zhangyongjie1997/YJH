@@ -324,6 +324,10 @@
               clearInterval(time);
             }
           }, 1000);
+          this.$once('hook:beforeDestroy',()=>{
+              console.log(this);
+              clearInterval(time);
+          });
         }
       },
 
