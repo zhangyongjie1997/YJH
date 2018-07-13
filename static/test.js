@@ -154,8 +154,112 @@
 // }
 // sayHello();  //
 
-let a = [1,2,3,]
-let b = a.filter(item=>{
-  return item == 1;
-});
-console.log(b);
+// let a = [1,2,3,]
+// let b = a.filter(item=>{
+//   return item == 1;
+// });
+// console.log(b);
+
+// let A = function(){
+//   this.arr = [1,2,3]
+// }
+// let B = function(){
+//   A.call(this);
+// }
+// let b = new B();
+// console.log(b.arr);
+
+// function A(name){
+//   this.arr = [1,2,3]
+//   this.name = name
+// }
+// A.prototype.say = function(){
+//   console.log(this.name)
+// }
+// function B(name,age){
+//   A.call(this,name)
+//   this.age = age
+// }
+// B.prototype = new A()
+// B.prototype.constructor = B
+// B.prototype.sayAge = function(){
+//   console.log(this.age)
+// }
+// let b = new B('www',15);
+// console.log(b.arr);  //[1,2,3]
+// b.say()   //www
+// b.sayAge()  //15
+
+// function A(name){
+//   this.arr = [1,2,3]
+//   this.name = name
+// }
+// A.prototype.say = function(){
+//   console.log(this.name)
+// }
+// function B(name,age){
+//   A.call(this,name)
+//   this.age = age
+// }
+// B.prototype = A.prototype;
+// B.prototype.constructor = B
+// B.prototype.sayAge = function(){
+//   console.log(this.age)
+// }
+// let b = new B('www',15);
+// console.log(b.arr);  //[1,2,3]
+// b.say()   //www
+// b.sayAge()  //15
+
+// let a = new Set()
+// let b = {c:1}
+// let c = {c:1}
+// a.add(b)
+// a.add(c)
+// console.log(a);
+
+// function deepCopy(obj){
+//   let newObj = obj instanceof Array?[]:{};
+//   for(item in obj){
+//     if(typeof item == 'object'){
+//       newObj[item] = deepCopy(obj[item])
+//     }else{
+//       newObj[item] = obj[item];
+//     }
+//   }
+//   return newObj;
+// }
+// let a = {b:1,c:2}
+// let b = deepCopy(a)
+// b.b=3;
+// console.log(a,b);
+
+// let arr = [7,8,9]
+// console.log("0" in arr);
+// console.log(arr['0']);
+
+// let time = null;
+// time = setTimeout(() => {
+  
+// }, 100);
+// let a = !time;
+// console.log(a);
+
+function A(){
+  var a = 1;  //私有变量
+  function sum(){}   //私有函数
+  this.add = function (){
+    a++;
+  }
+  this.read = function (){
+    return a;
+  }
+}
+let b = new A();
+console.log(b.read());  //1
+console.log(b.a);   //undefined
+
+let c = new A();
+c.add()
+console.log(c.read());   //2
+console.log(b.read());  //1

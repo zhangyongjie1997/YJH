@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@vue/cli": "^3.0.0-rc.3",
     "axios": "^0.18.0",
     "element-ui": "^2.4.1",
     "vue": "^2.5.2",
