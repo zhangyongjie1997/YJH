@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div id="container" class="container">
     <goTop></goTop>
     <goLogin @odialogvisiblechange="dialogVisibleChange" :odialogVisible="dialogVisible" @onsuccess="loginSuccess"></goLogin>
     <div class="back" @click="back">返回</div>
@@ -123,7 +123,8 @@ export default {
       commentList:[],
       dialogVisible:false,
       moreComment:true,
-      resCom:''
+      resCom:'',
+      resIndex:0
     }
   },
   filters:{
@@ -160,6 +161,17 @@ export default {
     this.getArticle(this.$route.params.aid);
     //判断当前文章是否收藏和点赞。。。
   },
+  mounted(){
+    let windowClick = () => {
+      this.$refs[this.resIndex][0].style.display = 'none';
+    }
+    window.addEventListener('click',windowClick,true);
+    windowClick = null;
+  },
+  beforeRouteLeave (to, from, next) {
+    window.removeEventListener('click',windowClick);
+    next();
+  },
   computed:{
     ifLogin(){
       return this.$store.state.ifLogin;
@@ -183,15 +195,11 @@ export default {
     // }
   },
   methods:{
-    hideRes(e,index){
+    hideRes(e,index){  //隐藏回复框
       this.$refs[index][0].style.display = 'none';
     },
-    showRes(e,index){
-      // let arr = Object.keys(this.$refs)
-      // for(let i = 0;i<arr.length-1;i++){
-      //   console.log(i);
-      //   this.$refs[i][0].style.display = 'none';
-      // }
+    showRes(e,index){   //点击某个回复按钮，关闭其他回复框，显示当前回复框
+    this.resIndex = index;
       for(let item in this.$refs){
         if(this.$refs[item][0]){
           this.$refs[item][0].style.display = 'none';
@@ -199,7 +207,7 @@ export default {
       }
       this.$refs[index][0].style.display = 'block';
     },
-    getMoreComments(){
+    getMoreComments(){   //获取更多评论按钮
       let count = this.comments.length;
       this.comments = this.commentList.slice(0,count+10);
       if(count>=this.commentList.length){
@@ -207,11 +215,11 @@ export default {
         this.$refs.moreCom.$el.innerText = '没有更多评论';
       }
     },
-    loginSuccess(){
+    loginSuccess(){  //弹窗登陆成功
       this.userMsg = getUser();
       this.getArticle(this.$route.params.aid);
     },
-    dialogVisibleChange(val){
+    dialogVisibleChange(val){   //弹窗显示隐藏
       this.dialogVisible = val;
     },
     async getComments(){     //获取评论列表
@@ -237,7 +245,7 @@ export default {
     back(){    //返回按钮
       this.$router.go(-1);
     },
-    async like(type){   //点赞
+    async like(type){   //点赞和收藏
       if(this.ifLogin == false){
         return this.dialogVisible = true;
       }

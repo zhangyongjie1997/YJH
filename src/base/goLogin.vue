@@ -44,7 +44,6 @@ export default {
         mobile:'',
         pwd:'',
       },
-      
       dialogVisible:false,
       btnDisabled:true,
       rules:{
@@ -90,13 +89,9 @@ export default {
       if(res.data.status == 1){
         this.$store.commit('loginMutation',true);
         localStorage.setItem("loginMsg",JSON.stringify(res.data.data[0]));  //在本地保存用户信息
-        this.$message({
-          showClose: true,
-            message: res.data.info,
-            type: 'success'
-        });
-        this.dialogVisible = false;
+        this.$message(res.data.info);
         this.$emit('onsuccess');
+        this.dialogVisible = false;
       }else{
         this.$message.error('登录失败'+res.data.info);
       }
