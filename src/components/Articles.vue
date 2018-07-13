@@ -2,10 +2,12 @@
   <div class="container">
     <div class="nav">
       <ul>
-        <li><router-link :class="{red:$route.params.kind==0}" tag="a" to="/articles/all/0">全部</router-link></li>
-        <li><router-link :class="{red:$route.params.kind==1}" tag="a" to="/articles/all/1">经验分享</router-link></li>
-        <li><router-link :class="{red:$route.params.kind==2}" tag="a" to="/articles/all/2">入门血洗</router-link></li>
-        <li><router-link :class="{red:$route.params.kind==3}" tag="a" to="/articles/all/3">成果分享</router-link></li>
+        <li v-for="articleType in articleTypes" :key="articleType.type">
+          <router-link :class="{red:$route.params.kind==(articleType.type)}" tag="a" 
+            :to="'/articles/all/'+articleType.type">
+            {{articleType.title}}
+          </router-link>
+        </li>
       </ul>
     </div>
     <div class="sort">
@@ -16,7 +18,7 @@
     </div>
     <div class="content">
       <keep-alive v-if="$route.meta.keepAlive">
-        <router-view :sort="newSort" :ouserMsg="userMsg"></router-view>
+        <router-view :sort="newSort"></router-view>
       </keep-alive>
     </div>
   </div>
@@ -31,6 +33,12 @@ export default {
     return {
       userMsg:{},     //props传给子组件
       newSort:'new',
+      articleTypes:[
+        {title:'全部',type:0},
+        {title:'经验分享',type:1},
+        {title:'入门学习',type:2},
+        {title:'成果分享',type:3},
+      ]
     }
   },
   created(){

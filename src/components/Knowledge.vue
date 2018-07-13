@@ -2,15 +2,14 @@
   <div class="container">
     <div class="nav">
       <ul>
-        <li><router-link tag="a" to="/knowledge/knowledgeAll">全部</router-link></li>
-        <li><router-link tag="a" to="/knowledge/knowledgeJava">java</router-link></li>
-        <li><router-link tag="a" to="/knowledge/">html</router-link></li>
-        <li><router-link tag="a" to="/knowledge/">css</router-link></li>
+        <li v-for="(articleType, index) in articleTypes" :key="index">
+          <a href="javascript:void(0)" @click="changeType(articleType.component)">{{articleType.title}}</a>
+        </li>
       </ul>
     </div>
     <div class="content">
       <keep-alive v-if="$route.meta.keepAlive">
-        <router-view></router-view>
+        <component :is="typeComponent"></component>
       </keep-alive>
     </div>
   </div>
@@ -18,17 +17,27 @@
 
 <script type="text/ecmascript-6">
 import {getUser} from '../api/index.js';
+import knowledgeAll from './Knowledge-all.vue';
+import knowledgeJava from './Knowledge-java.vue';
 export default {
   data() {
     return {
-
+      articleTypes:[
+        {title:'全部',component:'knowledgeAll'},
+        {title:'java',component:'knowledgeJava'},
+        {title:'html',component:'knowledgeAll'},
+        {title:'css',component:'knowledgeJava'},
+      ],
+      typeComponent:'knowledgeAll',
     }
   },
-  created(){
-    
+  methods:{
+    changeType(val){
+      this.typeComponent = val;
+    }
   },
-  components: {
-
+  components:{
+    knowledgeAll,knowledgeJava
   }
 }
 </script>
