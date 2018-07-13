@@ -32,6 +32,9 @@
 
 <style>
   @import url('./css/reset.css');
+  .el-badge__content.is-fixed{
+    top:10px !important;
+  }
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity .5s;
