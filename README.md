@@ -41,6 +41,7 @@ npm install less less-loader axios vuex bootstrap --save-dev
   - [复选框](#复选框)
   - [自定义指令](#自定义指令)
   - [mixins 混入的使用](#mixins-混入的使用)
+  - [父组件给子组件传值  **依赖注入**  provide / inject](#父组件给子组件传值--依赖注入--provide--inject)
   - [编写vue插件](#编写vue插件)
   - [module.exports 和 export](#moduleexports-和-export)
 
@@ -796,6 +797,24 @@ export default {
     .
 }
 ```
+## 父组件给子组件传值  **依赖注入**  provide / inject
+- provide / inject 都是实例中的选项
+- provide 选项允许我们指定我们想要提供给后代组件的数据/方法
+- 然后在任何后代组件里，我们都可以使用 inject 选项来接收指定的我们想要添加在这个实例上的属性
+```js
+provide: function () {  //在父组件实例中
+  return {
+    getMap: this.getMap
+  }
+} 
+//在子组件中接收
+inject: ['getMap']
+```
+
+实际上，你可以把依赖注入看作**一部分“大范围有效的 prop”**，除了：
+  - 祖先组件不需要知道哪些后代组件使用它提供的属性
+  - 后代组件不需要知道被注入的属性来自哪里
+
 
 ## 编写vue插件
 - 插件的作用：全局的为vue实例或者Vue对象添加方法属性等
@@ -826,3 +845,5 @@ Vue.use(myPlugin)  //这句就相当于调用myPlugin的install方法
   - module 是模块，exports 是接口，加载这个模块就是加载该模块的 module.exports 属性
 - export ES6 规范
   - ES6 采用 import 和 export 来导入和导出模块
+
+

@@ -16,7 +16,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {getUser} from '../api/index.js';
+import {getUser} from '../../api/index.js';
 import knowledgeAll from './Knowledge-all.vue';
 import knowledgeJava from './Knowledge-java.vue';
 export default {

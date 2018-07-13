@@ -25,8 +25,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {getUser} from '../api/index.js';
-import mixin from '../mixins/filters-mixin.js';
+import {getUser} from '../../api/index.js';
+import mixin from '../../mixins/filters-mixin.js';
 export default {
   mixins:[mixin],
   data() {

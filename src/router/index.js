@@ -30,10 +30,10 @@ export default new Router({
     },
     {
       path: '/articles',
-      component:() => import ('../components/Articles.vue'),
+      component:() => import ('../components/Article/Articles.vue'),
       meta:{title:'文章'},
       children:[
-        {path:'/articles/all/:kind',component:() => import ('../components/articles-all.vue'),meta:{title:'全部',keepAlive:true}}
+        {path:'/articles/all/:kind',component:() => import ('../components/Article/articles-all.vue'),meta:{title:'全部',keepAlive:true}}
       ],
       redirect:'/articles/all/0'
     },
@@ -50,11 +50,11 @@ export default new Router({
     },
     {
       path: '/knowledge',
-      component:() => import ('../components/Knowledge.vue'),
+      component:() => import ('../components/Knowledge/Knowledge.vue'),
       meta:{title:'知识体系'},
       children:[
-        {path:'knowledgeAll',component:() => import ('../components/Knowledge-all.vue'),meta:{title:'知识体系-全部',keepAlive:true}},
-        {path:'knowledgeJava',component:() => import ('../components/Knowledge-java.vue'),meta:{title:'知识体系-Java',keepAlive:true}},
+        {path:'knowledgeAll',component:() => import ('../components/Knowledge/Knowledge-all.vue'),meta:{title:'知识体系-全部',keepAlive:true}},
+        {path:'knowledgeJava',component:() => import ('../components/Knowledge/Knowledge-java.vue'),meta:{title:'知识体系-Java',keepAlive:true}},
       ],
       redirect:'/knowledge/knowledgeAll'
     },

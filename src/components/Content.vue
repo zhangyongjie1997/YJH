@@ -161,10 +161,6 @@
       this.getArticle(this.$route.params.aid);
       //判断当前文章是否收藏和点赞。。。
     },
-    beforeRouteLeave(to, from, next) {
-     document.getElementById('container').removeEventListener('click', windowClick);
-      next();
-    },
     computed: {
       ifLogin() {
         return this.$store.state.ifLogin;

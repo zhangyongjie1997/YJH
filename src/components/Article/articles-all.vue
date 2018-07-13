@@ -27,8 +27,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {getArticles} from '../api/index.js';
-import mixin from '../mixins/filters-mixin.js'; 
+import {getArticles} from '../../api/index.js';
+import mixin from '../../mixins/filters-mixin.js'; 
 export default {
   mixins:[mixin],
   props:{
