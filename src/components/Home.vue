@@ -159,7 +159,6 @@
       goTop
     }
   }
-
 </script>
 
 <style scoped lang="less">

@@ -23,6 +23,10 @@ export default {
       scrollTop:0
     }
   },
+  beforeRouteLeave (to, from, next) {
+    window.removeEventListener('scroll',start);
+    next();
+  },
   mounted(){
     this.init(); 
   },

@@ -148,7 +148,6 @@
           try {
             return val.slice(3, (val.length) - 4);
           } catch (e) {
-            console.log(e);
             this.getArtcle();
           }
         }

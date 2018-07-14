@@ -3,10 +3,10 @@
     <header :style="fixedStyle">
       <div id="view">
         <div id="logo">
-          <img class="logo-img fl" src="../assets/logo.png" alt="logo">
+          <img class="logo-img fl" src="../assets/logo1.png" alt="logo">
           <router-link tag="h2" to="/home" class="logo-title fl pointer">猿计划</router-link>
         </div>
-        <nav class="nav fl">
+        <nav class="nav">
           <ul class="nav-menu fr">
             <li class="nav-menu-items pointer" v-if="ifLogin">
               <router-link tag="a" to="/personal">个人中心</router-link>
@@ -18,13 +18,20 @@
               <router-link tag="a" to="/knowledge">知识体系</router-link>
             </li>
             <li class="nav-menu-items pointer">
-              <a href="javascript:void(0)">活动中心</a>
-            </li>
-            <li class="nav-menu-items pointer">
               <router-link tag="a" to="/articles">文章</router-link>
             </li>
             <li class="nav-menu-items" id="nav-write">
               <router-link tag="a" to="/write">写文章</router-link>
+            </li>
+            <li class="nav-menu-items pointer">
+              <a href="javascript:void(0)"><label class="pointer" for="check">搜索</label></a>
+              <input type="checkbox" id="check" style="display:none;">
+              <div class="search">
+                <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
+                <span class="searchBtn">
+                  <i @click="search" class="iconfont icon-sousuo"></i>
+                </span>
+              </div>
             </li>
             <li class="nav-menu-items pointer" v-if="!ifLogin" id="nav-login">
               <router-link tag="a" to="/login">登录</router-link>
@@ -32,24 +39,17 @@
             <li class="nav-menu-items pointer" v-if="!ifLogin" id="nav-signIn">
               <router-link tag="a" to="/register">注册</router-link>
             </li>
-            <div class="search">
-              <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
-              <span class="searchBtn">
-                <i @click="search" class="iconfont icon-sousuo"></i>
-              </span>
-            </div>
-            <div class="fl pointer" id="nav-photo" v-if="ifLogin" :style="{backgroundImage:'url('+avatar+')'}">
+            <li class="fl pointer" id="nav-photo" v-if="ifLogin" :style="{backgroundImage:'url('+avatar+')'}">
               <div id="photo-nav-list">
                 <ul>
                   <router-link to="/personal" tag="li" id="photo-nav-list-personInfo">个人中心</router-link>
                   <li id="photo-nav-list-exit" @click="exit">退出</li>
                 </ul>
               </div>
-            </div>
+            </li>
           </ul>
         </nav>
       </div>
-      <div class="headerPlaceHolder"></div>
     </header>
   </div>
 </template>
@@ -65,12 +65,16 @@
         searchContent: '',
         ifInput: false,
         time: null,
-        fixedStyle:{}
+        fixedStyle: {}
       }
     },
     created() {
-      this.getAvatar();
       this.init();
+      this.getAvatar();
+    },
+    beforeRouteLeave(to, from, next) {
+      window.removeEventListener('scroll', scroll);
+      next();
     },
     computed: {
       ifLogin() {
@@ -82,8 +86,8 @@
         const scroll = () => {
           if (document.documentElement.scrollTop >= 200) {
             this.fixedStyle = {
-              position:'fixed',
-              top:0+'px'
+              position: 'fixed',
+              top: 0 + 'px'
             };
           } else {
             this.fixedStyle = {};
@@ -123,15 +127,20 @@
 
 <style scoped>
   .search {
-    left: 30px;
-    position: relative;
-    display: inline-block;
+    position: absolute;
     height: 64px;
+    top: 0px;
+    right: 39px;
     text-align: center;
     line-height: 64px;
-    margin-left: 20px;
+    transition: all .4s ease;
+    opacity: 0;
+    z-index: -100;
   }
-
+  #check:checked~.search{
+    opacity: 1;
+    top:50px;
+  }
   .search input.unhas {
     width: 30px;
     outline: none;
@@ -167,47 +176,59 @@
   }
 
   header {
+    position: absolute;
     width: 100%;
     height: 65px;
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-    position: absolute;
-    top: 0px;
-    background-color: rgb(250, 250, 250);
-    border-top: 1px solid #333;
     margin-top: 0px;
+    top: 0px;
+    z-index: 100;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
+    background-color: rgb(250, 250, 250);
     transition: all .5s ease;
   }
 
-  .headerPlaceHolder {
-    width: 100%;
-    height: 64px;
-    background-color: #fff;
-  }
 
-  header #view {
-    margin: 0 auto;
+  #view {
+    height: 100%;
     width: 75%;
+    margin: 0 auto;
   }
 
-  header #view #logo .logo-img {
+  #logo {
+    padding-left: 3%;
+  }
+
+  #logo .logo-img {
     cursor: pointer;
     height: 65px;
     transition: all linear .5s;
   }
 
-  header #view #logo .logo-img:hover {
+  #logo .logo-img:hover {
     transform: rotateY(360deg);
   }
 
-  header #view #logo h2 {
+  #logo h2 {
     line-height: 65px;
     color: #050505;
     font-size: 26px;
   }
 
+  .nav {
+    display: inline-block;
+    width: 75%;
+    ;
+  }
+
   .nav-menu {
+    position: absolute;
+    top: 0;
+    left: 42%;
     clear: both;
+  }
+
+  .nav-menu:first-child {
+    margin-left: 30px;
   }
 
   /* .nav-menu::before{
@@ -222,17 +243,13 @@
   .nav-menu-items {
     float: left;
     height: 60px;
-    margin: 0 0 0 40px;
+    margin-left: 40px;
     border-bottom-color: rgba(0, 0, 0, 0);
     transition: all 0.2s;
   }
 
   .nav-menu-items:hover {
     border-bottom: 3px solid #409EFF;
-  }
-
-  .nav-menu:first-child {
-    margin-left: 120px;
   }
 
   .nav-menu-items a {
@@ -246,11 +263,11 @@
   }
 
   #nav-photo {
+    position: relative;
     width: 50px;
     height: 50px;
-    position: relative;
-    top: 8px;
-    left: 20px;
+    top: 10px;
+    left: 30px;
     background-size: 50px 50px;
     border-radius: 50%;
     box-shadow: 0 0 2px #ccc;
