@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header :style="fixedStyle">
+    <header ref="header" style="top:0;">
       <div id="view">
         <div id="logo">
           <img class="logo-img fl" src="../assets/logo1.png" alt="logo">
@@ -25,7 +25,9 @@
             </li>
             <li class="nav-menu-items pointer">
               <div style="position:relative;">
-                <a href="javascript:void(0)"><label class="pointer" for="check">搜索</label></a>
+                <a href="javascript:void(0)">
+                  <label class="pointer" for="check">搜索</label>
+                </a>
                 <input type="checkbox" id="check" style="display:none;">
                 <div class="search">
                   <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
@@ -60,6 +62,14 @@
   import {
     getUser
   } from '../api/index.js';
+  import {
+    setInterval,
+    clearInterval,
+    setTimeout
+  } from 'timers';
+  import {
+    log
+  } from 'async';
   export default {
     data() {
       return {
@@ -67,35 +77,80 @@
         searchContent: '',
         ifInput: false,
         time: null,
-        fixedStyle: {}
+        fixedStyle: {},
+        timer: null,
+        timer2: null,
+        onTop: false,
+        anmition: false,
+        scrollDistance: Number
       }
     },
     created() {
+      this.scrollDistance = document.documentElement.scrollTop;
       this.init();
       this.getAvatar();
     },
     beforeRouteLeave(to, from, next) {
       window.removeEventListener('scroll', scroll);
+      clearInterval(this.timer);
+      clearInterval(this.timer2);
       next();
     },
     computed: {
       ifLogin() {
         return this.$store.state.ifLogin;
-      }
+      },
     },
     methods: {
       init() {
         const scroll = () => {
-          if (document.documentElement.scrollTop >= 200) {
-            this.fixedStyle = {
-              position: 'fixed',
-              top: 0 + 'px'
-            };
-          } else {
-            this.fixedStyle = {};
+          if (document.documentElement.scrollTop - this.scrollDistance < 0) {
+            if (this.onTop && !this.anmition) {
+              this.scrollToTop(
+                this.$refs.header,
+                this.$refs.header.style.top.slice(0, -2), 0,
+                'top',
+                () => {
+                  this.onTop = false;
+                  this.anmition = false;
+                }
+              );
+              return;
+            }
+            return;
           }
+          if (document.documentElement.scrollTop > 200) {
+            if (!this.anmition && !this.onTop) {
+              this.scrollToTop(
+                this.$refs.header,
+                this.$refs.header.style.top.slice(0, -2), -67,
+                'top',
+                () => {
+                  this.onTop = true;
+                  this.anmition = false;
+                });
+              return;
+            }
+          } 
+          this.timer2 = setTimeout(() => {
+            this.scrollDistance = document.documentElement.scrollTop;
+          }, 0)
         };
         window.addEventListener('scroll', scroll);
+      },
+      scrollToTop(ele, from, to, property, cb) {
+        console.log(arguments);
+        this.anmition = true;
+        this.timer = setInterval(() => {
+          ele.style[property] = from + 'px';
+          from -= 1;
+          if (from <= -65) {
+            from = -67;
+            ele.style[property] = to + 'px';
+            clearInterval(this.timer);
+            cb();
+          }
+        }, 13)
       },
       search() {
         window.location.href = "https://www.baidu.com/s?wd=" + this.searchContent;
@@ -139,10 +194,12 @@
     opacity: 0;
     z-index: -100;
   }
-  #check:checked~.search{
+
+  #check:checked~.search {
     opacity: 1;
-    top:50px;
+    top: 50px;
   }
+
   .search input.unhas {
     width: 30px;
     outline: none;
@@ -178,51 +235,60 @@
   }
 
   header {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 65px;
     margin-top: 0px;
     top: 0px;
     z-index: 100;
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
     background-color: rgb(250, 250, 250);
     transition: all .5s ease;
   }
+
   #view {
     height: 100%;
     width: 75%;
     margin: 0 auto;
   }
+
   #logo {
     padding-left: 3%;
   }
+
   #logo .logo-img {
     cursor: pointer;
     height: 65px;
     transition: all linear .5s;
   }
+
   #logo .logo-img:hover {
     transform: rotateY(360deg);
   }
+
   #logo h2 {
     line-height: 65px;
     color: #050505;
     font-size: 26px;
   }
+
   .nav {
     display: inline-block;
     width: 75%;
     ;
   }
+
   .nav-menu {
     position: absolute;
     top: 0;
     left: 42%;
     display: inline-block;
   }
+
   .nav-menu:first-child {
     margin-left: 30px;
   }
+
   .nav-menu-items {
     float: left;
     height: 60px;
