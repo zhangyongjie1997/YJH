@@ -65,6 +65,7 @@ export default {
     padding: 10px 0;
     border-bottom: 1px solid #000;
     ul{
+      overflow: hidden;
       li:first-child{
         margin-left: 0;
       }
@@ -84,6 +85,7 @@ export default {
     width: 70%;
     margin: 0px auto 10px auto;
     .choice{
+      overflow: hidden;
       padding: 5px;
       height: 30px;
       .sortItem:first-child{

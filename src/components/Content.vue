@@ -316,7 +316,7 @@
       }
     }
     .talk {
-      clear: both;
+      overflow: auto;
       .talk-btn {
         margin-top: 20px;
         float: right;
@@ -373,7 +373,7 @@
             padding: 10px;
             height: 100px;
             width: 100%;
-            clear: both;
+            overflow: auto;
             .el-resBtn {
               color: #409EFF;
             }

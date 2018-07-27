@@ -24,13 +24,15 @@
               <router-link tag="a" to="/write">写文章</router-link>
             </li>
             <li class="nav-menu-items pointer">
-              <a href="javascript:void(0)"><label class="pointer" for="check">搜索</label></a>
-              <input type="checkbox" id="check" style="display:none;">
-              <div class="search">
-                <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
-                <span class="searchBtn">
-                  <i @click="search" class="iconfont icon-sousuo"></i>
-                </span>
+              <div style="position:relative;">
+                <a href="javascript:void(0)"><label class="pointer" for="check">搜索</label></a>
+                <input type="checkbox" id="check" style="display:none;">
+                <div class="search">
+                  <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
+                  <span class="searchBtn">
+                    <i @click="search" class="iconfont icon-sousuo"></i>
+                  </span>
+                </div>
               </div>
             </li>
             <li class="nav-menu-items pointer" v-if="!ifLogin" id="nav-login">
@@ -130,7 +132,7 @@
     position: absolute;
     height: 64px;
     top: 0px;
-    right: 39px;
+    right: -10px;
     text-align: center;
     line-height: 64px;
     transition: all .4s ease;
@@ -186,60 +188,41 @@
     background-color: rgb(250, 250, 250);
     transition: all .5s ease;
   }
-
-
   #view {
     height: 100%;
     width: 75%;
     margin: 0 auto;
   }
-
   #logo {
     padding-left: 3%;
   }
-
   #logo .logo-img {
     cursor: pointer;
     height: 65px;
     transition: all linear .5s;
   }
-
   #logo .logo-img:hover {
     transform: rotateY(360deg);
   }
-
   #logo h2 {
     line-height: 65px;
     color: #050505;
     font-size: 26px;
   }
-
   .nav {
     display: inline-block;
     width: 75%;
     ;
   }
-
   .nav-menu {
     position: absolute;
     top: 0;
     left: 42%;
-    clear: both;
+    display: inline-block;
   }
-
   .nav-menu:first-child {
     margin-left: 30px;
   }
-
-  /* .nav-menu::before{
-    content:"";
-    display: table;
-}
-.nav-menu::after{
-    content: "";
-    clear: both;
-} */
-
   .nav-menu-items {
     float: left;
     height: 60px;

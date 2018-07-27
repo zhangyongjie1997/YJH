@@ -61,7 +61,7 @@ export default new Router({
     {
       path: '/login',
       component:() => import ('../components/Login.vue'),
-      meta:{title:'登录'}
+      meta:{title:'登录',keepAlive:false}
     },
     {
       path: '/register',

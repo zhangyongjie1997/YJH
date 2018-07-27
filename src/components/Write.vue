@@ -192,7 +192,7 @@
   }
 
   .btn {
-    clear: both;
+    overflow: hidden;
     .submit {
       float: right;
     }

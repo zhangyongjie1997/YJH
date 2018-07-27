@@ -381,7 +381,7 @@
     width: 100%;
     height: 50px;
     border-bottom: 1px solid #ccc;
-    clear: both;
+    overflow: hidden;
     .title {
       display: inline-block;
       width: 250px;
@@ -394,7 +394,7 @@
       float: right;
       width: 70%;
       clear: both;
-
+      overflow: hidden;
       li {
         float: left;
         width: 140px;

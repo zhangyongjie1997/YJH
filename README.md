@@ -7,7 +7,9 @@
 ### vue + vue-cli + vue-router + vuex + axios + element-ui
 
 ```js
-npm install less less-loader axios vuex bootstrap --save-dev
+npm install 
+
+npm run dev
 ```
 <!-- TOC -->
 

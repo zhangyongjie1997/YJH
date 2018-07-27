@@ -91,7 +91,7 @@ export default {
     height: 45px;
      line-height: 45px;
      font-size: 17px;
-     clear: both;
+     overflow: hidden;
      .title{
        display: inline-block;
        width: 250px;
