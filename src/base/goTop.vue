@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="fade">
-      <div @click="backTop" v-if="showGoTop" class="goTop">
+      <div @click="backTop" v-if="showGoTop" class="go-top pointer">
         <div class="container">
         <div class="iDiv1"><i class="iconfont icon-Upward"></i></div>
         <div class="iDiv2">回到顶部</div>
@@ -58,14 +58,13 @@ export default {
 </script>
 
 <style scoped>
-.goTop{
+.go-top{
   position: fixed;
   width: 50px;
   height: 50px;
   background-color: rgba(189, 189, 189, 0);
   right: 120px;
   bottom:100px;
-  cursor: pointer;
   text-align: center;
   line-height: 50px;
   box-shadow: 0 0 2px #409EFF;
@@ -76,7 +75,7 @@ export default {
   width: 50px;
   height: 50px;
 }
-.goTop i{
+.go-top i{
   transition: all .4s ease;
   font-size: 35px;
   color: #f56c6c;
@@ -102,10 +101,10 @@ export default {
   color: #999;
   transition: all .4s ease;
 }
-.goTop:hover .iDiv1{
+.go-top:hover .iDiv1{
   top: -50px;
 }
-.goTop:hover .iDiv2{
+.go-top:hover .iDiv2{
   top: 0px;
 }
 .fade-enter-active, .fade-leave-active {

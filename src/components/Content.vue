@@ -2,7 +2,7 @@
   <div id="container" class="container">
     <goTop></goTop>
     <goLogin @odialogvisiblechange="dialogVisibleChange" :odialogVisible="dialogVisible" @onsuccess="loginSuccess"></goLogin>
-    <div class="back" @click="back">返回</div>
+    <div class="back pointer" @click="back">返回</div>
     <div class="main" v-loading="loading">
       <h2>{{article.title}}</h2>
       <div class="info">
@@ -23,7 +23,7 @@
         <div @click="like('zan')" class="handle-item">
           <i class="iconfont" :class="{'icon-dianzan1':!iszan,'icon-dianzan':iszan}"></i>点赞
         </div>
-        <div @click="like('coll')" class="handle-item">
+        <div @click="like('coll')" class="handle-item pointer">
           <i class="iconfont" :class="{'icon-shoucang':!iscoll,'icon-shoucangxing2':iscoll}">
             <span>收藏</span>
           </i>
@@ -38,7 +38,7 @@
         </el-popover>
       </div>
     </div>
-    <div class="talk">
+    <div class="talk clear">
       <div class="talk-content">
         <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="法制社会，文明发言" v-model="comment">
         </el-input>
@@ -47,7 +47,7 @@
         <el-button @click="sendCom" type="primary" plain :disabled="btnDisabled">{{btnMsg}}</el-button>
       </div>
     </div>
-    <div class="commentList">
+    <div class="comment-list">
       <div class="commentNo">
         共 {{commentList.length}} 条评论
       </div>
@@ -61,7 +61,7 @@
               <td valign="top" width="10px"></td>
               <td width="auto" align="left" valign="center">
                 <tr width="auto">
-                  <span class="author">{{comment.nick_name}}：</span>
+                  <span class="author pointer">{{comment.nick_name}}：</span>
                   <span class="time">{{comment.date | getTime}}</span>
                 </tr>
                 <tr height="5px"></tr>
@@ -70,12 +70,12 @@
                 </tr>
               </td>
               <td width="50px" align="left" valign="center">
-                <span @click.stop="showRes($event,index)" class="resBtn">回复</span>
+                <span @click.stop="showRes($event,index)" class="resBtn pointer">回复</span>
               </td>
             </tr>
             <tr width="100%">
               <td colspan="4">
-                <div :ref="index" class="resCom">
+                <div :ref="index" class="resCom clear">
                   <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" :placeholder="'回复 '+comment.nick_name+':'" v-model="resCom">
                   </el-input>
                   <el-button class="el-Btn el-resBtn" size="mini" type="primary" plain>回复</el-button>
@@ -281,15 +281,14 @@
       position: fixed;
       top: 130 px;
       right: 120px;
-      cursor: pointer;
       text-align: center;
       line-height: 50px;
       color: #409EFF;
-      transition: all 0.4 linear;
+      transition: all 0.4 ease;
     }
     .back:hover {
-      box-shadow: 0 0 2px #409EFF;
-      color: #f56c6c;
+      background-color: rgba(64, 160, 255, 0.562);
+      color: #fff;
     }
     .main {
       width: 100%;
@@ -316,7 +315,6 @@
       }
     }
     .talk {
-      overflow: auto;
       .talk-btn {
         margin-top: 20px;
         float: right;
@@ -330,7 +328,7 @@
       font-size: 12px;
       text-align: center;
     }
-    .commentList {
+    .comment-list {
       margin-top: 80px;
       width: 100%;
       background-color: #fff;
@@ -363,7 +361,6 @@
             font-size: 16px;
           }
           .resBtn {
-            cursor: pointer;
             font-size: 13px;
             color: #f56c6c;
           }
@@ -373,7 +370,6 @@
             padding: 10px;
             height: 100px;
             width: 100%;
-            overflow: auto;
             .el-resBtn {
               color: #409EFF;
             }
@@ -413,7 +409,6 @@
         .handle-item {
           width: 40%;
           line-height: 40px;
-          cursor: pointer;
           color: #409EFF;
           i {
             font-size: 30px;

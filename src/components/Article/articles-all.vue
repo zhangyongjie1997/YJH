@@ -2,11 +2,11 @@
   <div>
     <div class="items" v-loading="loading">
       <ul>
-        <li class="aList" v-for="(article, index) in articles" :key="index">
-          <div class="aInfo"><span>{{article.nick_name}}</span> · <span>{{article.modify_time | getTime}}</span></div>
-          <div class="aMain">
+        <li class="a-list" v-for="(article, index) in articles" :key="index">
+          <div class="a-info"><span>{{article.nick_name}}</span> · <span>{{article.modify_time | getTime}}</span></div>
+          <div class="a-main">
             <router-link class="title" tag="a" :to="{name:'content',params:{aid:article.topic_id}}">{{article.title}}</router-link>
-            <div class="handlInfo">
+            <div class="handl-info">
               <el-badge :value="article.browser_num" :max="99" class="item">
                   <el-button size="small">浏览</el-button>
                 </el-badge>
@@ -77,17 +77,17 @@ export default {
   .pagination{
     margin-bottom: 50px;
   }
-  .aList{
+  .a-list{
   width: 100%;
   height: 60px;
   border-bottom: 1px solid #ccc;
   padding: 5px;
-  .aInfo{
+  .a-info{
     height: 25%;
     font-size: 12px;
     color: #999;
   }
-  .aMain{
+  .a-main{
     height: 45px;
      line-height: 45px;
      font-size: 17px;
@@ -99,7 +99,7 @@ export default {
        white-space:nowrap;
        overflow: hidden;
      }
-     .handlInfo{
+     .handl-info{
        //display: inline-block;
        margin-bottom: 5px;
        float: right;

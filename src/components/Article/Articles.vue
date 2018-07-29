@@ -12,8 +12,8 @@
     </div>
     <div class="sort">
       <div class="choice">
-        <div @click="changeSort" :class="{'sort-active':newSort=='new'}" class="new sortItem">最新</div>
-        <div @click="changeSort" :class="{'sort-active':newSort!='new'}" class="hot sortItem">最热</div>
+        <div @click="changeSort" :class="{'sort-active':newSort=='new'}" class="new sort-item pointer">最新</div>
+        <div @click="changeSort" :class="{'sort-active':newSort!='new'}" class="hot sort-item pointer">最热</div>
       </div>
     </div>
     <div class="content">
@@ -88,10 +88,10 @@ export default {
       overflow: hidden;
       padding: 5px;
       height: 30px;
-      .sortItem:first-child{
+      .sort-item:first-child{
         margin-left: 0;
       }
-      .sortItem{
+      .sort-item{
         float: left;
         margin-left: 15px;
         width: 60px;
@@ -99,7 +99,6 @@ export default {
         text-align: center;
         line-height: 30px;
         color: black;
-        cursor: pointer;        
       }
       .sort-active{
         color: #fff;

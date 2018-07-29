@@ -2,7 +2,7 @@
   <div>
     <header ref="header" style="top:0;">
       <div id="view">
-        <div id="logo">
+        <div id="logo" class="pointer">
           <img class="logo-img fl" src="../assets/logo1.png" alt="logo">
           <router-link tag="h2" to="/home" class="logo-title fl pointer">猿计划</router-link>
         </div>
@@ -31,7 +31,7 @@
                 <input type="checkbox" id="check" style="display:none;">
                 <div class="search">
                   <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
-                  <span class="searchBtn">
+                  <span class="search-btn pointer">
                     <i @click="search" class="iconfont icon-sousuo"></i>
                   </span>
                 </div>
@@ -104,18 +104,23 @@
     methods: {
       init() {
         const scroll = () => {
+          this.timer2 = setTimeout(() => {
+            this.scrollDistance = document.documentElement.scrollTop;
+            clearTimeout(this.timer2);
+          }, 0)
+          console.log(document.documentElement.scrollTop, document.documentElement.scrollTop - this.scrollDistance);
           if (document.documentElement.scrollTop - this.scrollDistance < 0) {
             if (this.onTop && !this.anmition) {
               this.scrollToTop(
                 this.$refs.header,
-                this.$refs.header.style.top.slice(0, -2), 0,
+                this.$refs.header.style.top.slice(0, -2),
+                0,
                 'top',
                 () => {
                   this.onTop = false;
                   this.anmition = false;
                 }
               );
-              return;
             }
             return;
           }
@@ -126,15 +131,18 @@
                 this.$refs.header.style.top.slice(0, -2), -67,
                 'top',
                 () => {
+                  console.log('run cb');
                   this.onTop = true;
                   this.anmition = false;
                 });
+              this.timer2 = setTimeout(() => {
+                this.scrollDistance = document.documentElement.scrollTop;
+                clearTimeout(this.timer2);
+              }, 0)
               return;
             }
-          } 
-          this.timer2 = setTimeout(() => {
-            this.scrollDistance = document.documentElement.scrollTop;
-          }, 0)
+          }
+
         };
         window.addEventListener('scroll', scroll);
       },
@@ -222,15 +230,14 @@
     width: 100px;
   }
 
-  .searchBtn {
-    cursor: pointer;
+  .search-btn {
     position: absolute;
     z-index: 100;
     right: 6px;
     top: 2px;
   }
 
-  .searchBtn i:hovre {
+  .search-btn i:hovre {
     color: #409EFF;
   }
 
@@ -242,7 +249,7 @@
     top: 0px;
     z-index: 100;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
-    background-color: rgb(250, 250, 250);
+    background-color: #fff;
     transition: all .5s ease;
   }
 
@@ -257,7 +264,6 @@
   }
 
   #logo .logo-img {
-    cursor: pointer;
     height: 65px;
     transition: all linear .5s;
   }

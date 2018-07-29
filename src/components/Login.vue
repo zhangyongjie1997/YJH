@@ -1,19 +1,19 @@
 <template>
   <div>
-    <section id="loginPage" class="cur">
+    <section id="loginpage" class="cur">
       <div id="content">
         <h2 class="login-title">欢迎回到猿计划</h2>
         <input v-model="username" class="login-input" type="text" placeholder="请输入登录手机号" required />
         <input v-model="password" class="login-input" type="password" placeholder="6-16位密码，区分大小写" required />
         <div class="login-choice">
-          <input type="checkbox" value="autoLogin" class="autoLogin" />
-          <label for="password" class="lable-autoLogin">下次自动登录</label>
+          <input type="checkbox" value="autologin" class="autologin" />
+          <label for="password" class="lable-autologin">下次自动登录</label>
           <p class="login-type">
-            <span style="cursor: pointer;">忘记密码？</span>
+            <span class="pointer">忘记密码？</span>
             <router-link tag="a" to="/register">立即注册</router-link>
           </p>
         </div>
-        <div class="login-btn" @click="login">登录</div>
+        <div class="login-btn pointer" @click="login">登录</div>
         <p style="text-indent:6px ">使用合作账号登录</p>
         <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wxc649fbdaa41fc636&response_type=code&scope=snsapi_login&redirect_uri=http%3a%2f%2fweb.li-shang-bin.com&login_type=jssdk&self_redirect=default"
           id="wechat">
@@ -95,7 +95,7 @@
     text-indent: 6px;
   }
 
-  #loginPage input:focus {
+  #loginpage input:focus {
     outline: none;
     border: 1px solid #409eff;
   }
@@ -108,7 +108,7 @@
     text-indent: 6px;
   }
 
-  .autoLogin {
+  .autologin {
     width: 17px;
     height: 17px;
     border: #000 2px solid;
@@ -121,8 +121,8 @@
     margin-left: 45px;
   }
 
-  .lable-autoLogin,
-  .autoLogin,
+  .lable-autologin,
+  .autologin,
   .login-type span,
   .login-type a {
     vertical-align: middle;
@@ -143,10 +143,12 @@
     width: 189px;
     margin: 30px auto;
     border-radius: 14px;
-    cursor: pointer;
+  }
+  .login-btn:hover{
+    background: #6ab3fc;
   }
 
-  #forgetPwd:hover {
+  #forget-pwd:hover {
     color: gray;
   }
 

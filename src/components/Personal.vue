@@ -74,8 +74,7 @@
             <ul>
               <li v-for="(article,index) in articles" :key="index">
                 <div class="item-title">
-                  <router-link class="title" tag="span" :to="{name:'content',params:{aid:article.topic_id}}" 
-                  style="cursor:pointer">
+                  <router-link class="title pointer" tag="span" :to="{name:'content',params:{aid:article.topic_id}}">
                     {{article.title}}
                   </router-link>
                   <ul>
@@ -85,11 +84,11 @@
                     <li class="time">{{article.modify_time | getTime}}</li>
                     <li>
                       <router-link tag="i" :to="{name:'write',params:{aid:article.topic_id}}" 
-                      style="cursor:pointer;color:#f56c6c;" class="iconfont icon-web-icon-">
+                      style="color:#f56c6c;" class="iconfont icon-web-icon- pointer">
                       </router-link>
                       <span style="color:#409EFF;"> | </span>
-                      <i @click="remove(article.topic_id)" style="cursor:pointer;color:#f56c6c;" 
-                      class="iconfont icon-shanchu"></i>
+                      <i @click="remove(article.topic_id)" style="color:#f56c6c;" 
+                      class="iconfont icon-shanchu pointer"></i>
                     </li>
                   </ul>
                 </div>
@@ -116,7 +115,7 @@
             <ul>
               <li v-for="(myCol,index) in myCols" :key="index">
                 <div class="item-title">
-                  <router-link class="title" tag="span" :to="{name:'content',params:{aid:myCol.topic_id}}" style="cursor:pointer">{{myCol.title}}</router-link>
+                  <router-link class="title pointer" tag="span" :to="{name:'content',params:{aid:myCol.topic_id}}">{{myCol.title}}</router-link>
                   <ul>
                     <li>{{myCol.type | getType}}</li>
                     <li>{{myCol.comment_num}}</li>

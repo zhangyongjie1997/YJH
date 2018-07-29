@@ -245,21 +245,67 @@
 // let a = !time;
 // console.log(a);
 
-function A(){
-  var a = 1;  //私有变量
-  function sum(){}   //私有函数
-  this.add = function (){
-    a++;
-  }
-  this.read = function (){
-    return a;
-  }
-}
-let b = new A();
-console.log(b.read());  //1
-console.log(b.a);   //undefined
+// function A(){
+//   var a = 1;  //私有变量
+//   function sum(){}   //私有函数
+//   this.add = function (){
+//     a++;
+//   }
+//   this.read = function (){
+//     return a;
+//   }
+// }
+// let b = new A();
+// console.log(b.read());  //1
+// console.log(b.a);   //undefined
 
-let c = new A();
-c.add()
-console.log(c.read());   //2
-console.log(b.read());  //1
+// let c = new A();
+// c.add()
+// console.log(c.read());   //2
+// console.log(b.read());  //1
+
+// for (let i = 0; i < 5; i++) {
+//   setTimeout(function() {
+//       console.log(new Date, i);
+//   }, 1000);
+// }
+
+// const tasks = []; // 这里存放异步操作的 Promise
+// const output = (i) => new Promise((resolve) => {
+//     setTimeout(resolve, 1000);
+// });
+
+// // 生成全部的异步操作
+// (async function (){
+//   for (var i = 0; i < 5; i++) {
+//     await output(i) 
+//     console.log(new Date(),i);
+//  }
+//  await output(i);
+//  console.log(new Date(),i);
+// })();
+
+// // // 异步操作完成之后，输出最后的 i
+// // Promise.all(tasks).then(() => {
+// //     setTimeout(() => {
+// //         console.log(new Date, i);
+// //     }, 1000);
+// // });
+
+// var x = 0;
+// var foo = {
+//     x:1,
+//     bar:function () {
+//         console.log(this.x);
+//         var that = this;
+//         return function () {
+//            console.log(this.x)
+//            console.log(that.x)
+//         }
+//     }
+// }
+
+// foo.bar()      
+// foo.bar()()   
+
+console.log((2.5).toFixed(0));

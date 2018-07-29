@@ -12,12 +12,12 @@
       <el-tabs v-model="defaultList" v-loading="loading">
         <el-tab-pane label="热门文章" name="hot">
           <ul>
-            <li class="aList" v-for="(hotArc, index) in hotArcs" :key="index">
-              <div class="aInfo">
+            <li class="a-list" v-for="(hotArc, index) in hotArcs" :key="index">
+              <div class="a-info">
                 <span>{{hotArc.nick_name}}</span> ·
                 <span>{{hotArc.modify_time | getTime}}</span>
               </div>
-              <div class="aMain">
+              <div class="a-main">
                 <router-link class="title" tag="a" :to="{name:'content',params:{aid:hotArc.topic_id}}">{{hotArc.title}}</router-link>
                 <div class="handlInfo">
                   <el-badge :value="hotArc.browser_num" :max="99" class="item">
@@ -35,14 +35,14 @@
             </el-pagination>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="html" name="second" :lazy="true">
+        <el-tab-pane label="HTML" name="second" :lazy="true">
           <ul>
-            <li class="aList" v-for="(htmlArc, index) in htmlArcs" :key="index">
-              <div class="aInfo">
+            <li class="a-list" v-for="(htmlArc, index) in htmlArcs" :key="index">
+              <div class="a-info">
                 <span>{{htmlArc.nick_name}}</span> ·
                 <span>{{htmlArc.modify_time | getTime}}</span>
               </div>
-              <div class="aMain">
+              <div class="a-main">
                 <router-link class="title" tag="a" :to="{name:'content',params:{aid:htmlArc.topic_id}}">{{htmlArc.title}}</router-link>
                 <div class="handlInfo">
                   <el-badge :value="htmlArc.browser_num" :max="99" class="item">
@@ -60,14 +60,14 @@
             </el-pagination>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="css" name="third" :lazy="true">
+        <el-tab-pane label="CSS" name="third" :lazy="true">
           <ul>
-            <li class="aList" v-for="(cssArc, index) in cssArcs" :key="index">
-              <div class="aInfo">
+            <li class="a-list" v-for="(cssArc, index) in cssArcs" :key="index">
+              <div class="a-info">
                 <span>{{cssArc.kind}}</span> ·
                 <span>{{cssArc.time}}</span>
               </div>
-              <div class="aMain">
+              <div class="a-main">
                 <router-link tag="a" :to="{name:'content',params:{aid:cssArc.id}}">{{cssArc.name}}</router-link>
                 <div class="handlInfo">
                   <el-badge :value="cssArc.pl" :max="99" class="item">
@@ -182,17 +182,17 @@
     margin-top: 35px;
   }
 
-  .aList {
+  .a-list {
     width: 100%;
     height: 60px;
     border-bottom: 1px solid #ccc;
     padding: 5px;
-    .aInfo {
+    .a-info {
       height: 25%;
       font-size: 12px;
       color: #999;
     }
-    .aMain {
+    .a-main {
       height: 45px;
       line-height: 45px;
       font-size: 17px;

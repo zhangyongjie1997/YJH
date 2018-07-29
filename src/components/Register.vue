@@ -3,25 +3,25 @@
     <section id="signInPage">
         <div id="content">
             <h2 class="login-title">欢迎加入猿计划</h2>
-            <div class="iconConiainer">
+            <div class="icon-coniainer">
                 <input class="signIn-input" type="text" v-model="rName"  placeholder="请输入手机号" required />
                 <div class="span">
                     <i class="iconfont" :class="{red:!nameOk,green:nameOk,'icon-duigou1':nameOk,'icon-cha2':!nameOk}"></i>
                 </div>
             </div>
-            <div class="iconConiainer">
+            <div class="icon-coniainer">
                 <input class="signIn-input" v-model="rPwd" type="password" placeholder="请输入6位以上密码" required />
                 <div class="span"><i class="iconfont" :class="{red:!pwdOk,green:pwdOk,'icon-duigou1':pwdOk,'icon-cha2':!pwdOk}"></i></div>
             </div>
-            <div class="iconConiainer">
+            <div class="icon-coniainer">
                 <input class="signIn-input" v-model="rPwd2" type="password" placeholder="请输确认密码" required />
                 <div class="span-lang red" v-if="!pwd2Ok">两次输入的密码不一致</div>
             </div>
             <div class="message-code">
                 <input type="text" v-model="code" class="code-number fl" placeholder="请输入短信验证码" required/>
-                <span class="get-code fl" @click.stop.prevent="getCoder" >获取验证码</span>
+                <span class="get-code fl pointer" @click.stop.prevent="getCoder" >获取验证码</span>
             </div>
-            <div id="signin-btn" @click="register" class="signin-btn pointer login-btn">注册</div>
+            <div id="signin-btn" @click="register" class="signin-btn pointer login-btn pointer">注册</div>
             <span>已有账号，</span>
             <router-link tag="a" to="/login" id="alredySignIn" style="color: #409EFF;">立即登录</router-link>
         </div>  
@@ -145,7 +145,7 @@ export default {
 }
 .red{color: red;}
 .green{color: #46b036;}
-.iconConiainer{
+.icon-coniainer{
     position: relative;
 }
 .span{
@@ -203,22 +203,10 @@ export default {
     text-align: center;
     color: #fff;
     margin-top: 20px;
-    cursor: pointer;
     border-radius: 6px;
 }
 #signin-btn{ margin-top: 90px!important;}
 
-.get-code[changePwd]{
-    background-color: #5bd149;
-    text-align: center;
-    color: #eee;
-    padding: 4px 10px;
-    cursor: pointer;
-    border-radius: 6px;
-    width: 100px;
-    margin-left: 30px;
-    margin-bottom: 20px;
-}
 .login-btn{
     height: 30px;
     background: #409EFF;
@@ -230,7 +218,6 @@ export default {
     width: 189px;
     margin: 30px auto;
     border-radius: 14px;
-    cursor: pointer;
 }
 
 </style>
