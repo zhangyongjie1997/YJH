@@ -33,7 +33,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {Login} from '../api/index.js';
+import {post} from '../api/index.js';
 export default {
   props:{
     odialogVisible:Boolean
@@ -85,7 +85,7 @@ export default {
       if (event.keyCode == 13)this.login();
     },
     async login(){
-      let res = await Login(this.Form.mobile,this.Form.pwd);
+      let res = await post('http://www.ftusix.com/static/data/login.php',{mobile:this.Form.mobile,pwd:this.Form.pwd});
       if(res.data.status == 1){
         this.$store.commit('loginMutation',true);
         localStorage.setItem("loginMsg",JSON.stringify(res.data.data[0]));  //在本地保存用户信息

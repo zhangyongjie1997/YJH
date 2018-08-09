@@ -26,7 +26,7 @@
 
 <script type="text/ecmascript-6">
   import {
-    Login
+    get,post
   } from '../api/index.js';
   export default {
     data() {
@@ -43,22 +43,25 @@
         if (event.keyCode == 13)  //回车键的键值为13
           this.login();
         },
-      async login() {
+      login() {
         if (this.username.length < 11) {
           return this.$message.error('请输入正确的手机号');
         }
         if (this.password.length < 6) {
           return this.$message.error('请输入六位以上的密码');
         }
-        let res = await Login(this.username, this.password);
-        if (res.data.status == 1) { //1为成功，0失败
-          this.$store.commit('loginMutation', true);
-          localStorage.setItem("loginMsg", JSON.stringify(res.data.data[0])); //在本地保存用户信息
-          this.$message.success(res.data.info);
-          this.$router.push('/personal');
-        } else {
-          this.$message.error(res.data.info);
-        }
+        post('http://www.ftusix.com/static/data/login.php',{mobile:this.username, pwd:this.password}).then((res)=>{
+          if (res.data.status == 1) { //1为成功，0失败
+            this.$store.commit('loginMutation', true);
+            localStorage.setItem("loginMsg", JSON.stringify(res.data.data[0])); //在本地保存用户信息
+            this.$message.success(res.data.info);
+            this.$router.push('/home');
+          } else {
+            this.$message.error(res.data.info);
+          }
+        }).catch((err)=>{
+          this.$message.error('网络错误')
+        });
       }
     },
   }

@@ -25,10 +25,10 @@
             </li>
             <li class="nav-menu-items pointer">
               <div style="position:relative;">
+                <input type="checkbox" id="check" style="display:none;">
                 <a href="javascript:void(0)">
                   <label class="pointer" for="check">搜索</label>
                 </a>
-                <input type="checkbox" id="check" style="display:none;">
                 <div class="search">
                   <input :class="{'has':ifInput,'unhas':!ifInput}" type="text" v-model="searchContent">
                   <span class="search-btn pointer">
@@ -199,7 +199,9 @@
     opacity: 0;
     z-index: -100;
   }
-
+  #check:checked + a{
+    color: #409EFF;
+  }
   #check:checked~.search {
     opacity: 1;
     top: 50px;
