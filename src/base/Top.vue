@@ -108,7 +108,6 @@
             this.scrollDistance = document.documentElement.scrollTop;
             clearTimeout(this.timer2);
           }, 0)
-          console.log(document.documentElement.scrollTop, document.documentElement.scrollTop - this.scrollDistance);
           if (document.documentElement.scrollTop - this.scrollDistance < 0) {
             if (this.onTop && !this.anmition) {
               this.scrollToTop(
@@ -131,7 +130,6 @@
                 this.$refs.header.style.top.slice(0, -2), -67,
                 'top',
                 () => {
-                  console.log('run cb');
                   this.onTop = true;
                   this.anmition = false;
                 });
@@ -147,7 +145,6 @@
         window.addEventListener('scroll', scroll);
       },
       scrollToTop(ele, from, to, property, cb) {
-        console.log(arguments);
         this.anmition = true;
         this.timer = setInterval(() => {
           ele.style[property] = from + 'px';
